@@ -2,14 +2,14 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
-};
-
+    apiKey: "AIzaSyDPM5QINEW8q3bvGbSa1b3DxSfESgX0N64",
+    authDomain: "think-content-development.firebaseapp.com",
+    projectId: "think-content-development",
+    storageBucket: "think-content-development.appspot.com",
+    messagingSenderId: "3353769567",
+    appId: "1:3353769567:web:4be19ad3b04071a1cdcdea",
+    measurementId: "G-YXMJNTB1R7"
+  };
+  
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
