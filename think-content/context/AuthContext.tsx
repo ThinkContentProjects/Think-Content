@@ -1,12 +1,13 @@
-
 import { createContext, useContext, useState, useEffect} from 'react'
 import { auth } from '../firebase/firebase'
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, User as FireBaseUser } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, User as FireBaseUser,
+signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 
 type userType = {
     currentUser: FireBaseUser | null
-    signup: (email: any, password: any) => void
-    login: (email: any, password: any) => void
+    signup: (email: string, password: string) => void
+    login: (email: string, password: string) => void
+    loginWithGoogle: () => void
     logout: () => void
   }
 
@@ -16,8 +17,9 @@ type UserContextProviderType = {
 
 const AuthContext = createContext<userType>({
     currentUser: null,
-    signup: (email: any, password: any) => {},
-    login: (email: any, password: any) => {},
+    signup: (email: string, password: string) => {},
+    login: (email: string, password: string) => {},
+    loginWithGoogle: () => {},
     logout: () => {}
   });
 
@@ -31,17 +33,23 @@ export function AuthProvider({ children }: UserContextProviderType)
     const [currentUser, setCurrentUser] = useState<FireBaseUser | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const googleAuth = new GoogleAuthProvider();
+
     function signup(email: string, password: string) {
         createUserWithEmailAndPassword(auth, email, password);
         return;
     }
 
     function login(email: string, password: string) {
-        signInWithEmailAndPassword(auth, email, password);
+        return signInWithEmailAndPassword(auth, email, password);
+    }
+
+    function loginWithGoogle() {
+        return signInWithPopup(auth, googleAuth);
     }
 
     function logout() {
-        return signOut(auth)
+        return signOut(auth);
     }
 
     useEffect(() => {
@@ -49,12 +57,13 @@ export function AuthProvider({ children }: UserContextProviderType)
             setCurrentUser(user);
             setLoading(false);
         })
-        return unsubscribe
+        return unsubscribe;
     }, [])
 
     const value = {
         currentUser,
         login,
+        loginWithGoogle,
         logout,
         signup,
     }
