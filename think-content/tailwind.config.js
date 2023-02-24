@@ -4,9 +4,20 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./*.html"
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens:{
+        "sm": "480px"
+      }
+    },
+    fontFamily:{
+      nunito:[]
+    }
   },
-  plugins: [],
+  plugins: [
+    // ...
+    require('tailwind-scrollbar'),
+  ],
 }

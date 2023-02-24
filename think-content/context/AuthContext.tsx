@@ -36,8 +36,8 @@ export function AuthProvider({ children }: UserContextProviderType)
     const googleAuth = new GoogleAuthProvider();
 
     function signup(email: string, password: string) {
-        createUserWithEmailAndPassword(auth, email, password);
-        return;
+        return createUserWithEmailAndPassword(auth, email, password);
+        
     }
 
     function login(email: string, password: string) {
