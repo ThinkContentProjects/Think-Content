@@ -16,8 +16,10 @@ module.exports = {
       nunito:[]
     }
   },
-  plugins: [
-    // ...
-    require('tailwind-scrollbar'),
-  ],
+  plugins: [],
+  variants: {
+    extend: {
+      borderRadius: ['hover'],
+    },
+ },
 }
