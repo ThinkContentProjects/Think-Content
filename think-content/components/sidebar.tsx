@@ -35,7 +35,7 @@ export default function SideBar() {
         </svg>
       </button>
 
-      <div className={`py-16 fixed flex-col transition-opacity duration-500 ${isCollapsed ? 'opacity-0 space-y-0' : 'opacity-100 space-y-4'}`}>
+      <div className={`py-12 fixed flex-col transition-opacity duration-500 ${isCollapsed ? 'opacity-0 space-y-0' : 'opacity-100 space-y-4'}`}>
         <SideBarIcon icon={<BsPlus size='32' />} text='New' />
         <SideBarIcon icon={<BsLinkedin size='24' />} text='LinkedIn' />
         <SideBarIcon icon={<BsInstagram size='32' />} text='Instagram' />
