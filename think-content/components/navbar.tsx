@@ -46,8 +46,8 @@ export default function Navbar() {
           </div>
 
           {/* Search bar */}
-          <div className='relative w-full max-w-sm mx-4'>
-            <span className='absolute inset-y-0 left-0 flex items-center pl-3 '>
+          <div className='relative items-center justify-center w-full max-w-sm mx-4'>
+            <span className='absolute inset-y-auto left-0 items-center justify-center flex-auto pt-2 pl-3 '>
               <svg
                 className={`h-6 w-6 ${
                   isSearching ? 'text-gray-500' : 'text-gray-500'
