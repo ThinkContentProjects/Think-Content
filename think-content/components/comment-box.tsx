@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react"
 
 export default function CommentBox() {
   return (
-    <div className="flex items-center justify-center w-full h-auto m-8 bg-gray-50">
+    <div className="flex items-center justify-center w-auto h-auto m-8">
       <div className="w-full max-w-md shadow-2xl bg-white-800 shadow-slate-300">
         <div
           className="px-6 py-6 text-lg font-semibold leading-8 bg-white shadow-slate-100 rounded-t-xl md:p-6 md:text-xl Md:leading-8"
@@ -12,18 +12,14 @@ export default function CommentBox() {
           </p>
 
           <p
-            className="text-base italic font-normal text-center text-indigo-700 md:text-base"
-          >
+            className="text-base italic font-normal text-center text-indigo-700 md:text-base">
             "Website Framework "
           </p>
         </div>
 
         <div
-          className="flex items-center p-6 space-x-4 font-semibold leading-6 text-white md:px-6 md:py-6 bg-gradient-to-tr from-purple-700 to-indigo-700 rounded-b-xl"
-        >
-          <div
-            className="items-center justify-center flex-none bg-white rounded-full shadow-2xl w-14 h-14"
-          >
+          className="flex items-center p-6 space-x-4 font-semibold leading-6 text-white md:px-6 md:py-6 bg-gradient-to-tr from-purple-700 to-indigo-700 rounded-b-xl">
+          <div className="items-center justify-center flex-none bg-white rounded-full shadow-2xl w-14 h-14">
             <svg
               height="54"
               preserveAspectRatio="xMidYMid"

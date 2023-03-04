@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from "react";
 
 interface Link {
   title: string;
@@ -17,7 +17,7 @@ const LinkMap: FC<LinkMapProps> = ({ title, links }) => {
       <ul className="mt-2 space-y-2">
         {links.map((link) => (
           <li key={link.url}>
-            <a href={link.url} target="_blank" rel="noopener noreferrer">
+            <a className=" hover:underline" href={link.url} target="_blank" rel="noopener noreferrer">
               {link.title}
             </a>
           </li>
@@ -56,8 +56,8 @@ const Footer: FC = () => {
   ];
 
   return (
-    <footer className="sticky bottom-0 z-20 w-screen px-8 py-12 -m-4 text-white bg-gray-900">
-      <div className="container flex flex-col items-center justify-between pb-16 md:flex-row">
+    <footer className="sticky bottom-0 z-20 flex w-screen px-8 -m-4 text-gray-600 bg-white">
+      <div className="container flex flex-col items-center justify-between m-8 md:flex-row">
         <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-12">
           {linkMaps.map((linkMap) => (
             <LinkMap key={linkMap.title} {...linkMap} />
