@@ -57,7 +57,12 @@ export default function SideBar() {
         </div>
       </button>
       <div className={`py-8 sticky flex-col transition-opacity duration-500 ${isCollapsed ? "opacity-0 space-y-0" : "opacity-100 space-y-4"}`}>
-        <SideBarIcon icon={<BsPlus size="32" />} text="Add Account" />
+        <button
+          type="button"
+          onClick={handleOpenPopup}
+        >
+          <SideBarIcon icon={<BsPlus size="32" />} text="Add Account" />
+        </button>
         <SideBarIcon icon={<BsLinkedin size="24" />} text="LinkedIn" />
         <SideBarIcon icon={<FaTiktok size="24" />} text="Tiktok" />
         <SideBarIcon icon={<BsInstagram size="32" />} text="Instagram" />

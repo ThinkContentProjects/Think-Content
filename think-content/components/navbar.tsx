@@ -51,16 +51,19 @@ export default function Navbar() {
           
           {/* Top navbar links */}
           <div className="flex items-center mx-8 space-x-6">
-            <a href={currentUser?.email ? "/workspace" : "/login"} className="hidden text-gray-500 md:inline-block hover:text-gray-900">
+          <a href="/documentation" className="hidden text-gray-500 lg:inline-block hover:text-gray-900">
+              Documentation
+            </a>
+            <a href={currentUser?.email ? "/workspace" : "/login"} className="hidden text-gray-500 lg:inline-block hover:text-gray-900">
               Workspace
             </a>
-            <a href="#" className="hidden text-gray-500 md:inline-block hover:text-gray-900">
+            <a href="/team" className="hidden text-gray-500 lg:inline-block hover:text-gray-900">
               Team
             </a>
-            <a href="#" className="hidden text-gray-500 md:inline-block hover:text-gray-900">
+            <a href="/billing" className="hidden text-gray-500 lg:inline-block hover:text-gray-900">
               Billing
             </a>
-            <a href ="pricing" className="hidden px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg md:inline-block hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+            <a href ="pricing" className="hidden px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg lg:inline-block hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50">
               Upgrade
             </a>
             <NavbarDropdown/>

@@ -3,7 +3,7 @@ import ImageDropbox from "./image-dropbox"
 
 export default function imagePanel() {
   return (
-    <div className="w-0 h-screen ml-4 overflow-y-scroll bg-white border-2 border-gray-200 border-solid md:w-1/5 outline-2">
+    <div className="w-0 h-screen mx-0 my-4 ml-4 overflow-y-scroll bg-white border-2 border-gray-200 border-solid md:w-1/5 outline-2">
         {/* Search bar for alt text for images */}
         <div className="grid items-center w-auto grid-cols-1 gap-4 m-2 bg-white">
             {/* Add your images here */}

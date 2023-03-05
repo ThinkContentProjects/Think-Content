@@ -5,7 +5,7 @@ const NavbarDropdown = () => {
 const [isOpen, setIsOpen] = useState(false);
 
 return (
-<div className="relative inline-block md:hidden">
+<div className="relative inline-block lg:hidden">
 <button
 type="button"
 className="inline-flex items-center justify-center p-2 bg-white rounded-xl hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -38,6 +38,12 @@ onClick={() => setIsOpen(!isOpen)}
     leaveTo="opacity-0 scale-95"
   >
     <div className="absolute z-10 w-48 mt-2 bg-white rounded-md shadow-lg -right-32 ring-1 ring-black ring-opacity-5">
+      <a
+        href="/documentation"
+        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+      >
+        Documentation
+      </a>
       <a
         href="/workspace"
         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

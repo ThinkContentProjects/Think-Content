@@ -11,8 +11,7 @@ export default function workspace() {
     <div className="flex flex-col min-h-screen">
       <SideBar/>
       <Navbar/>
-      <div className="m-4"></div>
-      <div className="flex-col h-screen md:flex md:flex-row">
+      <div className="flex flex-col h-screen my-8 md:flex-row">
         <ImagePanel/>
         <PostGallery/>
         <CaptionPanel/>

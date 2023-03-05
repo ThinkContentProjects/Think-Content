@@ -56,7 +56,7 @@ const Footer: FC = () => {
   ];
 
   return (
-    <footer className="sticky bottom-0 z-20 flex w-screen px-8 -m-4 text-gray-600 bg-white">
+    <footer className="sticky bottom-0 z-20 hidden w-screen px-8 -m-4 text-gray-600 bg-white md:flex">
       <div className="container flex flex-col items-center justify-between m-8 md:flex-row">
         <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-12">
           {linkMaps.map((linkMap) => (
