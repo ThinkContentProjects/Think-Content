@@ -2,7 +2,7 @@ import React from "react"
 
 export default function CommentBox() {
   return (
-    <div className="flex items-center justify-center w-auto h-auto m-8">
+    <div className="flex items-center justify-center w-auto h-auto m-8 min-h-32 min-w-32">
       <div className="w-full max-w-md shadow-2xl bg-white-800 shadow-slate-300">
         <div
           className="px-6 py-6 text-lg font-semibold leading-8 bg-white shadow-slate-100 rounded-t-xl md:p-6 md:text-xl Md:leading-8"

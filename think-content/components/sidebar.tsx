@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { ReactNode } from "react";
 import { BsPlus, BsInstagram, BsLinkedin, BsGear } from "react-icons/bs";
 import { FaChevronDown, FaTiktok, FaTwitter } from "react-icons/fa";
+import PopupWindow from "./popup-settings";
+
 
 interface SideBarIconProps {
   icon: ReactNode;
@@ -22,16 +24,26 @@ const SideBarIcon: React.FC<SideBarIconProps> = ({ icon, text = "tooltip!" }) =>
 );
 
 export const GeneralIcon: React.FC<GeneralIconProps> = ({icon}) => (
-  <div className="z-10 group">
+  <div className="group">
     {icon}
   </div>
 );
 
 export default function SideBar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const handleCollapse = () => {
     setIsCollapsed(!isCollapsed);
+  };
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleOpenPopup = () => {
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
   };
 
   return (
@@ -50,10 +62,14 @@ export default function SideBar() {
         <SideBarIcon icon={<FaTiktok size="24" />} text="Tiktok" />
         <SideBarIcon icon={<BsInstagram size="32" />} text="Instagram" />
         <SideBarIcon icon={<FaTwitter size="24" />} text="Twitter" />
+        <button
+          type="button"
+          onClick={handleOpenPopup}
+        >
+          <SideBarIcon icon={<BsGear size="24"/>} text="Settings" />
+        </button>
       </div>
-      <div className= "fixed mx-8 text-gray-400 transition-transform transform border-none bottom-8 hover:text-gray-600 duration-400 hover:rotate-90">
-        <GeneralIcon icon={<BsGear size = "32"/>}/>
-      </div>
+      {showPopup && <PopupWindow handleClose={handleClosePopup} />}
     </div>
   );
 }

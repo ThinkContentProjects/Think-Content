@@ -12,7 +12,7 @@ export default function workspace() {
       <SideBar/>
       <Navbar/>
       <div className="m-4"></div>
-      <div className="flex flex-row h-screen">
+      <div className="flex-col h-screen md:flex md:flex-row">
         <ImagePanel/>
         <PostGallery/>
         <CaptionPanel/>
