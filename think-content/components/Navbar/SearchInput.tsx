@@ -4,14 +4,14 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { User } from "firebase/auth";
 
 type SearchInputProps = {
- // user: User;
+ user?: User | null;
 };
 
-const SearchInput: React.FC<SearchInputProps> = ({ }) => {
+const SearchInput: React.FC<SearchInputProps> = ({ user }) => {
   return (
     <Flex
       flexGrow={1}
-    //   maxWidth={user ? "auto" : "600px"}
+      maxWidth={user ? "auto" : "600px"}
       mr={2}
       alignItems="center"
     >

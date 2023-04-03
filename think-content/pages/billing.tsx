@@ -1,5 +1,5 @@
 import { Inter } from "@next/font/google"
-import Navbar from "../components/navbar"
+// import Navbar from "../components/navbar"
 import SideBar from "@/components/sidebar"
 import CommentBox from "@/components/comment-box"
 import Footer from "@/components/link-footer"
@@ -10,7 +10,7 @@ export default function Billing() {
   return (
     <div className="flex flex-col min-h-screen">
       <SideBar/>
-      <Navbar/>
+      {/* <Navbar/> */}
       <div className="flex justify-center flex-grow">
         <main className="flex-auto" id="content">
             <a className="flex items-center justify-center px-8 py-16 mx-20 text-3xl font-extrabold text-gray-900">
