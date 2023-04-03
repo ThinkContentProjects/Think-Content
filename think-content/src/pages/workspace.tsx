@@ -1,8 +1,8 @@
-import SideBar from "@/src/components/sidebar"
-import Footer from "@/src/components/link-footer"
-import ImagePanel from "@/src/components/image-panel"
-import CaptionPanel from "@/src/components/caption-panel"
-import PostGallery from "@/src/components/post-gallery"
+import CaptionPanel from "../components/caption-panel";
+import ImagePanel from "../components/image-panel";
+import Footer from "../components/link-footer";
+import PostGallery from "../components/post-gallery";
+import SideBar from "../components/sidebar";
 
 export default function workspace() {
   return (

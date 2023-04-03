@@ -1,4 +1,5 @@
-import { db, auth } from "../../../firebase/firebase"
+
+import { auth, db } from "@/src/firebase/firebase";
 import {
   Button,
   Modal,

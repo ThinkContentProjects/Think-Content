@@ -85,7 +85,7 @@ const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
       const postDocRef = await addDoc(collection(db, "posts"), newPost);
     } catch (error: any) {
       console.log("handleCreatePost Error", error.message);
-      setError(true);
+      setError(error.message);
     }
     setLoading(false);
   };

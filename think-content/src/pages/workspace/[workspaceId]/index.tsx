@@ -1,3 +1,4 @@
+
 import CreatePostModal from "@/src/components/Modal/CreatePost/CreatePostModal";
 import Posts from "@/src/components/Posts/Posts";
 import { db } from "@/src/firebase/firebase";

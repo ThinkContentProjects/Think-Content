@@ -13,7 +13,6 @@ import {
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState } from "recoil";
-import { getModeForResolutionAtIndex } from "typescript";
 import ResetPassword from './resetPassword';
 import AuthInputs from "./AuthInputs";
 import OAuthButtons from "./OAuthButtons";

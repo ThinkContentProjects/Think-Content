@@ -1,11 +1,11 @@
 import { workspaceState } from "@/src/atoms/workspacesAtom";
-import CreateWorkspaceModal from "@/src/components/Modal/CreateWorkspace/CreateWorkspaceModal";
 import { MenuItem, Flex, Icon, Box, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { GrAdd } from "react-icons/gr";
 import { useRecoilValue } from "recoil";
 import MenuListItem from "./MenuListItem";
 import { FaSquareFull } from 'react-icons/fa';
+import CreateWorkspaceModal from "../../Modal/CreateWorkspace/CreateWorkspaceModal";
 
 type WorkspacesProps = {};
 

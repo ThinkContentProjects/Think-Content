@@ -3,8 +3,8 @@ import { Input, Button, Flex, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from "../../../firebase/firebase";
-import { FIREBASE_ERRORS } from "../../../firebase/errors";
+import { FIREBASE_ERRORS } from "@/src/firebase/errors";
+import { auth } from "@/src/firebase/firebase";
 
 const SignUp: React.FC = () => {
   const setAuthModelState = useSetRecoilState(authModalState);

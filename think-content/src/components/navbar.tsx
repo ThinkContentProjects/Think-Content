@@ -1,7 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import React, { ReactNode, useState } from "react";
 import { BsCodeSlash, BsPersonFill } from "react-icons/bs";
-import SearchBar from "@/src/components/searchbar"
+import SearchBar from "@/components/searchbar"
 import { GeneralIcon } from "./sidebar";
 import NavbarDropdown from "./navbar-dropdown";
 
