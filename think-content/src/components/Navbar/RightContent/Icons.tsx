@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Button, Flex, Icon, IconButton } from "@chakra-ui/react";
-import { CiSettings, CiBellOn, CiChat2 } from "react-icons/ci";
+import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
+import { CiSettings, CiChat2 } from "react-icons/ci";
 import { FaCrown } from "react-icons/fa";
 import NotificationMenu from "./NotificationMenu/NotificationMenu";
 import { User } from "firebase/auth";
@@ -34,7 +34,7 @@ const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
           mr={2}
           onClick={() => setInviteModalState({ open: true })}
         >
-          Invite
+          <Text fontSize="11pt">Invite</Text>
         </Button>
         <Button
           variant="solid"
@@ -48,7 +48,7 @@ const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
           width={{ base: "70px", md: "110px" }}
           mr={2}
         >
-          Upgrade
+          <Text fontSize="11pt"> Upgrade </Text>
         </Button>
       </Box>
       <>
