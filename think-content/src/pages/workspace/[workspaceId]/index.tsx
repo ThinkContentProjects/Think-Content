@@ -1,5 +1,4 @@
 import CreatePostModal from "@/src/components/Modal/CreatePost/CreatePostModal";
-import InviteMembersModal from "@/src/components/Modal/InviteMembers/InviteMembersModal";
 import Posts from "@/src/components/Posts/Posts";
 import { db } from "@/src/firebase/firebase";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
@@ -11,6 +10,7 @@ import { useSetRecoilState } from "recoil";
 import safeJsonStringify from "safe-json-stringify";
 import { Workspace, workspaceState } from "../../../atoms/workspacesAtom";
 import { BsPersonFillAdd } from "react-icons/bs";
+import { inviteModalState } from "@/src/atoms/inviteModalAtom";
 
 interface WorkspacePageProps {
   workspaceData: Workspace;
@@ -42,19 +42,6 @@ const WorkspacePage: NextPage<WorkspacePageProps> = ({ workspaceData }) =>
     <div className="flex flex-col min-h-screen bg-blue-50">
       <Flex justify="center">
         <Stack align="center">
-          <InviteMembersModal
-            workspaceData={workspaceData}
-            open={openInviteMembersModal}
-            handleClose={() => setOpenInviteMembersModal(false)}
-          />
-          <Button
-            leftIcon={<BsPersonFillAdd />}
-            fontSize={20}
-            width="50%"
-            onClick={() => setOpenInviteMembersModal(true)}
-          >
-            <Text fontSize={15}> Invite</Text>
-          </Button>
           <CreatePostModal
             open={openCreatePostModal}
             handleClose={() => setOpenCreatePostModal(false)}

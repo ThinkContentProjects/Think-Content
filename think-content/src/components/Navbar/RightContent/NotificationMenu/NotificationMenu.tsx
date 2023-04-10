@@ -8,11 +8,13 @@ import {
   MenuItem,
   Text,
   Stack,
+  Icon,
 } from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import { getDocs, collection, Timestamp } from "firebase/firestore";
 import moment from "moment";
 import React, { useState } from "react";
+import { CiBellOn } from "react-icons/ci";
 
 type NotificationMenuProps = {
   user: User;
@@ -54,20 +56,16 @@ const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
   return (
     <Menu>
       <MenuButton
-        cursor="pointer"
-        mr={4}
-        padding="0px 6px"
-        borderRadius={4}
-        _hover={{ bg: "blue.100", color: "blue.500" }}
         onClick={getMyNotifications}
+        mr={1.5}
+        ml={1.5}
+        padding={1}
+        cursor="pointer"
+        borderRadius={4}
+        _hover={{ bg: "gray.200" }}
       >
-        <Flex align="center" display={{ base: "none", md: "flex" }}>
-          <Flex align="center">
-            <Text fontWeight={700} fontSize="12pt" color="blue.500">
-              Notifications
-            </Text>
-          </Flex>
-          <ChevronDownIcon color="blue.500" />
+        <Flex>
+          <Icon as={CiBellOn} fontSize={30} />
         </Flex>
       </MenuButton>
       <MenuList>

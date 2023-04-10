@@ -4,6 +4,7 @@ import { Router } from "next/router";
 import React from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
 import AuthModal from "../../Modal/Auth/AuthModal";
+import InviteModal from "../../Modal/Invite/InviteModal";
 import AuthButtons from "./AuthButtons";
 import FeaturesMenu from "./FeaturesMenu";
 import Icons from "./Icons";
@@ -19,6 +20,7 @@ const RightContent: React.FC<RightContentProps> = ({ user }) => {
   return (
     <>
       <AuthModal />
+      <InviteModal />
       <Flex justify="center" align="center">
         {user ? (
           <Icons user={user}/>

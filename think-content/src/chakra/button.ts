@@ -21,7 +21,7 @@ export const Button: ComponentStyleConfig = {
   variants: {
     solid: {
       color: "white",
-      bg: "blue.500",
+      bg: "blue.700",
       _hover: {
         bg: "blue.400",
       },

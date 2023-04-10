@@ -1,4 +1,4 @@
-import { Workspace, workspaceState } from "@/src/atoms/workspacesAtom";
+import { workspaceState } from "@/src/atoms/workspacesAtom";
 import {
   Modal,
   ModalOverlay,
@@ -37,15 +37,9 @@ import {
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import useWorkspaceData from "@/src/hooks/useWorkspaceData";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import MemberComponent from "./MemberComponent";
-
-type InviteMembersModalProps = {
-  open: boolean;
-  handleClose: () => void;
-  workspaceData: Workspace;
-};
+import { inviteModalState } from "@/src/atoms/inviteModalAtom";
 
 interface ColorOption extends OptionBase {
   label: string;
@@ -90,51 +84,55 @@ const getUsers = async () => {
   return users;
 };
 
-const InviteMembersModal: React.FC<InviteMembersModalProps> = ({
-  open,
-  handleClose,
-  workspaceData,
-}) => {
+const InviteModal: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<ColorOption[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [currentUser] = useAuthState(auth);
+  const workspaceStateValue = useRecoilValue(workspaceState);
+  const [modalState, setModalState] = useRecoilState(inviteModalState);
   const toast = useToast();
-  const members = useRecoilValue(workspaceState).memberSnippets;
 
   const selectProps = useChakraSelectProps({
     value: selectedOptions,
     onChange: setSelectedOptions,
-    components: asyncComponents,
   });
 
+  const handleClose = () => {
+    setModalState({
+      open: false,
+    });
+  };
+
   const handleSubmit = () => {
-    if (error) setError("");
-    setLoading(true);
-    try {
-      selectedOptions.forEach(async (user) => {
-        console.log(workspaceData);
-        await setDoc(
-          doc(db, `users/${user.value.uid}/invites`, workspaceData.id),
-          {
-            workspaceId: workspaceData.id,
-            workspaceName: workspaceData.name,
-            invitedBy: currentUser?.email,
-            invitedAt: serverTimestamp(),
-          }
-        );
-      });
-    } catch (error: any) {
-      console.log("handleInviteMembers error", error);
-      setError(error.message);
-    } finally {
-      setLoading(false);
+    const workspace = workspaceStateValue.currentWorkspace;
+    if (workspace) {
+      if (error) setError("");
+      setLoading(true);
+      try {
+        selectedOptions.forEach(async (user) => {
+          await setDoc(
+            doc(db, `users/${user.value.uid}/invites`, workspace.id),
+            {
+              workspaceId: workspace.id,
+              workspaceName: workspace.name,
+              invitedBy: currentUser?.email,
+              invitedAt: serverTimestamp(),
+            }
+          );
+        });
+      } catch (error: any) {
+        console.log("handleInviteMembers error", error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   return (
     <>
-      <Modal isOpen={open} onClose={handleClose} size="lg">
+      <Modal isOpen={modalState.open} onClose={handleClose} size="lg">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader
@@ -154,18 +152,24 @@ const InviteMembersModal: React.FC<InviteMembersModalProps> = ({
                     {/* Custom <Code>LoadingIndicator</Code> */}
                   </FormLabel>
 
-                  <AsyncSelect
+                  <AsyncSelect<ColorOption, true, GroupBase<ColorOption>>
                     {...selectProps}
+                    name="colors"
                     isMulti
                     placeholder="Add group members..."
                     components={asyncComponents}
                     loadOptions={(inputValue, callback) => {
                       getUsers()
                         .then((data) =>
-                          data.filter((i) =>
-                            i.label
-                              .toLowerCase()
-                              .includes(inputValue.toLowerCase())
+                          data.filter(
+                            (i) =>
+                              i.label
+                                .toLowerCase()
+                                .includes(inputValue.toLowerCase()) &&
+                              i.value.uid !== currentUser?.uid &&
+                              !selectedOptions.find(
+                                (option) => option.value.uid === i.value.uid
+                              )
                           )
                         )
                         .then((data) => callback(data));
@@ -181,7 +185,7 @@ const InviteMembersModal: React.FC<InviteMembersModalProps> = ({
                 >
                   Members
                 </Text>
-                {members.map((member) => (
+                {workspaceStateValue.memberSnippets.map((member) => (
                   <MemberComponent memberEmail={member.email} />
                 ))}
               </Container>
@@ -219,4 +223,5 @@ const InviteMembersModal: React.FC<InviteMembersModalProps> = ({
     </>
   );
 };
-export default InviteMembersModal;
+
+export default InviteModal;

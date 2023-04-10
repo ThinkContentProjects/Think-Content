@@ -1,15 +1,20 @@
 import React from "react";
 import { Box, Button, Flex, Icon, IconButton } from "@chakra-ui/react";
-import { CiSettings, CiBellOn, CiChat2 } from 'react-icons/ci';
+import { CiSettings, CiBellOn, CiChat2 } from "react-icons/ci";
 import { FaCrown } from "react-icons/fa";
 import NotificationMenu from "./NotificationMenu/NotificationMenu";
 import { User } from "firebase/auth";
+import { BsPersonFillAdd } from "react-icons/bs";
+import { useSetRecoilState } from "recoil";
+import { inviteModalState } from "@/src/atoms/inviteModalAtom";
 
 type ActionIconsProps = {
-  user: User
+  user: User;
 };
 
-const ActionIcons: React.FC<ActionIconsProps> = ( { user } ) => {
+const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
+  const setInviteModalState = useSetRecoilState(inviteModalState);
+
   return (
     <Flex alignItems="center" flexGrow={1}>
       <Box
@@ -21,9 +26,24 @@ const ActionIcons: React.FC<ActionIconsProps> = ( { user } ) => {
         <Button
           variant="solid"
           height="33px"
-          fontSize='11pt'
+          fontSize="13pt"
           fontWeight={600}
-          leftIcon={<FaCrown/>}
+          leftIcon={<BsPersonFillAdd />}
+          display={{ base: "none", sm: "flex" }}
+          width={{ base: "70px", md: "110px" }}
+          mr={2}
+          onClick={() => setInviteModalState({ open: true })}
+        >
+          Invite
+        </Button>
+        <Button
+          variant="solid"
+          height="33px"
+          fontSize="11pt"
+          bg="green.500"
+          fontWeight={600}
+          leftIcon={<FaCrown />}
+          _hover={{ bg: "green.300" }}
           display={{ base: "none", sm: "flex" }}
           width={{ base: "70px", md: "110px" }}
           mr={2}
@@ -42,7 +62,7 @@ const ActionIcons: React.FC<ActionIconsProps> = ( { user } ) => {
         >
           <Icon as={CiBellOn} fontSize={30} />
         </Flex> */}
-        <NotificationMenu user={user}/>
+        <NotificationMenu user={user} />
         <Flex
           display={{ base: "none", md: "flex" }}
           mr={1.5}

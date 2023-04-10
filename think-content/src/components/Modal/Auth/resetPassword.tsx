@@ -4,14 +4,10 @@ import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { BsDot, BsReddit } from "react-icons/bs";
 
 import { useSetRecoilState } from "recoil";
-import { authModalState, ModalView } from "@/src/atoms/authModalAtom";
+import { authModalState } from "@/src/atoms/authModalAtom";
 import { auth } from "@/src/firebase/firebase";
 
-type ResetPasswordProps = {
-  toggleView: (view: ModalView) => void;
-};
-
-const ResetPassword: React.FC<ResetPasswordProps> = ({ toggleView }) => {
+const ResetPassword: React.FC = () => {
   const setAuthModalState = useSetRecoilState(authModalState);
   const [email, setEmail] = useState("");
   const [success, setSuccess] = useState(false);
@@ -31,7 +27,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ toggleView }) => {
         Reset your password
       </Text>
       {success ? (
-        <Text mb={4}>Check your email :)</Text>
+        <Text mb={4}>Check your email</Text>
       ) : (
         <>
           <Text fontSize="sm" textAlign="center" mb={2}>
