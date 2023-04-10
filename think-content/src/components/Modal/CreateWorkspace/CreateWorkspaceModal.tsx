@@ -1,4 +1,3 @@
-
 import { auth, db } from "@/src/firebase/firebase";
 import {
   Button,
@@ -15,6 +14,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import {
+  collection,
   doc,
   runTransaction,
   serverTimestamp,
@@ -47,30 +47,22 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
   const handleCreateWorkspace = async () => {
     if (error) setError("");
     // validate the workspace name
-    const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    if (format.test(workspaceName) || workspaceName.length < 3) {
-      setError(
-        "Workspace names must be between 3 and 21 characters, and can only contain letters, numbers, or underscores"
-      );
+    if (workspaceName.length < 3) {
+      setError("Workspace names must be between 3 and 21 characters!");
       return;
     }
 
     setLoading(true);
 
     try {
-      const workspaceDocRef = doc(db, "workspaces", workspaceName);
+      const workspaceDocRef = doc(collection(db, "workspaces"));
 
       await runTransaction(db, async (transaction) => {
-        // check if community exists in db
-        const workspaceDoc = await transaction.get(workspaceDocRef);
-        if (workspaceDoc.exists()) {
-          throw new Error(`Sorry, ${workspaceName} is taken. Try another.`);
-        }
-
         // async not needed for transaction sets, but we need them for transaction gets
         // create workspace
         transaction.set(workspaceDocRef, {
           creatorId: user?.uid,
+          name: workspaceName,
           createdAt: serverTimestamp(),
           numberOfMembers: 1,
           members: [user?.uid],
@@ -79,9 +71,10 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
         // create workspace snippet for the user
         // collection/document/collection....
         transaction.set(
-          doc(db, `users/${user?.uid}/workspaceSnippets`, workspaceName),
+          doc(db, `users/${user?.uid}/workspaceSnippets`, workspaceDocRef.id),
           {
-            workspaceId: workspaceName,
+            workspaceId: workspaceDocRef.id,
+            workspaceName: workspaceName,
             isOwner: true,
           }
         );
@@ -150,4 +143,5 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
     </>
   );
 };
+
 export default CreateWorkspaceModal;

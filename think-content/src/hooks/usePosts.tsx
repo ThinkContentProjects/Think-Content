@@ -1,5 +1,4 @@
 import { postState } from "@/src/atoms/postsAtom";
-import React from "react";
 import { useRecoilState } from "recoil";
 
 const usePosts = () => {

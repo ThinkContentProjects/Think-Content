@@ -1,27 +1,30 @@
-
 import CreatePostModal from "@/src/components/Modal/CreatePost/CreatePostModal";
+import InviteMembersModal from "@/src/components/Modal/InviteMembers/InviteMembersModal";
 import Posts from "@/src/components/Posts/Posts";
 import { db } from "@/src/firebase/firebase";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
-import { Button, Flex, Stack } from "@chakra-ui/react";
+import { Button, Flex, Stack, Text } from "@chakra-ui/react";
 import { doc, getDoc } from "firebase/firestore";
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import safeJsonStringify from "safe-json-stringify";
 import { Workspace, workspaceState } from "../../../atoms/workspacesAtom";
+import { BsPersonFillAdd } from "react-icons/bs";
 
 interface WorkspacePageProps {
   workspaceData: Workspace;
 }
 
-const WorkspacePage: NextPage<WorkspacePageProps> = ({ workspaceData }) => {
-  const [open, setOpen] = useState(false);
-
-  const { workspaceStateValue } = useWorkspaceData();
+const WorkspacePage: NextPage<WorkspacePageProps> = ({ workspaceData }) => 
+{
+  const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
+  const [openInviteMembersModal, setOpenInviteMembersModal] = useState(false);
+  // const { workspaceStateValue } = useWorkspaceData();
   const setWorkspaceStateValue = useSetRecoilState(workspaceState);
+  const { getMembers } = useWorkspaceData();
 
-  // Community was not found in the database
+  // workspace was not found in the database
   if (!workspaceData) {
     return <div> Not found</div>;
   }
@@ -31,25 +34,44 @@ const WorkspacePage: NextPage<WorkspacePageProps> = ({ workspaceData }) => {
       ...prev,
       currentWorkspace: workspaceData,
     }));
+
+    // only update when workspace data is updated
   }, [workspaceData]);
 
   return (
     <div className="flex flex-col min-h-screen bg-blue-50">
-    <Flex justify='center'>
-      <Stack align='center'>
-      <CreatePostModal open={open} handleClose={() => setOpen(false)} />
-      <Button width='50%' onClick={() => setOpen(true)}>Create Post</Button>
-      <Posts workspaceData={workspaceData} />
-      </Stack>
-    </Flex>
+      <Flex justify="center">
+        <Stack align="center">
+          <InviteMembersModal
+            workspaceData={workspaceData}
+            open={openInviteMembersModal}
+            handleClose={() => setOpenInviteMembersModal(false)}
+          />
+          <Button
+            leftIcon={<BsPersonFillAdd />}
+            fontSize={20}
+            width="50%"
+            onClick={() => setOpenInviteMembersModal(true)}
+          >
+            <Text fontSize={15}> Invite</Text>
+          </Button>
+          <CreatePostModal
+            open={openCreatePostModal}
+            handleClose={() => setOpenCreatePostModal(false)}
+          />
+          <Button fontSize={15} width="50%" onClick={() => setOpenCreatePostModal(true)}>
+            Create Post
+          </Button>
+          <Posts workspaceData={workspaceData} />
+        </Stack>
+      </Flex>
     </div>
   );
 };
 
 export default WorkspacePage;
 
-export async function getServerSideProps(context: GetServerSidePropsContext) 
-{
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   console.log("GET SERVER SIDE PROPS RUNNING");
 
   try {

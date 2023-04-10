@@ -1,10 +1,13 @@
+// hooks are used when we have functions and data that need to be shared across components
+
 import {
+  MemberSnippet,
   Workspace,
   WorkspaceSnippet,
   workspaceState,
 } from "@/src/atoms/workspacesAtom";
 import { auth, db } from "@/src/firebase/firebase";
-import { getMembers } from "@/firebase/firestore/workspace";
+
 import {
   collection,
   doc,
@@ -13,43 +16,52 @@ import {
   writeBatch,
   arrayRemove,
   arrayUnion,
+  getDoc,
+  query,
+  where,
+  orderBy,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState } from "recoil";
 
 const useWorkspaceData = () => {
+  // use this hook whenever accessing the user. Try to minimize by passing in as props when possible
   const [user] = useAuthState(auth);
+  // read and write to the workspace state atom
   const [workspaceStateValue, setWorkspaceStateValue] =
     useRecoilState(workspaceState);
+  // used for async loading times
   const [loading, setLoading] = useState(false);
+  // error displaying
   const [error, setError] = useState("");
 
   const leaveWorkspace = async (workspaceData: Workspace) => {
     setLoading(true);
-    // batch write
-    // deleting the workspace snippet
-    // updating the number of members on the workspace (-1)
-    // adding the user to the workspace member list
-    // update the recoil state - workspaceState.mySnippets
 
     try {
+      // batch write
       const batch = writeBatch(db);
 
+      // deleting the workspace snippet
       batch.delete(
         doc(db, `users/${user?.uid}/workspaceSnippets`, workspaceData.id)
       );
 
+      // updating the number of members on the workspace (-1)
       batch.update(doc(db, "workspaces", workspaceData.id), {
         numberOfMembers: increment(-1),
       });
 
+      // removing the user from the workspace member list
       batch.update(doc(db, "workspaces", workspaceData.id), {
         members: arrayRemove(user?.uid),
       });
 
+      // commit the batch - all or nothing
       await batch.commit();
 
+      // update the recoil state - workspaceState.mySnippets
       setWorkspaceStateValue((prev) => ({
         ...prev,
         mySnippets: prev.mySnippets.filter(
@@ -64,38 +76,50 @@ const useWorkspaceData = () => {
   };
 
   const joinWorkspace = async (workspaceData: Workspace) => {
-    // batch write
-    // creating a new workspace snippet
-    // updating the number of members on the workspace (+1)
-    // removing the user from the workspace member list
     setLoading(true);
 
     try {
+      // batch write
       const batch = writeBatch(db);
 
+      // creating a new workspace snippet
       const newSnippet: WorkspaceSnippet = {
         workspaceId: workspaceData.id,
+        workspaceName: workspaceData.name,
         imageURL: workspaceData.imageURL || "",
       };
+
+      // or with "" is not a good fix, need to come back to this
+      const newMemberSnippet: MemberSnippet = {
+        email: user?.email || "",
+        uid: user?.uid || "",
+        displayName: user?.displayName || "",
+      };
+
+      // add the new workspace snippet
       batch.set(
         doc(db, `users/${user?.uid}/communitySnippets`, workspaceData.id),
         newSnippet
       );
 
+      // updating the number of members on the workspace (+1)
       batch.update(doc(db, "workspaces", workspaceData.id), {
         numberOfMembers: increment(1),
       });
 
+      // adding the user to the array of users
       batch.update(doc(db, "workspaces", workspaceData.id), {
         members: arrayUnion(user?.uid),
       });
 
+      // commit the batch
       await batch.commit();
 
-      // update the recoil state - workspaceState.mySnippets
+      // update the recoil state - workspaceState.mySnippets and workspaceState.memberSnippets
       setWorkspaceStateValue((prev) => ({
         ...prev,
         mySnippets: [...prev.mySnippets, newSnippet],
+        memberSnippets: [...prev.memberSnippets, newMemberSnippet],
       }));
     } catch (error: any) {
       console.log("join workspace error", error);
@@ -104,8 +128,8 @@ const useWorkspaceData = () => {
     setLoading(false);
   };
 
-  const getMySnippets = async () => 
-  {
+  // function to get a user's workspace snippets
+  const getMySnippets = async () => {
     setLoading(true);
 
     try {
@@ -114,16 +138,40 @@ const useWorkspaceData = () => {
         collection(db, `users/${user?.uid}/workspaceSnippets`)
       );
 
+      // set the recoil state of the workspace atom, updating the snippets and setting snippetsFetched to true
       const snippets = snippetDocs.docs.map((doc) => ({ ...doc.data() }));
       setWorkspaceStateValue((prev) => ({
         ...prev,
         mySnippets: snippets as WorkspaceSnippet[],
         snippetsFetched: true,
       }));
-
       console.log("here are the snippets", snippets);
     } catch (error: any) {
       console.log("getMySnippets error", error);
+      setError(error.message);
+    }
+    setLoading(false);
+  };
+
+  // I think it might make more sense for this to be a snippet in the workspaceStateAtom
+  const getMembers = async () => {
+    setLoading(true);
+
+    try {
+      const usersQuery = query(
+        collection(db, "users"),
+        where("uid", "in", workspaceStateValue.currentWorkspace?.members)
+      );
+
+      const membersDocs = await getDocs(usersQuery);
+      const members = membersDocs.docs.map((doc) => ({ ...doc.data() }));
+      setWorkspaceStateValue((prev) => ({
+        ...prev,
+        memberSnippets: members as MemberSnippet[],
+      }));
+      console.log("here are the members", members);
+    } catch (error: any) {
+      console.log("getMembers error", error);
       setError(error.message);
     }
     setLoading(false);
@@ -137,15 +185,21 @@ const useWorkspaceData = () => {
         mySnippets: [],
         snippetsFetched: false,
       }));
-      return 
+      return;
     }
     getMySnippets();
   }, [user]);
+
+  // will trigger everytime user changes
+  useEffect(() => {
+    getMembers();
+  }, [workspaceStateValue.currentWorkspace]);
 
   return {
     workspaceStateValue,
     joinWorkspace,
     leaveWorkspace,
+    getMembers,
   };
 };
 

@@ -36,7 +36,7 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
         <MenuListItem
           key={snippet.workspaceId}
           icon={FaSquareFull}
-          displayText={snippet.workspaceId}
+          displayText={snippet.workspaceName}
           link={`/workspace/${snippet.workspaceId}`}
           iconColor='blue.500'
           imageURL={snippet.imageURL}
@@ -45,4 +45,5 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
     </>
   );
 };
+
 export default Workspaces;

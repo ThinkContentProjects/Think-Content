@@ -8,6 +8,7 @@ import Layout from "../components/Layout/Layout";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
+    // Gives us access to global state everywhere in our app
     <RecoilRoot>
       <ChakraProvider theme={theme}>
         <Layout>

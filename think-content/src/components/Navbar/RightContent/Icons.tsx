@@ -2,10 +2,14 @@ import React from "react";
 import { Box, Button, Flex, Icon, IconButton } from "@chakra-ui/react";
 import { CiSettings, CiBellOn, CiChat2 } from 'react-icons/ci';
 import { FaCrown } from "react-icons/fa";
+import NotificationMenu from "./NotificationMenu/NotificationMenu";
+import { User } from "firebase/auth";
 
-type ActionIconsProps = {};
+type ActionIconsProps = {
+  user: User
+};
 
-const ActionIcons: React.FC<ActionIconsProps> = () => {
+const ActionIcons: React.FC<ActionIconsProps> = ( { user } ) => {
   return (
     <Flex alignItems="center" flexGrow={1}>
       <Box
@@ -28,7 +32,7 @@ const ActionIcons: React.FC<ActionIconsProps> = () => {
         </Button>
       </Box>
       <>
-        <Flex
+        {/* <Flex
           mr={1.5}
           ml={1.5}
           padding={1}
@@ -37,7 +41,8 @@ const ActionIcons: React.FC<ActionIconsProps> = () => {
           _hover={{ bg: "gray.200" }}
         >
           <Icon as={CiBellOn} fontSize={30} />
-        </Flex>
+        </Flex> */}
+        <NotificationMenu user={user}/>
         <Flex
           display={{ base: "none", md: "flex" }}
           mr={1.5}
