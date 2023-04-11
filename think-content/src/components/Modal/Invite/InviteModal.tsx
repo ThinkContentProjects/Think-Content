@@ -34,6 +34,7 @@ import {
   doc,
   serverTimestamp,
   setDoc,
+  addDoc,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -111,8 +112,9 @@ const InviteModal: React.FC = () => {
       setLoading(true);
       try {
         selectedOptions.forEach(async (user) => {
-          await setDoc(
-            doc(db, `users/${user.value.uid}/invites`, workspace.id),
+          await addDoc(
+
+            collection(db, `users/${user.value.uid}/invites`),
             {
               workspaceId: workspace.id,
               workspaceName: workspace.name,

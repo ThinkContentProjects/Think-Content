@@ -11,6 +11,7 @@ import { defaultMenuItem } from "@/src/atoms/directoryMenuAtom";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { MdSettings } from 'react-icons/md'
 import { inviteModalState } from "@/src/atoms/inviteModalAtom";
+import { BiExit } from 'react-icons/bi';
 
 type WorkspacesProps = {};
 
@@ -44,6 +45,17 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
          <Flex align="center">
            <Icon fontSize={20} mr={2} as={MdSettings}></Icon>
            Settings
+         </Flex>
+       </MenuItem>
+       <MenuItem
+         width="100%"
+         fontSize="10pt"
+         _hover={{ bg: "gray.100" }}
+        //  onClick={() => setOpen(true)}
+       >
+         <Flex align="center">
+           <Icon fontSize={20} mr={2} as={BiExit}></Icon>
+           Leave
          </Flex>
        </MenuItem>
        </>

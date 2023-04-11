@@ -7,6 +7,8 @@ import { User } from "firebase/auth";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { useSetRecoilState } from "recoil";
 import { inviteModalState } from "@/src/atoms/inviteModalAtom";
+import { defaultMenuItem } from "@/src/atoms/directoryMenuAtom";
+import useDirectory from "@/src/hooks/useDirectory";
 
 type ActionIconsProps = {
   user: User;
@@ -14,6 +16,7 @@ type ActionIconsProps = {
 
 const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
   const setInviteModalState = useSetRecoilState(inviteModalState);
+  const { directoryState } = useDirectory();
 
   return (
     <Flex alignItems="center" flexGrow={1}>
@@ -23,7 +26,8 @@ const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
         borderRight="1px solid"
         borderColor="gray.200"
       >
-        <Button
+
+        {directoryState.selectedMenuItem !== defaultMenuItem && (<Button
           variant="solid"
           height="33px"
           fontSize="13pt"
@@ -35,7 +39,8 @@ const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
           onClick={() => setInviteModalState({ open: true })}
         >
           <Text fontSize="11pt">Invite</Text>
-        </Button>
+        </Button>)}
+
         <Button
           variant="solid"
           height="33px"

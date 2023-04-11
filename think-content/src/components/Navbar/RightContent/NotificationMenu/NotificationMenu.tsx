@@ -1,5 +1,6 @@
 import { db } from "@/src/firebase/firebase";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import useWorkspaceData from "@/src/hooks/useWorkspaceData";
+
 import {
   Menu,
   MenuButton,
@@ -11,8 +12,9 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { User } from "firebase/auth";
-import { getDocs, collection, Timestamp } from "firebase/firestore";
+import { getDocs, collection, Timestamp, deleteDoc, doc } from "firebase/firestore";
 import moment from "moment";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { CiBellOn } from "react-icons/ci";
 
@@ -25,12 +27,15 @@ interface notification {
   workspaceName: string;
   invitedBy: string;
   invitedAt: Timestamp;
+  notificationId: string,
 }
 
 const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const [notifications, setNotifications] = useState<notification[]>([]);
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const { joinWorkspace } = useWorkspaceData();
 
   const getMyNotifications = async () => {
     setLoading(true);
@@ -42,7 +47,7 @@ const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
       );
 
       setNotifications(
-        invitesDocs.docs.map((doc) => ({ ...doc.data() })) as notification[]
+        invitesDocs.docs.map((doc) => ({ notificationId: doc.id, ...doc.data() })) as notification[]
       );
 
       console.log("here are the invitations", notifications);
@@ -52,6 +57,19 @@ const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
     }
     setLoading(false);
   };
+
+  const deleteInvite = async (inviteId: string) => {
+    setLoading(true);
+    if (error)
+      setError("");
+    try {
+      await deleteDoc(doc(db, `users/${user?.uid}/invites/${inviteId}`))
+    } catch (error: any) {
+      console.log("delete invitation error", error)
+      setError(error.message)
+    }
+    setLoading(false);
+  }
 
   return (
     <Menu>
@@ -70,9 +88,13 @@ const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
       </MenuButton>
       <MenuList>
         {notifications.map((notif) => (
-          <MenuItem key={notif.workspaceId}>
+          <MenuItem key={notif.workspaceId} onClick={() => {
+            router.push(`/workspace/${notif.workspaceId}`)
+            joinWorkspace(notif.workspaceId);
+            deleteInvite(notif.notificationId);
+          }}>
             <Stack spacing={0}>
-              <Text fontSize={12}>
+              <Text fontSize={13}>
                 "{notif.invitedBy}" invited you to the workspace "
                 {notif.workspaceName}"
               </Text>

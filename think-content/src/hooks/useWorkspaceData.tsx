@@ -20,6 +20,7 @@ import {
   query,
   where,
   orderBy,
+  runTransaction,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -36,6 +37,7 @@ const useWorkspaceData = () => {
   // error displaying
   const [error, setError] = useState("");
 
+  // leaving workspaces
   const leaveWorkspace = async (workspaceData: Workspace) => {
     setLoading(true);
 
@@ -75,52 +77,62 @@ const useWorkspaceData = () => {
     setLoading(false);
   };
 
-  const joinWorkspace = async (workspaceData: Workspace) => {
+  // takes in a string and gets the workspace - used for joining through notifications
+  const joinWorkspace = async (workspaceId: string) => {
     setLoading(true);
 
     try {
-      // batch write
-      const batch = writeBatch(db);
 
-      // creating a new workspace snippet
-      const newSnippet: WorkspaceSnippet = {
-        workspaceId: workspaceData.id,
-        workspaceName: workspaceData.name,
-        imageURL: workspaceData.imageURL || "",
-      };
+      await runTransaction(db, async (transaction) => {
 
-      // or with "" is not a good fix, need to come back to this
-      const newMemberSnippet: MemberSnippet = {
-        email: user?.email || "",
-        uid: user?.uid || "",
-        displayName: user?.displayName || "",
-      };
+        // get the workspace from the workspace ID
+        const workspaceRef = doc(db, "workspaces", workspaceId);
+        const workspaceSnap = await transaction.get(workspaceRef)
+        if (workspaceSnap.exists()) {
+          const workspace = workspaceSnap.data();
 
-      // add the new workspace snippet
-      batch.set(
-        doc(db, `users/${user?.uid}/communitySnippets`, workspaceData.id),
-        newSnippet
-      );
+          // creating a new workspace snippet
+          const newSnippet: WorkspaceSnippet = {
+            workspaceId: workspaceSnap.id,
+            workspaceName: workspace.name,
+            imageURL: workspace.imageURL || "",
+            isOwner: false,
+          };
 
-      // updating the number of members on the workspace (+1)
-      batch.update(doc(db, "workspaces", workspaceData.id), {
-        numberOfMembers: increment(1),
-      });
+          // or with "" is not a good fix, need to come back to this
+          const newMemberSnippet: MemberSnippet = {
+            email: user?.email || "",
+            uid: user?.uid || "",
+            displayName: user?.displayName || "",
+          };
 
-      // adding the user to the array of users
-      batch.update(doc(db, "workspaces", workspaceData.id), {
-        members: arrayUnion(user?.uid),
-      });
+          // add the new workspace snippet
+          transaction.set(
+            doc(db, `users/${user?.uid}/communitySnippets`, workspaceSnap.id),
+            newSnippet
+          );
 
-      // commit the batch
-      await batch.commit();
+          // updating the number of members on the workspace (+1)
+          transaction.update(doc(db, "workspaces", workspaceSnap.id), {
+            numberOfMembers: increment(1),
+          });
 
-      // update the recoil state - workspaceState.mySnippets and workspaceState.memberSnippets
-      setWorkspaceStateValue((prev) => ({
-        ...prev,
-        mySnippets: [...prev.mySnippets, newSnippet],
-        memberSnippets: [...prev.memberSnippets, newMemberSnippet],
-      }));
+          // adding the user to the array of users
+          transaction.update(doc(db, "workspaces", workspaceSnap.id), {
+            members: arrayUnion(user?.uid),
+          });
+
+          // update the recoil state - workspaceState.mySnippets and workspaceState.memberSnippets
+
+          // this probably should not be inside of the transaction...
+          setWorkspaceStateValue((prev) => ({
+            ...prev,
+            mySnippets: [...prev.mySnippets, newSnippet],
+            memberSnippets: [...prev.memberSnippets, newMemberSnippet],
+          }));
+        }
+      })
+
     } catch (error: any) {
       console.log("join workspace error", error);
       setError(error.message);

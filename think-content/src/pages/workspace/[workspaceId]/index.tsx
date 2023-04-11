@@ -9,8 +9,6 @@ import { useState, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import safeJsonStringify from "safe-json-stringify";
 import { Workspace, workspaceState } from "../../../atoms/workspacesAtom";
-import { BsPersonFillAdd } from "react-icons/bs";
-import { inviteModalState } from "@/src/atoms/inviteModalAtom";
 
 interface WorkspacePageProps {
   workspaceData: Workspace;
