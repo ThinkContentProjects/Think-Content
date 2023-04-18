@@ -12,10 +12,10 @@ const Pricing: React.FC = () => {
       padding="0px 6px"
       borderRadius={2}
       display={{ base: "none", md: "flex" }}
-      _hover={{ bg: "blue.100", color: "blue.500" }}
+      _hover={{ bg: "purple.100", color: "purple.600" }}
       onClick={() => router.push("/billing")}
     >
-      <Text fontWeight={700} fontSize="12pt" color="blue.500">
+      <Text fontWeight={700} fontSize="12pt">
         Pricing
       </Text>
     </Flex>

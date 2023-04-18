@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Button, Flex, Icon, Input, Text } from "@chakra-ui/react";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { BsDot, BsReddit } from "react-icons/bs";
-
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/src/atoms/authModalAtom";
 import { auth } from "@/src/firebase/firebase";
+import { BsFillShieldLockFill } from 'react-icons/bs';
 
 const ResetPassword: React.FC = () => {
   const setAuthModalState = useSetRecoilState(authModalState);
@@ -22,7 +22,7 @@ const ResetPassword: React.FC = () => {
   };
   return (
     <Flex direction="column" alignItems="center" width="100%">
-      <Icon as={BsReddit} color="brand.100" fontSize={40} mb={2} />
+      <Icon as={BsFillShieldLockFill} color="brand.100" fontSize={40} mb={2} />
       <Text fontWeight={700} mb={2}>
         Reset your password
       </Text>

@@ -128,6 +128,7 @@ const InviteModal: React.FC = () => {
         setError(error.message);
       } finally {
         setLoading(false);
+        handleClose();
       }
     }
   };
@@ -194,7 +195,7 @@ const InviteModal: React.FC = () => {
             </ModalBody>
             <ModalCloseButton />
           </Box>
-          <ModalFooter bg="gray.100" borderRadius="0px 0px 10px 10px">
+          <ModalFooter borderRadius="0px 0px 10px 10px" bg={useColorModeValue("gray.200", '#3C3C3C')}>
             <Button
               variant="outline"
               height="30px"

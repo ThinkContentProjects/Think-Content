@@ -12,6 +12,9 @@ import {
   Divider,
   Text,
   Input,
+  Select,
+  useColorModeValue,
+  useToast
 } from "@chakra-ui/react";
 import {
   collection,
@@ -19,6 +22,7 @@ import {
   runTransaction,
   serverTimestamp,
 } from "firebase/firestore";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -36,6 +40,8 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
   const [charsRemaining, setCharsRemaining] = useState(21);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const toast = useToast();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.length > 21) return;
@@ -54,9 +60,11 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
 
     setLoading(true);
 
-    try {
-      const workspaceDocRef = doc(collection(db, "workspaces"));
+    // should be inside try block?
+    const workspaceDocRef = doc(collection(db, "workspaces"));
 
+    try 
+    {
       await runTransaction(db, async (transaction) => {
         // async not needed for transaction sets, but we need them for transaction gets
         // create workspace
@@ -83,7 +91,16 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
       console.log("handleCreateWorkspace error", error);
       setError(error.message);
     }
+    handleClose();
     setLoading(false);
+    toast({
+      title: 'Workspace Created.',
+      description: "Here is your new workspace!",
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+    })
+    router.push(`/workspace/${workspaceDocRef.id}`);
   };
 
   return (
@@ -118,10 +135,24 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
               <Text fontSize="9pt" color="red" pt={1}>
                 {error}
               </Text>
+              <Text fontWeight={600} fontSize={15}>
+                Brand Profile
+              </Text>
+              <Text fontSize={11} color="gray.500">
+                This can be changed in the workspace settings
+              </Text>
+              <Select>
+                <option value="brand1">Brand 1</option>
+                <option value="brand2">Brand 2</option>
+                <option value="option3">Brand 3</option>
+              </Select>
             </ModalBody>
             <ModalCloseButton />
           </Box>
-          <ModalFooter bg="gray.100" borderRadius="0px 0px 10px 10px">
+          <ModalFooter
+            bg={useColorModeValue("gray.200", '#3C3C3C')}
+            borderRadius="0px 0px 10px 10px"
+          >
             <Button
               variant="outline"
               height="30px"

@@ -1,13 +1,13 @@
 import { IconType } from "react-icons";
 import { atom } from "recoil";
-import { CiGrid41 } from 'react-icons/ci';
+import { RiDashboardFill } from 'react-icons/ri';
 
 // type for directory menu item - maybe shouldn't be in here
 export type DirectoryMenuItem = {
   displayText: string;
   link: string;
   icon: IconType;
-  iconColor: string;
+  iconColor?: string;
   imageURL?: string;
 };
 
@@ -15,8 +15,7 @@ export type DirectoryMenuItem = {
 export const defaultMenuItem: DirectoryMenuItem = {
   displayText: "Dashboard",
   link: "/",
-  icon: CiGrid41,
-  iconColor: "black",
+  icon: RiDashboardFill,
 };
 
 // type for the atom

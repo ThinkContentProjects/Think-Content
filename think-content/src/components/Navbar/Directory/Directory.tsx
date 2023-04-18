@@ -56,7 +56,9 @@ const Directory: React.FC = () => {
           <ChevronDownIcon />
         </Flex>
       </MenuButton>
-      <MenuList>
+      <MenuList _dark={{
+      '--menu-bg': "#282828",
+    }}>
         <Workspaces />
       </MenuList>
     </Menu>

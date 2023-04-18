@@ -8,33 +8,35 @@ import {
   Icon,
   MenuDivider,
   Text,
+  Switch,
+  useColorMode,
+  Button,
 } from "@chakra-ui/react";
 import { signOut, User } from "firebase/auth";
 import React from "react";
 import { FaUser } from "react-icons/fa";
-import { CiLogin, CiLogout, CiUser, CiUnlock } from "react-icons/ci"
+import { CiLogin, CiLogout, CiUser, CiUnlock } from "react-icons/ci";
 import { useResetRecoilState, useSetRecoilState } from "recoil";
-
 import { useRouter } from "next/router";
 import { authModalState } from "@/src/atoms/authModalAtom";
 import { workspaceState } from "@/src/atoms/workspacesAtom";
 import { auth } from "@/src/firebase/firebase";
+import { BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
 
 type UserMenuProps = {
   user?: User | null;
 };
 
 const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
-
-  const resetWorkspaceState = useResetRecoilState(workspaceState)
+  const resetWorkspaceState = useResetRecoilState(workspaceState);
   const setAuthModalState = useSetRecoilState(authModalState);
-
+  const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
 
   const logout = async () => {
     await signOut(auth);
     resetWorkspaceState();
-  }
+  };
 
   return (
     <Menu>
@@ -48,23 +50,18 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
           <Flex align="center">
             {user ? (
               <>
-                <Icon
-                  fontSize={20}
-                  mr={1}
-                  color="gray.300"
-                  as={FaUser}
-                />
+                <Icon fontSize={20} mr={1} color="gray.300" as={FaUser} />
 
                 <Flex
                   direction="column"
-                  display={{ base: 'none', lg:'flex'}}
-                  fontSize='8pt'
-                  align='flex-start'
+                  display={{ base: "none", lg: "flex" }}
+                  fontSize="8pt"
+                  align="flex-start"
                   mr={8}
-                  >
-                    <Text fontWeight={700}>
-                      {user?.displayName || user.email?.split("@")[0]}
-                    </Text>
+                >
+                  <Text fontWeight={700}>
+                    {user?.displayName || user.email?.split("@")[0]}
+                  </Text>
                 </Flex>
               </>
             ) : (
@@ -82,8 +79,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               fontWeight={500}
               _hover={{ bg: "blue.700", color: "white" }}
             >
-              <Flex align="center" onClick={() => router.push('/profile')}>
-                <Icon fontSize={20} mr={2} as={CiUser}/>
+              <Flex align="center" onClick={() => router.push("/profile")}>
+                <Icon fontSize={20} mr={2} as={CiUser} />
                 Profile
               </Flex>
               <MenuDivider />
@@ -113,11 +110,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
           </>
         ) : (
           <>
-             <MenuItem
+            <MenuItem
               fontSize="11pt"
               fontWeight={500}
               _hover={{ bg: "blue.700", color: "white" }}
-              onClick={() => setAuthModalState({ open: true, view: "login"})}
+              onClick={() => setAuthModalState({ open: true, view: "login" })}
             >
               <Flex align="center">
                 <Icon fontSize={20} mr={2} as={CiLogin} />
@@ -126,6 +123,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             </MenuItem>
           </>
         )}
+        <MenuItem closeOnSelect={false}>
+          <Switch onChange={toggleColorMode} colorScheme='brand'>
+            {colorMode === "light" ? (
+              <Icon as={BsFillSunFill} />
+            ) : (
+              <Icon as={BsFillMoonFill} />
+            )}
+          </Switch>
+        </MenuItem>
       </MenuList>
     </Menu>
   );

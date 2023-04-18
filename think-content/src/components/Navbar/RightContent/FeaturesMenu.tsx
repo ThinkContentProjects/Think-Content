@@ -17,22 +17,22 @@ const FeaturesMenu: React.FC = () => {
         mr={4}
         padding="0px 6px"
         borderRadius={4}
-        _hover={{ bg: "blue.100", color: "blue.500" }}
+        _hover={{ bg: "purple.100", color: "purple.600" }}
       >
         <Flex align="center" display={{ base: "none", md: "flex" }}>
           <Flex align="center"> 
-            <Text fontWeight={700} fontSize="12pt" color="blue.500" >
+            <Text fontWeight={700} fontSize="12pt">
               Features
             </Text>
           </Flex>
-          <ChevronDownIcon color="blue.500"/>
+          <ChevronDownIcon />
         </Flex>
       </MenuButton>
       <MenuList>
         <MenuItem
           fontSize="11pt"
           fontWeight={500}
-          _hover={{ bg: "blue.500", color: "white" }}
+          _hover={{ bg: "purple.600", color: "white" }}
         >
           <Flex align="center">
             Overview
@@ -41,7 +41,7 @@ const FeaturesMenu: React.FC = () => {
         <MenuItem
           fontSize="11pt"
           fontWeight={500}
-          _hover={{ bg: "blue.500", color: "white" }}
+          _hover={{ bg: "purple.600", color: "white" }}
         >
           <Flex align="center">
             Content
@@ -50,7 +50,7 @@ const FeaturesMenu: React.FC = () => {
         <MenuItem
           fontSize="11pt"
           fontWeight={500}
-          _hover={{ bg: "blue.500", color: "white" }}
+          _hover={{ bg: "purple.600", color: "white" }}
         >
           <Flex align="center">
             Scheduler
@@ -59,7 +59,7 @@ const FeaturesMenu: React.FC = () => {
         <MenuItem
           fontSize="11pt"
           fontWeight={500}
-          _hover={{ bg: "blue.500", color: "white" }}
+          _hover={{ bg: "purple.600", color: "white" }}
         >
           <Flex align="center">
             AI Copywriter

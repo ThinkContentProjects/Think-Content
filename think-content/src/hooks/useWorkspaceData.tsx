@@ -69,6 +69,10 @@ const useWorkspaceData = () => {
         mySnippets: prev.mySnippets.filter(
           (item) => item.workspaceId !== workspaceData.id
         ),
+        // update the recoil state - member snippets
+        memberSnippets: prev.memberSnippets.filter(
+          (item) => item.uid !== user?.uid
+        ),
       }));
     } catch (error: any) {
       console.log("leave workspace error", error.message);

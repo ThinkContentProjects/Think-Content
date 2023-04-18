@@ -19,22 +19,22 @@ const ResourceMenu: React.FC = () => {
         mr={4}
         padding="0px 6px"
         borderRadius={4}
-        _hover={{ bg: "blue.100", color: "blue.500" }}
+        _hover={{ bg: "purple.100", color: "purple.500" }}
       >
         <Flex align="center" display={{ base: "none", md: "flex" }}>
           <Flex align="center"> 
-            <Text fontWeight={700} fontSize="12pt" color="blue.500" >
+            <Text fontWeight={700} fontSize="12pt" >
               Resources
             </Text>
           </Flex>
-          <ChevronDownIcon color="blue.500"/>
+          <ChevronDownIcon />
         </Flex>
       </MenuButton>
       <MenuList>
         <MenuItem
           fontSize="11pt"
           fontWeight={500}
-          _hover={{ bg: "blue.500", color: "white" }}
+          _hover={{ bg: "purple.600", color: "white" }}
         >
           <Flex align="center">
             <Icon fontSize={20} mr={2} as={CiEdit} />
@@ -44,7 +44,7 @@ const ResourceMenu: React.FC = () => {
         <MenuItem
           fontSize="11pt"
           fontWeight={500}
-          _hover={{ bg: "blue.500", color: "white" }}
+          _hover={{ bg: "purple.600", color: "white" }}
         >
           <Flex align="center">
             <Icon fontSize={20} mr={2} as={CiVideoOn} />
@@ -54,7 +54,7 @@ const ResourceMenu: React.FC = () => {
         <MenuItem
           fontSize="11pt"
           fontWeight={500}
-          _hover={{ bg: "blue.500", color: "white" }}
+          _hover={{ bg: "purple.600", color: "white" }}
         >
           <Flex align="center">
             <Icon fontSize={20} mr={2} as={CiCircleQuestion} />

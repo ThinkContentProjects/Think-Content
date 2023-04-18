@@ -10,9 +10,16 @@ import {
   Text,
   Stack,
   Icon,
+  MenuGroup,
 } from "@chakra-ui/react";
 import { User } from "firebase/auth";
-import { getDocs, collection, Timestamp, deleteDoc, doc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  Timestamp,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import moment from "moment";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -27,7 +34,7 @@ interface notification {
   workspaceName: string;
   invitedBy: string;
   invitedAt: Timestamp;
-  notificationId: string,
+  notificationId: string;
 }
 
 const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
@@ -47,7 +54,10 @@ const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
       );
 
       setNotifications(
-        invitesDocs.docs.map((doc) => ({ notificationId: doc.id, ...doc.data() })) as notification[]
+        invitesDocs.docs.map((doc) => ({
+          notificationId: doc.id,
+          ...doc.data(),
+        })) as notification[]
       );
 
       console.log("here are the invitations", notifications);
@@ -60,16 +70,15 @@ const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
 
   const deleteInvite = async (inviteId: string) => {
     setLoading(true);
-    if (error)
-      setError("");
+    if (error) setError("");
     try {
-      await deleteDoc(doc(db, `users/${user?.uid}/invites/${inviteId}`))
+      await deleteDoc(doc(db, `users/${user?.uid}/invites/${inviteId}`));
     } catch (error: any) {
-      console.log("delete invitation error", error)
-      setError(error.message)
+      console.log("delete invitation error", error);
+      setError(error.message);
     }
     setLoading(false);
-  }
+  };
 
   return (
     <Menu>
@@ -87,23 +96,41 @@ const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
         </Flex>
       </MenuButton>
       <MenuList>
-        {notifications.map((notif) => (
-          <MenuItem key={notif.workspaceId} onClick={() => {
-            router.push(`/workspace/${notif.workspaceId}`)
-            joinWorkspace(notif.workspaceId);
-            deleteInvite(notif.notificationId);
-          }}>
-            <Stack spacing={0}>
-              <Text fontSize={13}>
-                "{notif.invitedBy}" invited you to the workspace "
-                {notif.workspaceName}"
-              </Text>
-              <Text fontSize={11}>
-                {moment(new Date(notif.invitedAt.seconds * 1000)).fromNow()}
+      <MenuGroup title='Notifications'>
+        {notifications.length > 0 ? (
+          notifications.map((notif) => (
+            <MenuItem
+              key={notif.workspaceId}
+              onClick={() => {
+                router.push(`/workspace/${notif.workspaceId}`);
+                joinWorkspace(notif.workspaceId);
+                deleteInvite(notif.notificationId);
+              }}
+            >
+              <Stack spacing={0}>
+                <Text fontSize={13}>
+                  "{notif.invitedBy}" invited you to the workspace "
+                  {notif.workspaceName}"
+                </Text>
+                <Text fontSize={11}>
+                  {moment(new Date(notif.invitedAt.seconds * 1000)).fromNow()}
+                </Text>
+              </Stack>
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem as={Flex}>
+            <Stack align="center" width="300px">
+              <Icon fontSize={35} as={CiBellOn}></Icon>
+              <Text fontWeight={700} fontSize={13}>You don't have any alerts.</Text>
+              <Text fontSize={12} color="gray.500" align="center">
+                New Notifications will appear here when there's activity in your
+                workspace.
               </Text>
             </Stack>
           </MenuItem>
-        ))}
+        )}
+        </MenuGroup>
       </MenuList>
     </Menu>
   );
