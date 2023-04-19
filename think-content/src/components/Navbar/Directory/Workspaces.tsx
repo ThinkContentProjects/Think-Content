@@ -24,6 +24,7 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
   const { leaveWorkspace } = useWorkspaceData();
   const setInviteModalState = useSetRecoilState(inviteModalState);
   const router = useRouter();
+  const { onSelectMenuItem } = useDirectory();
 
   return (
     <>
@@ -32,7 +33,7 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
           <MenuItem
             width="100%"
             fontSize="10pt"
-            _hover={{ bg: "gray.100" }}
+            // _hover={{ bg: "gray.100" }}
             closeOnSelect
             onClick={() => setInviteModalState({ open: true })}
           >
@@ -44,7 +45,7 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
           <MenuItem
             width="100%"
             fontSize="10pt"
-            _hover={{ bg: "gray.100" }}
+            // _hover={{ bg: "gray.100" }}
             onClick={() => router.push(`/workspace/${workspaceStateValue?.currentWorkspace?.id}/settings`)}
           >
             <Flex align="center">
@@ -55,9 +56,10 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
           <MenuItem
             width="100%"
             fontSize="10pt"
-            _hover={{ bg: "gray.100" }}
+            // _hover={{ bg: "gray.100" }}
             onClick={() => {
               router.push("/");
+              onSelectMenuItem(defaultMenuItem);
               leaveWorkspace(workspaceStateValue?.currentWorkspace);
             }}
           >
@@ -77,7 +79,6 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
       <MenuItem
         width="100%"
         fontSize="10pt"
-        _hover={{ bg: "gray.100" }}
         onClick={() => setOpen(true)}
       >
         <Flex align="center">

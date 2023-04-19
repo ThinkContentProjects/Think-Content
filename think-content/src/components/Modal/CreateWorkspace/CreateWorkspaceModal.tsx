@@ -74,6 +74,7 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
           createdAt: serverTimestamp(),
           numberOfMembers: 1,
           members: [user?.uid],
+          owner: user?.uid,
         });
 
         // create workspace snippet for the user

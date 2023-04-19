@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
 
-
 type LoginProps = {};
 
 const Login: React.FC<LoginProps> = () => {
@@ -23,7 +22,6 @@ const Login: React.FC<LoginProps> = () => {
   // firebase logic
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     signInWithEmailAndPassword(loginForm.email, loginForm.password);
   };
 
@@ -57,6 +55,7 @@ const Login: React.FC<LoginProps> = () => {
           border: "1px solid",
           borderColor: "blue.500",
         }}
+        color="black"
         bg="gray.50"
       />
       <Input
@@ -79,6 +78,7 @@ const Login: React.FC<LoginProps> = () => {
           border: "1px solid",
           borderColor: "blue.500",
         }}
+        color="black"
         bg="gray.50"
       />
 

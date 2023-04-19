@@ -1,7 +1,7 @@
 // 1. Import `extendTheme`
-import "@fontsource/open-sans/300.css";
-import "@fontsource/open-sans/400.css";
-import "@fontsource/open-sans/700.css";
+import "@fontsource/source-sans-pro/300.css";
+import "@fontsource/source-sans-pro/400.css";
+import "@fontsource/source-sans-pro/700.css";
 import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
 import { Button } from "./button";
 import { mode } from '@chakra-ui/theme-tools';
@@ -16,20 +16,15 @@ const config: ThemeConfig = {
 
 const theme = extendTheme({
   config,
-  // colors: {
-  //   brand: {
-  //     100: "#FF3C00",
-  //   },
-  // },
-  // fonts: {
-  //   body: "Open Sans, sans-serif",
-  // },
   colors: {
     brand: {
       50: '#f7fafc',
       500: '#718096',
       900: '#171923',
-    }
+    },
+  },
+  fonts: {
+    body: "Source Sans Pro, sans-serif",
   },
   styles: {
     global: (props: any) => ({

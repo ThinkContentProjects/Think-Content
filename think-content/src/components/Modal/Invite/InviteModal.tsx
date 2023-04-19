@@ -189,7 +189,7 @@ const InviteModal: React.FC = () => {
                   Members
                 </Text>
                 {workspaceStateValue.memberSnippets.map((member) => (
-                  <MemberComponent memberEmail={member.email} />
+                  <MemberComponent memberEmail={member.email} owner={workspaceStateValue.currentWorkspace?.owner} memberId={member.uid} />
                 ))}
               </Container>
             </ModalBody>

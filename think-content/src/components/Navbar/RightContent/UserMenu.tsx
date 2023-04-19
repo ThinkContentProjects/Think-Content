@@ -77,7 +77,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             <MenuItem
               fontSize="11pt"
               fontWeight={500}
-              _hover={{ bg: "blue.700", color: "white" }}
+              _hover={{ bg: "purple.700", color: "white" }}
             >
               <Flex align="center" onClick={() => router.push("/profile")}>
                 <Icon fontSize={20} mr={2} as={CiUser} />
@@ -88,7 +88,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             <MenuItem
               fontSize="11pt"
               fontWeight={500}
-              _hover={{ bg: "blue.700", color: "white" }}
+              _hover={{ bg: "purple.700", color: "white" }}
             >
               <Flex align="center">
                 <Icon fontSize={20} mr={2} as={CiUnlock} />
@@ -99,7 +99,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             <MenuItem
               fontSize="11pt"
               fontWeight={500}
-              _hover={{ bg: "blue.700", color: "white" }}
+              _hover={{ bg: "purple.700", color: "white" }}
               onClick={logout}
             >
               <Flex align="center">
@@ -113,7 +113,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             <MenuItem
               fontSize="11pt"
               fontWeight={500}
-              _hover={{ bg: "blue.700", color: "white" }}
+              _hover={{ bg: "purple.700", color: "white" }}
               onClick={() => setAuthModalState({ open: true, view: "login" })}
             >
               <Flex align="center">
@@ -123,8 +123,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             </MenuItem>
           </>
         )}
-        <MenuItem closeOnSelect={false}>
-          <Switch onChange={toggleColorMode} colorScheme='brand'>
+        <MenuItem closeOnSelect={false} >
+          <Switch onChange={toggleColorMode} colorScheme='teal'>
             {colorMode === "light" ? (
               <Icon as={BsFillSunFill} />
             ) : (
