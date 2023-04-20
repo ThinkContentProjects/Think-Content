@@ -4,10 +4,9 @@ import SideBar from "../components/sidebar"
 import CommentBox from "../components/comment-box"
 import Footer from "../components/link-footer"
 import Navbar from "../components/navbar"
+import { withProtected } from "../hooks/routes"
 
-const inter = Inter({ subsets: ["latin"] })
-
-export default function Profile() {
+const Profile = () => {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* <SideBar />
@@ -16,3 +15,5 @@ export default function Profile() {
     </div>
   );
 }
+
+export default withProtected(Profile);

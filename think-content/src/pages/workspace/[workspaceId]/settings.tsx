@@ -1,4 +1,5 @@
 import { inviteModalState } from "@/src/atoms/inviteModalAtom";
+import { withProtected } from "@/src/hooks/routes";
 import {
   Input,
   Select,
@@ -19,8 +20,8 @@ import { useSetRecoilState } from "recoil";
 
 type settingsProps = {};
 
-const settings: React.FC<settingsProps> = () => {
-
+const settings: React.FC<settingsProps> = () => 
+{
     const setInviteModalState = useSetRecoilState(inviteModalState);
 
   return (
@@ -82,4 +83,5 @@ const settings: React.FC<settingsProps> = () => {
     </Flex>
   );
 };
-export default settings;
+
+export default withProtected(settings);

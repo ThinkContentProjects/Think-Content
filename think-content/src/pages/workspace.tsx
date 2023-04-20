@@ -4,7 +4,7 @@ import Footer from "../components/link-footer";
 import PostGallery from "../components/post-gallery";
 import SideBar from "../components/sidebar";
 
-export default function workspace() {
+const workspace = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <SideBar/>
@@ -17,3 +17,5 @@ export default function workspace() {
     </div>
   );
 }
+
+export default workspace;

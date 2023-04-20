@@ -1,6 +1,7 @@
 import CreatePostModal from "@/src/components/Modal/CreatePost/CreatePostModal";
 import Posts from "@/src/components/Posts/Posts";
 import { db } from "@/src/firebase/firebase";
+import { withProtected } from "@/src/hooks/routes";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
 import { Button, Flex, Stack, Text } from "@chakra-ui/react";
 import { doc, getDoc } from "firebase/firestore";
@@ -54,7 +55,7 @@ const WorkspacePage: NextPage<WorkspacePageProps> = ({ workspaceData }) =>
   );
 };
 
-export default WorkspacePage;
+export default withProtected(WorkspacePage);
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   console.log("GET SERVER SIDE PROPS RUNNING");
