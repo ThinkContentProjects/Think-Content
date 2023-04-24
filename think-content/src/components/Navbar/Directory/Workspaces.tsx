@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import MenuListItem from "./MenuListItem";
-import { FaSquareFull } from "react-icons/fa";
+import { TbSquareLetterA } from "react-icons/tb";
 import CreateWorkspaceModal from "../../Modal/CreateWorkspace/CreateWorkspaceModal";
 import useDirectory from "@/src/hooks/useDirectory";
 import { defaultMenuItem } from "@/src/atoms/directoryMenuAtom";
@@ -46,7 +46,11 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
             width="100%"
             fontSize="10pt"
             // _hover={{ bg: "gray.100" }}
-            onClick={() => router.push(`/workspace/${workspaceStateValue?.currentWorkspace?.id}/settings`)}
+            onClick={() =>
+              router.push(
+                `/workspace/${workspaceStateValue?.currentWorkspace?.id}/settings`
+              )
+            }
           >
             <Flex align="center">
               <Icon fontSize={20} mr={2} as={MdSettings}></Icon>
@@ -60,7 +64,8 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
             onClick={() => {
               router.push("/");
               onSelectMenuItem(defaultMenuItem);
-              leaveWorkspace(workspaceStateValue?.currentWorkspace);
+              if (workspaceStateValue?.currentWorkspace)
+                leaveWorkspace(workspaceStateValue?.currentWorkspace);
             }}
           >
             <Flex align="center">
@@ -76,11 +81,7 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
           YOUR WORKSPACES
         </Text>
       </Box>
-      <MenuItem
-        width="100%"
-        fontSize="10pt"
-        onClick={() => setOpen(true)}
-      >
+      <MenuItem width="100%" fontSize="10pt" onClick={() => setOpen(true)}>
         <Flex align="center">
           <Icon fontSize={20} mr={2} as={AiOutlinePlus}></Icon>
           Create Workspace
@@ -89,11 +90,11 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
       {workspaceStateValue.mySnippets.map((snippet) => (
         <MenuListItem
           key={snippet.workspaceId}
-          icon={FaSquareFull}
+          icon={TbSquareLetterA}
           displayText={snippet.workspaceName}
           link={`/workspace/${snippet.workspaceId}`}
-          iconColor="blue.500"
           imageURL={snippet.imageURL}
+          numMembers={snippet.numMembers}
         />
       ))}
     </>

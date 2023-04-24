@@ -19,6 +19,7 @@ export interface WorkspaceSnippet {
   workspaceName: string;
   isOwner?: boolean;
   imageURL?: string;
+  numMembers?: string;
 }
 
 // describes member values, which are queried from the user collection using the memberlist of the current workspace

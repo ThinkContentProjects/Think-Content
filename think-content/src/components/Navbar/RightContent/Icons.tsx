@@ -58,7 +58,7 @@ const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
         </Button>
       </Box>
       <>
-        <NotificationMenu user={user} />
+        {/* <NotificationMenu user={user} /> */}
         <Flex
           mr={3}
           ml={1.5}

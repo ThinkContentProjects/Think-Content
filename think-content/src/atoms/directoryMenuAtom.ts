@@ -7,14 +7,14 @@ export type DirectoryMenuItem = {
   displayText: string;
   link: string;
   icon: IconType;
-  iconColor?: string;
   imageURL?: string;
+  numMembers?: string,
 };
 
 // default directory menu item value - also potentially should be moved
 export const defaultMenuItem: DirectoryMenuItem = {
   displayText: "Dashboard",
-  link: "/",
+  link: "/dashboard",
   icon: RiDashboardFill,
 };
 

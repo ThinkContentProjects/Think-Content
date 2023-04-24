@@ -124,12 +124,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
           </>
         )}
         <MenuItem closeOnSelect={false} >
-          <Switch onChange={toggleColorMode} colorScheme='teal'>
-            {colorMode === "light" ? (
-              <Icon as={BsFillSunFill} />
-            ) : (
+          <Switch onChange={toggleColorMode} isChecked={colorMode === "dark"}>
               <Icon as={BsFillMoonFill} />
-            )}
           </Switch>
         </MenuItem>
       </MenuList>

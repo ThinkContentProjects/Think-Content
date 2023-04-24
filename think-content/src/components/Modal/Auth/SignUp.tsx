@@ -62,6 +62,7 @@ const SignUp: React.FC = () => {
           border: "1px solid",
           borderColor: "blue.500",
         }}
+        color="black"
         bg="gray.50"
       />
       <Input
@@ -85,6 +86,7 @@ const SignUp: React.FC = () => {
           borderColor: "blue.500",
         }}
         bg="gray.50"
+        color="black"
       />
       <Input
         name="confirmPassword"
@@ -107,6 +109,7 @@ const SignUp: React.FC = () => {
           borderColor: "blue.500",
         }}
         bg="gray.50"
+        color="black"
       />
 
       <Text textAlign="center" color="red" fontSize="10pt">

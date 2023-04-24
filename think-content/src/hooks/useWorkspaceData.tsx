@@ -101,6 +101,7 @@ const useWorkspaceData = () => {
             workspaceName: workspace.name,
             imageURL: workspace.imageURL || "",
             isOwner: false,
+            numMembers: workspace.numberOfMembers
           };
 
           // or with "" is not a good fix, need to come back to this

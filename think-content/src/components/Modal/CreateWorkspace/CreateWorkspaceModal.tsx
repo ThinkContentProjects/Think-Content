@@ -85,6 +85,7 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
             workspaceId: workspaceDocRef.id,
             workspaceName: workspaceName,
             isOwner: true,
+            numMembers: 1,
           }
         );
       });
@@ -151,7 +152,7 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
             <ModalCloseButton />
           </Box>
           <ModalFooter
-            bg={useColorModeValue("gray.200", '#3C3C3C')}
+            bg={useColorModeValue("brand.100", 'brand.200')}
             borderRadius="0px 0px 10px 10px"
           >
             <Button

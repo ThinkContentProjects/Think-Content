@@ -6,7 +6,7 @@ import { workspaceState } from "@/src/atoms/workspacesAtom";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { FaSquareFull } from "react-icons/fa";
+import { TbSquareLetterA } from "react-icons/tb";
 
 // this hook manages recoil state of the directory menu
 const useDirectory = () => {
@@ -47,11 +47,11 @@ const useDirectory = () => {
       setDirectoryState((prev) => ({
         ...prev,
         selectedMenuItem: {
-          displayText: `${currentWorkspace.name}`,
+          displayText: currentWorkspace.name,
           link: `/workspace/${currentWorkspace.id}`,
           imageURL: currentWorkspace.imageURL,
-          icon: FaSquareFull,
-          iconColor: "blue.500",
+          icon: TbSquareLetterA,
+          numMembers: currentWorkspace.numberOfMembers,
         },
       }));
     }

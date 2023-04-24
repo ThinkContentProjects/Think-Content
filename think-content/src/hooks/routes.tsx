@@ -3,6 +3,8 @@ import { auth } from "@/src/firebase/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { Spinner } from "@chakra-ui/react";
+import { authModalState } from "../atoms/authModalAtom";
+import { useSetRecoilState } from "recoil";
 
 /*
  * Should be used for any pages that are protected from authenticated users.
@@ -30,10 +32,13 @@ export function withProtected(Component: any) {
   return function WithProtected(props: any) {
     const [user, loading] = useAuthState(auth);
     const router = useRouter();
+    const setAuthModalState = useSetRecoilState(authModalState);
 
     useEffect(() => {
       if (!(user || loading)) {
-        router.replace("/");
+        console.log("REJECTED!")
+        router.replace(`/?from=${encodeURIComponent(router.asPath)}`);
+        setAuthModalState({ open: true, view: "login" })
       }
     }, [user, loading]);
 

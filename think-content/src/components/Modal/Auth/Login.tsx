@@ -2,6 +2,7 @@ import { authModalState } from "@/src/atoms/authModalAtom";
 import { FIREBASE_ERRORS } from "@/src/firebase/errors";
 import { auth } from "@/src/firebase/firebase";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
+import { Router, useRouter } from "next/router";
 import React, { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
@@ -10,6 +11,7 @@ type LoginProps = {};
 
 const Login: React.FC<LoginProps> = () => {
   const setAuthModelState = useSetRecoilState(authModalState);
+  const router = useRouter();
 
   const [loginForm, setLoginForm] = useState({
     email: "",
@@ -20,9 +22,16 @@ const Login: React.FC<LoginProps> = () => {
     useSignInWithEmailAndPassword(auth);
 
   // firebase logic
+  // also redirect the user to a previous router if they were redirected here!
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    signInWithEmailAndPassword(loginForm.email, loginForm.password);
+    signInWithEmailAndPassword(loginForm.email, loginForm.password).then(() => {
+      router.push(
+        router.query.from
+          ? decodeURIComponent(router.query.from as string)
+          : "/dashboard"
+      );
+    });
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +107,9 @@ const Login: React.FC<LoginProps> = () => {
       </Button>
 
       <Flex justifyContent="center" mb={2}>
-        <Text fontSize="9pt" mr={1}>Forgot your password?</Text>
+        <Text fontSize="9pt" mr={1}>
+          Forgot your password?
+        </Text>
         <Text
           color="blue.500"
           fontSize="9pt"

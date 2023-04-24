@@ -37,15 +37,18 @@ interface notification {
   notificationId: string;
 }
 
-const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
+const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => 
+{
   const [loading, setLoading] = useState(false);
   const [notifications, setNotifications] = useState<notification[]>([]);
   const [error, setError] = useState("");
   const router = useRouter();
   const { joinWorkspace } = useWorkspaceData();
 
+  // used in two places, should be moved into a hook!
   const getMyNotifications = async () => {
     setLoading(true);
+    setError('');
 
     try {
       // get users invites
@@ -63,18 +66,6 @@ const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
       console.log("here are the invitations", notifications);
     } catch (error: any) {
       console.log("getMySnippets error", error);
-      setError(error.message);
-    }
-    setLoading(false);
-  };
-
-  const deleteInvite = async (inviteId: string) => {
-    setLoading(true);
-    if (error) setError("");
-    try {
-      await deleteDoc(doc(db, `users/${user?.uid}/invites/${inviteId}`));
-    } catch (error: any) {
-      console.log("delete invitation error", error);
       setError(error.message);
     }
     setLoading(false);
@@ -102,9 +93,7 @@ const NotificationMenu: React.FC<NotificationMenuProps> = ({ user }) => {
             <MenuItem
               key={notif.workspaceId}
               onClick={() => {
-                router.push(`/workspace/${notif.workspaceId}`);
-                joinWorkspace(notif.workspaceId);
-                deleteInvite(notif.notificationId);
+                router.push(`/invite/${notif.workspaceId}`);
               }}
             >
               <Stack spacing={0}>

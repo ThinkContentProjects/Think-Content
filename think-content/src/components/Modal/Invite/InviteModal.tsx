@@ -31,9 +31,7 @@ import { auth, db } from "@/src/firebase/firebase";
 import {
   getDocs,
   collection,
-  doc,
   serverTimestamp,
-  setDoc,
   addDoc,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
@@ -112,16 +110,13 @@ const InviteModal: React.FC = () => {
       setLoading(true);
       try {
         selectedOptions.forEach(async (user) => {
-          await addDoc(
-
-            collection(db, `users/${user.value.uid}/invites`),
-            {
-              workspaceId: workspace.id,
-              workspaceName: workspace.name,
-              invitedBy: currentUser?.email,
-              invitedAt: serverTimestamp(),
-            }
-          );
+          await addDoc(collection(db, `users/${user.value.uid}/invites`), {
+            workspaceId: workspace.id,
+            workspaceName: workspace.name,
+            invitedBy: currentUser?.email,
+            inviteEmail: user.value.email,
+            invitedAt: serverTimestamp(),
+          });
         });
       } catch (error: any) {
         console.log("handleInviteMembers error", error);
@@ -189,13 +184,20 @@ const InviteModal: React.FC = () => {
                   Members
                 </Text>
                 {workspaceStateValue.memberSnippets.map((member) => (
-                  <MemberComponent memberEmail={member.email} owner={workspaceStateValue.currentWorkspace?.owner} memberId={member.uid} />
+                  <MemberComponent
+                    memberEmail={member.email}
+                    owner={workspaceStateValue.currentWorkspace?.owner}
+                    memberId={member.uid}
+                  />
                 ))}
               </Container>
             </ModalBody>
             <ModalCloseButton />
           </Box>
-          <ModalFooter borderRadius="0px 0px 10px 10px" bg={useColorModeValue("gray.200", '#3C3C3C')}>
+          <ModalFooter
+            borderRadius="0px 0px 10px 10px"
+            bg={useColorModeValue("brand.100", "brand.200")}
+          >
             <Button
               variant="outline"
               height="30px"
