@@ -10,7 +10,6 @@ import {
   Text,
   Image,
   useColorModeValue,
-  Stack,
 } from "@chakra-ui/react";
 import React from "react";
 import Workspaces from "./Workspaces";

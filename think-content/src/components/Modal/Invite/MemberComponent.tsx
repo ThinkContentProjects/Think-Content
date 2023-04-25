@@ -8,11 +8,9 @@ type MemberComponentProps = {
 };
 
 const MemberComponent: React.FC<MemberComponentProps> = ({ memberEmail, owner, memberId }) => {
-  return (<Flex>
-      <Stack direction="row">
-        <Text>{memberEmail}</Text>
-        {owner == memberId ? <Text>Owner</Text> : <Text>Editor</Text>}
-      </Stack>
+  return (<Flex justify="space-between" margin={3}>
+    <Text>{memberEmail}</Text>
+    {owner == memberId ? <Text>Owner</Text> : <Text>Editor</Text>}
   </Flex>)
 };
 

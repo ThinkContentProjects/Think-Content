@@ -94,7 +94,6 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
           displayText={snippet.workspaceName}
           link={`/workspace/${snippet.workspaceId}`}
           imageURL={snippet.imageURL}
-          numMembers={snippet.numMembers}
         />
       ))}
     </>

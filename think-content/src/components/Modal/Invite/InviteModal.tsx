@@ -154,7 +154,7 @@ const InviteModal: React.FC = () => {
                     {...selectProps}
                     name="colors"
                     isMulti
-                    placeholder="Add group members..."
+                    placeholder="someone@email.com"
                     components={asyncComponents}
                     loadOptions={(inputValue, callback) => {
                       getUsers()
@@ -180,8 +180,10 @@ const InviteModal: React.FC = () => {
                   flexDirection="column"
                   fontSize={15}
                   fontWeight={700}
+                  mt={7}
+                  ml={3}
                 >
-                  Members
+                  Team
                 </Text>
                 {workspaceStateValue.memberSnippets.map((member) => (
                   <MemberComponent
@@ -198,30 +200,15 @@ const InviteModal: React.FC = () => {
             borderRadius="0px 0px 10px 10px"
             bg={useColorModeValue("brand.100", "brand.200")}
           >
-            <Button
+            {/* <Button
               variant="outline"
               height="30px"
               mr={3}
               onClick={handleClose}
             >
               Cancel
-            </Button>
-            <Button
-              height="30px"
-              onClick={() => {
-                handleSubmit();
-                toast({
-                  title: "Invitation Sent",
-                  description: "We've notified your teamates.",
-                  status: "success",
-                  duration: 9000,
-                  isClosable: true,
-                });
-              }}
-              isLoading={loading}
-            >
-              Add Members
-            </Button>
+            </Button> */}
+            
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -8,7 +8,6 @@ type MenuListItemProps = {
   link: string;
   icon: IconType;
   imageURL?: string;
-  numMembers?: string;
 };
 
 const MenuListItem: React.FC<MenuListItemProps> = ({
@@ -16,7 +15,6 @@ const MenuListItem: React.FC<MenuListItemProps> = ({
   link,
   icon,
   imageURL,
-  numMembers,
 }) => {
   const { onSelectMenuItem } = useDirectory();
 
@@ -30,7 +28,6 @@ const MenuListItem: React.FC<MenuListItemProps> = ({
           link,
           icon,
           imageURL,
-          numMembers,
         })
       }
     >
@@ -41,9 +38,6 @@ const MenuListItem: React.FC<MenuListItemProps> = ({
           <Icon as={icon} fontSize={20} mr={2}/>
         )}
         <Text mr={3}>{displayText}</Text>
-        <Text fontSize="9pt" mb={0}>
-          {numMembers} {numMembers == "1" ? "member" : "members"}
-        </Text>
       </Flex>
     </MenuItem>
   );
