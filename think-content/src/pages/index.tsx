@@ -1,8 +1,6 @@
-import { workspaceState } from "@/src/atoms/workspacesAtom";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
-import { NextPage } from "next";
 
-const Home: NextPage = () => 
+const Home: React.FC = () => 
 {
   const { workspaceStateValue } = useWorkspaceData();
 

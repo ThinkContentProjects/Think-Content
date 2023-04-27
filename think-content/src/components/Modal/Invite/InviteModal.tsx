@@ -8,7 +8,6 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalFooter,
-  Button,
   Box,
   useColorModeValue,
   Container,
@@ -200,15 +199,6 @@ const InviteModal: React.FC = () => {
             borderRadius="0px 0px 10px 10px"
             bg={useColorModeValue("brand.100", "brand.200")}
           >
-            {/* <Button
-              variant="outline"
-              height="30px"
-              mr={3}
-              onClick={handleClose}
-            >
-              Cancel
-            </Button> */}
-            
           </ModalFooter>
         </ModalContent>
       </Modal>
