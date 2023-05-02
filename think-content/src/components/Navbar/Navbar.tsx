@@ -1,20 +1,19 @@
 import React from "react";
-import {
-  Flex,
-  Icon,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Flex, Icon, useColorModeValue } from "@chakra-ui/react";
 import RightContent from "./RightContent/RightContent";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Directory from "./Directory/Directory";
 import useDirectory from "@/src/hooks/useDirectory";
-import { auth } from "@/src/firebase/firebase";
 import { defaultMenuItem } from "@/src/atoms/directoryMenuAtom";
 import { AiFillHome } from "react-icons/ai";
+import { User } from "firebase/auth";
 
-const Navbar: React.FC = () => {
+type NavBarProps = {
+  user?: User | null;
+};
+
+const Navbar: React.FC<NavBarProps> = ({user}) => {
   // called once and passed as prop to search and right content
-  const [user] = useAuthState(auth);
   const { onSelectMenuItem } = useDirectory();
   const bg = useColorModeValue("white", "brand.50");
 

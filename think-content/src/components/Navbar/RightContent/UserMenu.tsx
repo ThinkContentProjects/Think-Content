@@ -34,7 +34,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const router = useRouter();
 
   const logout = async () => {
-    await signOut(auth);
+    router.push('/').then(async () => {await signOut(auth)});
     resetWorkspaceState();
   };
 

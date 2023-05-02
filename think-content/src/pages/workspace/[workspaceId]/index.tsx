@@ -18,15 +18,8 @@ interface WorkspacePageProps {
 const WorkspacePage: NextPage<WorkspacePageProps> = ({ workspaceData }) => 
 {
   const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
-  const [openInviteMembersModal, setOpenInviteMembersModal] = useState(false);
-  // const { workspaceStateValue } = useWorkspaceData();
   const setWorkspaceStateValue = useSetRecoilState(workspaceState);
   const { getMembers } = useWorkspaceData();
-
-  // workspace was not found in the database
-  if (!workspaceData) {
-    return <div> Not found</div>;
-  }
 
   useEffect(() => {
     setWorkspaceStateValue((prev) => ({

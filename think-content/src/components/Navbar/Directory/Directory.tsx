@@ -3,13 +3,12 @@ import useDirectory from "@/src/hooks/useDirectory";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Flex,
-  Icon,
   Menu,
   MenuButton,
   MenuList,
   Text,
-  Image,
   useColorModeValue,
+  Square,
 } from "@chakra-ui/react";
 import React from "react";
 import Workspaces from "./Workspaces";
@@ -36,43 +35,17 @@ const Directory: React.FC = () => {
           width={{ base: "auto", lg: "200px" }}
         >
           <Flex align="center">
-            {directoryState.selectedMenuItem.imageURL ? (
-              <Image
-                src={directoryState.selectedMenuItem.imageURL}
-                borderRadius="full"
-                boxSize="24px"
-                mr={2}
-              />
-            ) : (
-              <Icon
-                fontSize={24}
-                mr={{ base: 1, md: 2 }}
-                as={directoryState.selectedMenuItem.icon}
-                color={directoryState.selectedMenuItem.iconColor}
-              ></Icon>
-            )}
-            <Flex display={{ base: "none", lg: "flex" }} direction="column">
-              <Text fontWeight={600} fontSize="12pt">
-                {directoryState.selectedMenuItem.displayText}
-              </Text>
-              {directoryState.selectedMenuItem != defaultMenuItem && (
-                <Text fontWeight={600} ml={-9} fontSize="8pt">
-                  {directoryState.selectedMenuItem.numMembers}
-                  {directoryState.selectedMenuItem.numMembers == 1
-                    ? " member"
-                    : " members"}
-                </Text>
-              )}
-            </Flex>
+            <Square size="20px" borderRadius="2" outline="1px solid" fontWeight="600" ml={1}>
+              {directoryState.selectedMenuItem.displayText[0].toUpperCase()}
+            </Square>
+            <Text fontWeight={600} ml={3} fontSize="12pt">
+              {directoryState.selectedMenuItem.displayText}
+            </Text>
           </Flex>
           <ChevronDownIcon />
         </Flex>
       </MenuButton>
-      <MenuList
-        _dark={{
-          "--menu-bg": "#282828",
-        }}
-      >
+      <MenuList>
         <Workspaces />
       </MenuList>
     </Menu>

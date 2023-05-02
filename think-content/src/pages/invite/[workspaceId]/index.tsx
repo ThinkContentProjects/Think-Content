@@ -18,23 +18,15 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDoc,
   getDocs,
-  orderBy,
   query,
   where,
 } from "firebase/firestore";
-import safeJsonStringify from "safe-json-stringify";
-import { Workspace } from "@/src/atoms/workspacesAtom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
 
-// check to see if the user was actually invited to the workspace (based on the database)!
-
-// if the user is not logged in, they should be redirected to the login screen, where they will then be redirected to invite screen upon login
-
 const index: NextPage = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: true });
+  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
   const router = useRouter();
   const [user, loading] = useAuthState(auth);
   const { joinWorkspace } = useWorkspaceData();
@@ -54,10 +46,6 @@ const index: NextPage = () => {
 
   const getInvites = async () => {
     try {
-      // get users invites
-
-      console.log("user", user);
-
       const invitesQuery = query(
         collection(db, `users/${user?.uid}/invites/`),
         where("workspaceId", "==", router.query.workspaceId as string)
@@ -72,7 +60,6 @@ const index: NextPage = () => {
         setInvites(inviteList);
       }
     } catch (error) {
-      // Could create error page here
       console.log("getInvites", error);
     } finally {
     }

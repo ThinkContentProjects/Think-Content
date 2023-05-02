@@ -1,10 +1,9 @@
 import { workspaceState } from "@/src/atoms/workspacesAtom";
-import { MenuItem, Flex, Icon, Box, Text, Button } from "@chakra-ui/react";
+import { MenuItem, Flex, Icon, Box, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import MenuListItem from "./MenuListItem";
-import { TbSquareLetterA } from "react-icons/tb";
 import CreateWorkspaceModal from "../../Modal/CreateWorkspace/CreateWorkspaceModal";
 import useDirectory from "@/src/hooks/useDirectory";
 import { defaultMenuItem } from "@/src/atoms/directoryMenuAtom";
@@ -14,13 +13,13 @@ import { inviteModalState } from "@/src/atoms/inviteModalAtom";
 import { BiExit } from "react-icons/bi";
 import { useRouter } from "next/router";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
+import LeaveWorkspaceModal from "../../Modal/LeaveWorkspace/LeaveWorkspaceModal";
 
-type WorkspacesProps = {};
-
-const Workspaces: React.FC<WorkspacesProps> = () => {
-  const [open, setOpen] = useState(false);
+const Workspaces: React.FC = () => {
+  const [openCreateWorkspace, setOpenCreateWorkspace] = useState(false);
+  const [openLeaveWorkspace, setOpenLeaveWorkspace] = useState(false);
   const workspaceStateValue = useRecoilValue(workspaceState);
-  const { directoryState } = useDirectory();
+  const { directoryState, ToggleMenuOpen } = useDirectory();
   const { leaveWorkspace } = useWorkspaceData();
   const setInviteModalState = useSetRecoilState(inviteModalState);
   const router = useRouter();
@@ -33,9 +32,7 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
           <MenuItem
             width="100%"
             fontSize="10pt"
-            // _hover={{ bg: "gray.100" }}
-            closeOnSelect
-            onClick={() => setInviteModalState({ open: true })}
+            onClick={() => {ToggleMenuOpen(); setInviteModalState({ open: true })}}
           >
             <Flex align="center">
               <Icon fontSize={20} mr={2} as={BsPersonFillAdd}></Icon>
@@ -45,11 +42,11 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
           <MenuItem
             width="100%"
             fontSize="10pt"
-            // _hover={{ bg: "gray.100" }}
             onClick={() =>
-              router.push(
+              {router.push(
                 `/workspace/${workspaceStateValue?.currentWorkspace?.id}/settings`
               )
+              ToggleMenuOpen()}
             }
           >
             <Flex align="center">
@@ -60,13 +57,7 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
           <MenuItem
             width="100%"
             fontSize="10pt"
-            // _hover={{ bg: "gray.100" }}
-            onClick={() => {
-              router.push("/");
-              onSelectMenuItem(defaultMenuItem);
-              if (workspaceStateValue?.currentWorkspace)
-                leaveWorkspace(workspaceStateValue?.currentWorkspace);
-            }}
+            onClick={() => {setOpenLeaveWorkspace(true); ToggleMenuOpen()}}
           >
             <Flex align="center">
               <Icon fontSize={20} mr={2} as={BiExit}></Icon>
@@ -75,13 +66,14 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
           </MenuItem>
         </>
       )}
-      <CreateWorkspaceModal open={open} handleClose={() => setOpen(false)} />
+      <CreateWorkspaceModal open={openCreateWorkspace} handleClose={() => setOpenCreateWorkspace(false)} />
+      <LeaveWorkspaceModal open={openLeaveWorkspace} handleClose={() => setOpenLeaveWorkspace(false)} />
       <Box mt={3} mb={4}>
         <Text pl={3} mb={1} fontSize="8pt" fontWeight={500} color="gray.500">
           YOUR WORKSPACES
         </Text>
       </Box>
-      <MenuItem width="100%" fontSize="10pt" onClick={() => setOpen(true)}>
+      <MenuItem width="100%" fontSize="10pt" onClick={() => {setOpenCreateWorkspace(true); ToggleMenuOpen()}}>
         <Flex align="center">
           <Icon fontSize={20} mr={2} as={AiOutlinePlus}></Icon>
           Create Workspace
@@ -90,10 +82,8 @@ const Workspaces: React.FC<WorkspacesProps> = () => {
       {workspaceStateValue.mySnippets.map((snippet) => (
         <MenuListItem
           key={snippet.workspaceId}
-          icon={TbSquareLetterA}
           displayText={snippet.workspaceName}
           link={`/workspace/${snippet.workspaceId}`}
-          imageURL={snippet.imageURL}
         />
       ))}
     </>

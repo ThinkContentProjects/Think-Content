@@ -16,10 +16,8 @@ import {
   writeBatch,
   arrayRemove,
   arrayUnion,
-  getDoc,
   query,
   where,
-  orderBy,
   runTransaction,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -86,12 +84,10 @@ const useWorkspaceData = () => {
     setLoading(true);
 
     try {
-
       await runTransaction(db, async (transaction) => {
-
         // get the workspace from the workspace ID
         const workspaceRef = doc(db, "workspaces", workspaceId);
-        const workspaceSnap = await transaction.get(workspaceRef)
+        const workspaceSnap = await transaction.get(workspaceRef);
         if (workspaceSnap.exists()) {
           const workspace = workspaceSnap.data();
 
@@ -101,7 +97,7 @@ const useWorkspaceData = () => {
             workspaceName: workspace.name,
             imageURL: workspace.imageURL || "",
             isOwner: false,
-            numMembers: workspace.numberOfMembers
+            numMembers: workspace.numberOfMembers,
           };
 
           // or with "" is not a good fix, need to come back to this
@@ -136,8 +132,7 @@ const useWorkspaceData = () => {
             memberSnippets: [...prev.memberSnippets, newMemberSnippet],
           }));
         }
-      })
-
+      });
     } catch (error: any) {
       console.log("join workspace error", error);
       setError(error.message);
@@ -162,7 +157,6 @@ const useWorkspaceData = () => {
         mySnippets: snippets as WorkspaceSnippet[],
         snippetsFetched: true,
       }));
-      console.log("here are the snippets", snippets);
     } catch (error: any) {
       console.log("getMySnippets error", error);
       setError(error.message);
@@ -172,26 +166,28 @@ const useWorkspaceData = () => {
 
   // I think it might make more sense for this to be a snippet in the workspaceStateAtom
   const getMembers = async () => {
-    setLoading(true);
 
-    try {
-      const usersQuery = query(
-        collection(db, "users"),
-        where("uid", "in", workspaceStateValue.currentWorkspace?.members)
-      );
+    // dont get the members unless inside of a workspace
+    if (workspaceStateValue.currentWorkspace) {
+      setLoading(true);
+      try {
+        const usersQuery = query(
+          collection(db, "users"),
+          where("uid", "in", workspaceStateValue.currentWorkspace?.members)
+        );
 
-      const membersDocs = await getDocs(usersQuery);
-      const members = membersDocs.docs.map((doc) => ({ ...doc.data() }));
-      setWorkspaceStateValue((prev) => ({
-        ...prev,
-        memberSnippets: members as MemberSnippet[],
-      }));
-      console.log("here are the members", members);
-    } catch (error: any) {
-      console.log("getMembers error", error);
-      setError(error.message);
+        const membersDocs = await getDocs(usersQuery);
+        const members = membersDocs.docs.map((doc) => ({ ...doc.data() }));
+        setWorkspaceStateValue((prev) => ({
+          ...prev,
+          memberSnippets: members as MemberSnippet[],
+        }));
+      } catch (error: any) {
+        console.log("getMembers error", error);
+        setError(error.message);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   // will trigger everytime user changes
@@ -217,6 +213,7 @@ const useWorkspaceData = () => {
     joinWorkspace,
     leaveWorkspace,
     getMembers,
+    getMySnippets
   };
 };
 

@@ -1,19 +1,19 @@
 import { Button } from "@chakra-ui/react";
 import { Inter } from "@next/font/google";
 import { useRouter } from "next/router";
-import CommentBox from "../components/comment-box";
-import Footer from "../components/link-footer";
-import SideBar from "../components/sidebar";
+// import CommentBox from "../components/comment-box";
+// import Footer from "../components/link-footer";
+// import SideBar from "../components/sidebar";
 
 const Billing = () => {
   const router = useRouter();
   return (
     
     <div className="flex flex-col min-h-screen">
-      <SideBar />
+      {/* <SideBar /> */}
      
       {/* <Navbar/> */}
-      <div className="flex justify-center flex-grow">
+      {/* <div className="flex justify-center flex-grow">
         <main className="flex-auto" id="content">
           <a className="flex items-center justify-center px-8 py-16 mx-20 text-3xl font-extrabold text-gray-900">
             Billing
@@ -24,8 +24,8 @@ const Billing = () => {
             <CommentBox />
           </a>
         </main>
-      </div>
-      <Footer />
+      </div> */}
+      {/* <Footer /> */}
     </div>
   );
 };

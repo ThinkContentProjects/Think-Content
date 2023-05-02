@@ -1,8 +1,7 @@
 import React from "react";
 import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
-import { CiSettings, CiChat2 } from "react-icons/ci";
+import { CiSettings } from "react-icons/ci";
 import { FaCrown } from "react-icons/fa";
-import NotificationMenu from "./NotificationMenu/NotificationMenu";
 import { User } from "firebase/auth";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { useSetRecoilState } from "recoil";
@@ -58,7 +57,6 @@ const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
         </Button>
       </Box>
       <>
-        {/* <NotificationMenu user={user} /> */}
         <Flex
           mr={3}
           ml={1.5}

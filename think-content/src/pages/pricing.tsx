@@ -1,12 +1,12 @@
-import CommentBox from "../components/comment-box";
-import Footer from "../components/link-footer";
-import Navbar from "../components/navbar";
-import SideBar from "../components/sidebar";
+// import CommentBox from "../components/comment-box";
+// import Footer from "../components/link-footer";
+// import Navbar from "../components/navbar";
+// import SideBar from "../components/sidebar";
 
 const Pricing = () => {
   return (
     <div className="flex flex-col min-h-screen">
-      <SideBar />
+      {/* <SideBar />
       <Navbar />
       <div className="flex justify-center flex-grow">
         <main className="flex-auto" id="content">
@@ -20,7 +20,7 @@ const Pricing = () => {
           </a>
         </main>
       </div>
-      <Footer />
+      <Footer /> */}
     </div>
   );
 };

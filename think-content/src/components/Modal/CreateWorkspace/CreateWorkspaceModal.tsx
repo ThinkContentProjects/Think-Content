@@ -1,4 +1,7 @@
+// TO DO: get rid of getMySnippets when changing routes after creating a new workspace (shouldnt be needed?)
+
 import { auth, db } from "@/src/firebase/firebase";
+import useWorkspaceData from "@/src/hooks/useWorkspaceData";
 import {
   Button,
   Modal,
@@ -42,6 +45,7 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const toast = useToast();
+  const { getMySnippets } = useWorkspaceData()
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.length > 21) return;
@@ -102,6 +106,10 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
       duration: 9000,
       isClosable: true,
     })
+    /*
+      Pretty sure I should'nt need to call this here...
+    */
+    getMySnippets();
     router.push(`/workspace/${workspaceDocRef.id}`);
   };
 

@@ -3,7 +3,6 @@ import { withProtected } from "@/src/hooks/routes";
 import {
   Input,
   Select,
-  Text,
   Box,
   Card,
   CardBody,

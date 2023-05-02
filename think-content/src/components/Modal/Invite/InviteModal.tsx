@@ -4,17 +4,15 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  Divider,
   ModalBody,
-  ModalCloseButton,
   ModalFooter,
   Box,
   useColorModeValue,
   Container,
   FormControl,
-  FormLabel,
   useToast,
   Text,
+  Button,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 
@@ -32,6 +30,8 @@ import {
   collection,
   serverTimestamp,
   addDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -73,15 +73,6 @@ const asyncComponents = {
   },
 };
 
-const getUsers = async () => {
-  const userDocs = await getDocs(collection(db, `users/`));
-  const users = userDocs.docs.map((doc) => ({
-    label: doc.data().email,
-    value: doc.data() as User,
-  }));
-  return users;
-};
-
 const InviteModal: React.FC = () => {
   const [selectedOptions, setSelectedOptions] = useState<ColorOption[]>([]);
   const [loading, setLoading] = useState(false);
@@ -90,6 +81,23 @@ const InviteModal: React.FC = () => {
   const workspaceStateValue = useRecoilValue(workspaceState);
   const [modalState, setModalState] = useRecoilState(inviteModalState);
   const toast = useToast();
+
+  const getUsers = async () => {
+    const userQuery = query(
+      collection(db, "users"),
+      where(
+        "uid",
+        "not-in",
+        workspaceStateValue.memberSnippets.map(member => member.uid)
+        ));
+
+    const userDocs = await getDocs(userQuery);
+    const users = userDocs.docs.map((doc) => ({
+      label: doc.data().email,
+      value: doc.data() as User,
+    }));
+    return users;
+  };
 
   const selectProps = useChakraSelectProps({
     value: selectedOptions,
@@ -123,6 +131,13 @@ const InviteModal: React.FC = () => {
       } finally {
         setLoading(false);
         handleClose();
+        toast({
+          title: 'Invitation Email Sent!',
+          description: "Your teamates have been notified",
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        })
       }
     }
   };
@@ -141,14 +156,9 @@ const InviteModal: React.FC = () => {
             Invite Your Team
           </ModalHeader>
           <Box pl={3} pr={3}>
-            <Divider />
             <ModalBody display="flex" flexDirection="column" padding="10px 0px">
               <Container mb={16}>
                 <FormControl p={4}>
-                  <FormLabel>
-                    {/* Custom <Code>LoadingIndicator</Code> */}
-                  </FormLabel>
-
                   <AsyncSelect<ColorOption, true, GroupBase<ColorOption>>
                     {...selectProps}
                     name="colors"
@@ -163,16 +173,15 @@ const InviteModal: React.FC = () => {
                               i.label
                                 .toLowerCase()
                                 .includes(inputValue.toLowerCase()) &&
-                              i.value.uid !== currentUser?.uid &&
                               !selectedOptions.find(
                                 (option) => option.value.uid === i.value.uid
                               )
                           )
                         )
                         .then((data) => callback(data));
-                      console.log(selectedOptions);
                     }}
                   />
+                  <Button mt={3} mr={3} borderRadius={6} alignContent="right">Email Invite</Button>
                 </FormControl>
                 <Text
                   display="flex"
@@ -189,11 +198,11 @@ const InviteModal: React.FC = () => {
                     memberEmail={member.email}
                     owner={workspaceStateValue.currentWorkspace?.owner}
                     memberId={member.uid}
+                    key={member.email}
                   />
                 ))}
               </Container>
             </ModalBody>
-            <ModalCloseButton />
           </Box>
           <ModalFooter
             borderRadius="0px 0px 10px 10px"
