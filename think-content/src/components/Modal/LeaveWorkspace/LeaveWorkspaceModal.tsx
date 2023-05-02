@@ -37,15 +37,17 @@ const LeaveWorkspaceModal: React.FC<LeaveWorkspaceModalProps> = ({
       <Modal isOpen={open} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Leave this workspace?</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>Are you sure you want to leave the workspace?</ModalBody>
+          <ModalBody>You will need to be invited again if you wish to rejoin.</ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleClose}>
-              No
+            <Button colorScheme="blue" variant="ghost" mr={3} onClick={handleClose}>
+              Cancel
             </Button>
             <Button
+              bg="red"
+              borderRadius={10}
               onClick={() => {
                 handleClose();
                 router.push("/");
@@ -60,7 +62,6 @@ const LeaveWorkspaceModal: React.FC<LeaveWorkspaceModalProps> = ({
                   isClosable: true,
                 });
               }}
-              variant="ghost"
             >
               Yes
             </Button>
