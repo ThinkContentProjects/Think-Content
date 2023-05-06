@@ -78,6 +78,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               fontSize="11pt"
               fontWeight={500}
               _hover={{ bg: "purple.700", color: "white" }}
+              onClick={() => router.push('/profile')}
             >
               <Flex align="center" onClick={() => router.push("/profile")}>
                 <Icon fontSize={20} mr={2} as={CiUser} />
