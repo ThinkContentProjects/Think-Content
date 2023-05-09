@@ -10,7 +10,7 @@ import {
   Text,
   Switch,
   useColorMode,
-  Button,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { signOut, User } from "firebase/auth";
 import React from "react";
@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 import { authModalState } from "@/src/atoms/authModalAtom";
 import { workspaceState } from "@/src/atoms/workspacesAtom";
 import { auth } from "@/src/firebase/firebase";
-import { BsFillSunFill, BsFillMoonFill } from "react-icons/bs";
+import { BsFillMoonFill } from "react-icons/bs";
 
 type UserMenuProps = {
   user?: User | null;
@@ -32,7 +32,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const setAuthModalState = useSetRecoilState(authModalState);
   const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
-
+  const item_hover_bg = useColorModeValue("gray.100", "#27282A");
   const logout = async () => {
     router.push('/').then(async () => {await signOut(auth)});
     resetWorkspaceState();
@@ -50,7 +50,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
           <Flex align="center">
             {user ? (
               <>
-                <Icon fontSize={20} mr={1} color="gray.300" as={FaUser} />
+                <Icon fontSize={20} mr={1} as={FaUser} />
 
                 <Flex
                   direction="column"
@@ -77,7 +77,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             <MenuItem
               fontSize="11pt"
               fontWeight={500}
-              _hover={{ bg: "purple.700", color: "white" }}
+              _hover={{ bg: item_hover_bg }}
               onClick={() => router.push('/profile')}
             >
               <Flex align="center" onClick={() => router.push("/profile")}>
@@ -89,7 +89,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             <MenuItem
               fontSize="11pt"
               fontWeight={500}
-              _hover={{ bg: "purple.700", color: "white" }}
+              _hover={{ bg: item_hover_bg }}
             >
               <Flex align="center">
                 <Icon fontSize={20} mr={2} as={CiUnlock} />
@@ -100,7 +100,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             <MenuItem
               fontSize="11pt"
               fontWeight={500}
-              _hover={{ bg: "purple.700", color: "white" }}
+              _hover={{ bg: item_hover_bg }}
               onClick={logout}
             >
               <Flex align="center">
@@ -114,7 +114,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             <MenuItem
               fontSize="11pt"
               fontWeight={500}
-              _hover={{ bg: "purple.700", color: "white" }}
+              _hover={{ bg: item_hover_bg }}
               onClick={() => setAuthModalState({ open: true, view: "login" })}
             >
               <Flex align="center">

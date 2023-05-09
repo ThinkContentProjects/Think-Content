@@ -19,7 +19,6 @@ const Navbar: React.FC<NavBarProps> = ({ user }) => {
 
   return (
     <Flex
-      boxShadow="sm"
       height="80px"
       style={{ position: "sticky", top: 0 }}
       bg={bg}

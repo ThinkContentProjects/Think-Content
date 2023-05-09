@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { Flex, FlexProps, Icon, Link, Text } from "@chakra-ui/react";
+import { Flex, FlexProps, Icon, Link, Text, useColorModeValue } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import { useRouter } from "next/router";
 import { Workspace } from "@/src/atoms/workspacesAtom";
@@ -13,6 +13,7 @@ interface NavItemProps extends FlexProps {
 
 const NavItem = ({ icon, name, link, workspace }: NavItemProps) => {
   const router = useRouter();
+  const nav_hover_bg = useColorModeValue("gray.100", "#27282A");
 
   return (
     <Flex
@@ -24,21 +25,20 @@ const NavItem = ({ icon, name, link, workspace }: NavItemProps) => {
       role="group"
       cursor="pointer"
       _hover={{
-        bg: "#404040",
-        color: "white",
+        bg: nav_hover_bg,
       }}
     >
       {icon && (
         <Icon
           mr="4"
           fontSize="16"
-          _groupHover={{
-            color: "white",
-          }}
+          // _groupHover={{
+          //   color: "white",
+          // }}
           as={icon}
         />
       )}
-      <Text fontSize={13} color="gray.300">
+      <Text fontSize={13} >
         {name}
       </Text>
     </Flex>

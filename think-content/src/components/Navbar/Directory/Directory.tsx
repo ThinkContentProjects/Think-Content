@@ -35,7 +35,7 @@ const Directory: React.FC = () => {
           width={{ base: "auto" }}
         >
           <Flex align="center">
-            <Square size="32px" borderRadius="7" bg="#2589FF" fontWeight="600" ml={1}>
+            <Square color="white" size="32px" borderRadius="7" bg="#2589FF" fontWeight="600" ml={1}>
               {directoryState.selectedMenuItem.displayText[0].toUpperCase()}
             </Square>
             <Text fontWeight={600} ml={3} fontSize="13pt">
