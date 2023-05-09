@@ -2,9 +2,10 @@ import { ComponentStyleConfig } from '@chakra-ui/theme';
 
 export const Button: ComponentStyleConfig = {
     baseStyle: ({ colorMode }) => ({
-    borderRadius: "60px",
+    borderRadius: "10px",
     fontSize: "10pt",
-    fontWeight: 700,
+    fontWeight: 500,
+    height:"34px",
     _focus: {
       boxShadow: "none",
     },
@@ -20,16 +21,16 @@ export const Button: ComponentStyleConfig = {
   },
   variants: {
     solid: ({ colorMode }) => ({
-      color: colorMode === "dark" ? "black" : "white",
-      bg: colorMode === "dark" ? "white" : "purple.600",
+      color: colorMode === "dark" ? "white" : "white",
+      bg: colorMode === "dark" ? "#915EFF" : "#915EFF",
       _hover: {
-        bg: colorMode === "dark" ? "gray.200" : "purple.400",
+        bg: colorMode === "dark" ? "purple.300" : "purple.300",
       },
     }),
     outline: ({ colorMode }) => ({
-      color: colorMode === "dark" ? "white" : "purple.600",
+      color: colorMode === "dark" ? "white" : "#915EFF",
       border: "1px solid",
-      borderColor: colorMode === "dark" ? "white" : "purple.600",
+      borderColor: colorMode === "dark" ? "white" : "#915EFF",
     }),
     oauth: {
       height: "34px",

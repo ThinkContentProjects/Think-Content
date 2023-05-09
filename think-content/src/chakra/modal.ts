@@ -5,7 +5,7 @@ const modalTheme = {
     baseStyle: (props:any) => ({
       dialog: {
         borderRadius: 'md',
-        bg: mode('white', "#202020")(props),
+        bg: mode('white', "#191A1D")(props),
       }
     })
 }

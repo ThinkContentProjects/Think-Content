@@ -1,7 +1,5 @@
 import React from "react";
 import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
-import { CiSettings } from "react-icons/ci";
-import { FaCrown } from "react-icons/fa";
 import { User } from "firebase/auth";
 import { BsPersonFillAdd } from "react-icons/bs";
 import { useSetRecoilState } from "recoil";
@@ -22,13 +20,15 @@ const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
       <Box
         display={{ base: "none", md: "flex" }}
         alignItems="center"
-        borderRight="1px solid"
+        // borderRight="1px solid"
+        mr={3}
         borderColor="gray.200"
       >
         {directoryState.selectedMenuItem !== defaultMenuItem && (
           <Button
             variant="solid"
             height="33px"
+            bg="#2589FF"
             fontSize="13pt"
             fontWeight={600}
             leftIcon={<BsPersonFillAdd />}
@@ -45,10 +45,8 @@ const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
           variant="solid"
           height="33px"
           fontSize="11pt"
-          bg="green.500"
           fontWeight={600}
-          leftIcon={<FaCrown />}
-          _hover={{ bg: "green.300" }}
+          // leftIcon={<FaCrown />}
           display={{ base: "none", sm: "flex" }}
           width={{ base: "70px", md: "110px" }}
           mr={2}
@@ -56,18 +54,6 @@ const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
           <Text fontSize="11pt"> Upgrade </Text>
         </Button>
       </Box>
-      <>
-        <Flex
-          mr={3}
-          ml={1.5}
-          padding={1}
-          cursor="pointer"
-          borderRadius={4}
-          _hover={{ bg: "gray.200" }}
-        >
-          <Icon as={CiSettings} fontSize={30} />
-        </Flex>
-      </>
     </Flex>
   );
 };

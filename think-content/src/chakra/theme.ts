@@ -20,8 +20,8 @@ const theme = extendTheme({
   config,
   colors: {
     brand: {
-      // navbar light grey
-      50: "#3C3C3C",
+      // light grey (modal, menu etc)
+      50: "#191A1D",
       // light modal footer
       100: "#E2E8F0",
       // dark modal footer
@@ -37,7 +37,7 @@ const theme = extendTheme({
     global: (props: any) => ({
       body: {
         color: mode("gray.800", "whiteAlpha.900")(props),
-        bg: mode("gray.100", "#282828")(props),
+        bg: mode("gray.100", "#121316")(props),
       },
     }),
   },

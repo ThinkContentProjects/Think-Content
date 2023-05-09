@@ -8,7 +8,7 @@ const baseStyle = definePartsStyle({
   list: {
    // _dark or _light
     _dark: {
-      '--menu-bg': "#282828",
+      '--menu-bg': "#191A1D",
     },
   },
 })

@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Icon, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Icon, useColorModeValue, Image } from "@chakra-ui/react";
 import RightContent from "./RightContent/RightContent";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Directory from "./Directory/Directory";
@@ -12,34 +12,44 @@ type NavBarProps = {
   user?: User | null;
 };
 
-const Navbar: React.FC<NavBarProps> = ({user}) => {
+const Navbar: React.FC<NavBarProps> = ({ user }) => {
   // called once and passed as prop to search and right content
   const { onSelectMenuItem } = useDirectory();
-  const bg = useColorModeValue("white", "brand.50");
+  const bg = useColorModeValue("gray.100", "#121316");
 
   return (
     <Flex
       boxShadow="sm"
-      height="50px"
+      height="80px"
+      style={{ position: "sticky", top: 0 }}
       bg={bg}
+      zIndex={1}
       padding="6px 12px"
-      justify={{ md: "space-between" }}
+      justify="space-between"
     >
       <Flex>
         <Flex
           align="center"
-          width={{ base: "40px", md: "auto" }}
-          mr={{ base: 0, md: 100 }}
+          // width={{ base: "100px", md: "auto" }}
+          // mr={{ base: 0, md: 100 }}
           cursor="pointer"
           onClick={() => onSelectMenuItem(defaultMenuItem)}
         >
-          <Icon
+          <Image
+            src="/images/logoLarge.png"
+            ml={5}
+            height="70px"
             display={{ base: "none", md: "unset" }}
-            as={AiFillHome}
-            fontSize={30}
-          />
+          ></Image>
+          <Image
+            src="/images/logoSmall.png"
+            height="60px"
+            display={{ md: "none" }}
+          ></Image>
         </Flex>
-        {user && <Directory />}
+        <Flex mt={5} display={{ md: "none" }}>
+          {user && <Directory />}
+        </Flex>
       </Flex>
       <RightContent user={user} />
     </Flex>

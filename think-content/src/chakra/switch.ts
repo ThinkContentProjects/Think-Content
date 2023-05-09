@@ -7,6 +7,6 @@ const { defineMultiStyleConfig } = createMultiStyleConfigHelpers(
 
 export const switchTheme = defineMultiStyleConfig({
   defaultProps: {
-    colorScheme: 'purple',
+    colorScheme: 'blue',
   },
 })

@@ -144,7 +144,7 @@ const InviteModal: React.FC = () => {
 
   return (
     <>
-      <Modal isOpen={modalState.open} onClose={handleClose} size="lg">
+      <Modal isOpen={modalState.open} onClose={handleClose} size="lg"> 
         <ModalOverlay />
         <ModalContent>
           <ModalHeader

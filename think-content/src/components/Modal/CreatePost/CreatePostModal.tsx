@@ -1,5 +1,6 @@
 import { Post } from "@/src/atoms/postsAtom";
 import { db, auth } from "@/src/firebase/firebase";
+import { getFunctions, httpsCallable } from "firebase/functions";
 import {
   Button,
   Modal,
@@ -9,16 +10,18 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Image,
   Box,
-  Divider,
   Text,
-  Input,
-  Stack,
   Textarea,
   Alert,
-  AlertDescription,
   AlertIcon,
-  AlertTitle,
+  SimpleGrid,
+  ButtonGroup,
+  Icon,
+  Circle,
+  VStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   addDoc,
@@ -31,9 +34,10 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import { text } from "node:stream/consumers";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { MdOutlineAddBox } from "react-icons/md";
+import { TbSparkles } from "react-icons/tb";
 
 type CreatePostModalProps = {
   open: boolean;
@@ -44,16 +48,19 @@ const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
   open,
   handleClose,
 }) => {
-
+  const functions = getFunctions();
+  const postGenerator = httpsCallable(functions, "postGenerator");
   const router = useRouter();
   const [user] = useAuthState(auth);
   const [textInputs, setTextInputs] = useState({
-    title: "",
-    body: "",
+    type: "",
+    format: "",
+    note: "",
   });
-
+  const bg = useColorModeValue("gray.100", "#27282A");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [photoGeneration, setPhotoGeneration] = useState(true);
 
   const onTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -67,109 +74,224 @@ const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
     }));
   };
 
-  const handleCreatePost = async () => {
-    const { workspaceId } = router.query;
-
-    const newPost: Post = {
-      workspaceId: workspaceId as string,
-      creatorId: user.uid,
-      creatorDisplayName: user.email!.split("@")[0],
-      title: textInputs.title,
-      body: textInputs.body,
-      createdAt: serverTimestamp() as Timestamp,
-    };
-
-    setLoading(true);
-
-    try {
-      const postDocRef = await addDoc(collection(db, "posts"), newPost);
-    } catch (error: any) {
-      console.log("handleCreatePost Error", error.message);
-      setError(error.message);
-    }
-    setLoading(false);
-  };
+  // const handleCreatePost = async () => {
+  //   console.log("posted!");
+  //   console.log(textInputs.body);
+  //   postGenerator({ prompt: textInputs.body }).then((result) =>
+  //     console.log(result.data)
+  //   );
+  //   const { workspaceId } = router.query;
+  //   const newPost: Post = {
+  //     workspaceId: workspaceId as string,
+  //     creatorId: user.uid,
+  //     creatorDisplayName: user.email!.split("@")[0],
+  //     title: textInputs.title,
+  //     body: textInputs.body,
+  //     createdAt: serverTimestamp() as Timestamp,
+  //   };
+  //   setLoading(true);
+  //   try {
+  //     const postDocRef = await addDoc(collection(db, "posts"), newPost);
+  //   } catch (error: any) {
+  //     console.log("handleCreatePost Error", error.message);
+  //     setError(error.message);
+  //   }
+  //   setLoading(false);
+  // };
 
   return (
     <>
-      <Modal isOpen={open} onClose={handleClose} size="lg">
+      <Modal isOpen={open} onClose={handleClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent maxW="1400px">
           <ModalHeader
             display="flex"
-            flexDirection="column"
+            flexDirection="row"
             fontSize={15}
             padding={3}
           >
-            Create a Post
+            {/* AI Workshop */}
           </ModalHeader>
-          <Box pl={3} pr={3}>
-            <Divider />
-            <ModalBody display="flex" flexDirection="column" padding="10px 0px">
-              <Stack spacing={3} width="100%">
-                <Input
-                  name="title"
-                  value={textInputs.title}
-                  onChange={onTextChange}
-                  fontSize="10pt"
-                  borderRadius={4}
-                  placeholder="Title"
-                  _placeholder={{ color: "gray.500" }}
-                  _focus={{
-                    outline: "none",
-                    bg: "white",
-                    border: "1px solid",
-                    borderColor: "black",
-                  }}
-                />
+          <SimpleGrid minChildWidth="100px">
+            <Box>
+              <Text ml={10} fontSize="22pt" fontWeight={700}>
+                Creatives
+              </Text>
+              <Box
+                mt={3}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                flexDir="column"
+              >
+                <ButtonGroup>
+                  <Button
+                    bg={photoGeneration ? "#27282A" : { bg }}
+                    borderRadius={8}
+                    width="150px"
+                    onClick={() => setPhotoGeneration(true)}
+                  >
+                    AI Generated
+                  </Button>
+                  <Button
+                    bg={photoGeneration ? { bg } : "#27282A"}
+                    borderRadius={8}
+                    width="150px"
+                    onClick={() => setPhotoGeneration(false)}
+                  >
+                    Upload
+                  </Button>
+                </ButtonGroup>
+                {photoGeneration ? (
+                  <SimpleGrid columns={{ lg: 2 }} spacing="20px" mt={7}>
+                    <Box
+                      height="312.5px"
+                      width="250px"
+                      as="button"
+                      _focus={{
+                        boxShadow:
+                          "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+                      }}
+                    >
+                      <Image height="312.5px" width="250px"></Image>
+                    </Box>
+                    <Box
+                      height="312.5px"
+                      width="250px"
+                      as="button"
+                      _focus={{
+                        boxShadow:
+                          "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+                      }}
+                    >
+                      <Image height="312.5px" width="250px"></Image>
+                    </Box>
+                    <Box
+                      height="312.5px"
+                      width="250px"
+                      as="button"
+                      _focus={{
+                        boxShadow:
+                          "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+                      }}
+                    >
+                      <Image height="312.5px" width="250px"></Image>
+                    </Box>
+                    <Box
+                      height="312.5px"
+                      width="250px"
+                      as="button"
+                      _focus={{
+                        boxShadow:
+                          "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
+                      }}
+                    >
+                      <Image height="312.5px" width="250px"></Image>
+                    </Box>
+                  </SimpleGrid>
+                ) : (
+                  <Circle
+                    as="button"
+                    bg={bg}
+                    color="white"
+                    size="320px"
+                    mt={20}
+                  >
+                    <VStack spacing={-4}>
+                      <Icon
+                        fontSize={200}
+                        color="grey.400"
+                        as={MdOutlineAddBox}
+                      />
+                      <Text>Upload a Photo</Text>
+                    </VStack>
+                  </Circle>
+                )}
+              </Box>
+              {photoGeneration && (
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  flexDir="column"
+                >
+                  <Button rightIcon={<TbSparkles />} mt={5}>
+                    Regenerate
+                  </Button>
+                </Box>
+              )}
+            </Box>
+            <Box>
+              <Text fontSize="22pt" fontWeight={700}>
+                Selected Creative
+              </Text>
+              <Box
+                mt={10}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                {photoGeneration ? (
+                  <Image align="center" width="300px" height="375px"></Image>
+                ) : (
+                  <Text width="300px" height="375px">Please select or upload a creative</Text>
+                )}
+              </Box>
+              <Text fontSize="22pt" fontWeight={700}>
+                Caption
+              </Text>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                flexDir="column"
+              >
                 <Textarea
-                  name="body"
-                  value={textInputs.body}
-                  onChange={onTextChange}
-                  fontSize="10pt"
-                  borderRadius={4}
+                  mt={5}
+                  name="note"
+                  fontSize="13pt"
+                  maxWidth="600px"
+                  borderRadius={20}
                   height="100px"
-                  placeholder="Body"
-                  _placeholder={{ color: "gray.500" }}
+                  bg={bg}
                   _focus={{
                     outline: "none",
-                    bg: "white",
                     border: "1px solid",
                     borderColor: "black",
                   }}
                 />
-              </Stack>
-            </ModalBody>
-            <ModalCloseButton />
-          </Box>
-          <ModalFooter bg="gray.100" borderRadius="0px 0px 10px 10px">
-            <Button
-              variant="outline"
-              height="30px"
-              mr={3}
-              onClick={handleClose}
-            >
-              Cancel
+                <Button rightIcon={<TbSparkles />} mt={7}>
+                  Regenerate
+                </Button>
+              </Box>
+            </Box>
+          </SimpleGrid>
+          <ModalFooter borderRadius="0px 0px 10px 10px">
+            <Button bg="#15AE11" width="120px" mr={3} onClick={handleClose}>
+              Schedule
             </Button>
             <Button
-              height="34px"
+              width="120px"
               padding="0px 30px"
-              disabled={!textInputs.title}
-              onClick={handleCreatePost}
+              disabled={!textInputs.type || !textInputs.format}
+              // onClick={handleCreatePost}
               isLoading={loading}
             >
-              Post
+              Save Draft
             </Button>
           </ModalFooter>
           {error && (
-                <Alert status='error'>
-                <AlertIcon />
-                <Text fontSize='10pt' mr={2}>Error creating post</Text>
-              </Alert>
-            )}
+            <Alert status="error">
+              <AlertIcon />
+              <Text fontSize="10pt" mr={2}>
+                Error creating post
+              </Text>
+            </Alert>
+          )}
         </ModalContent>
       </Modal>
     </>
   );
 };
+
 export default CreateWorkspaceModal;

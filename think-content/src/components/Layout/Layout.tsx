@@ -1,8 +1,15 @@
 import { auth } from "@/src/firebase/firebase";
-import { Center, Flex, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  Spinner,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Navbar from "../Navbar/Navbar";
+import Sidebar from "../Sidebar";
 
 interface Props {
   children: React.ReactNode;
@@ -10,7 +17,7 @@ interface Props {
 
 const Layout: React.FC<Props> = ({ children }) => {
   const [user, loading] = useAuthState(auth);
- 
+
   if (loading) {
     return (
       <Flex
@@ -33,8 +40,16 @@ const Layout: React.FC<Props> = ({ children }) => {
   } else {
     return (
       <>
-        <Navbar user={user}/>
-        <main>{children}</main>
+        <Navbar user={user} />
+        {user && <Sidebar children={undefined} />}
+        <Box
+          bg={useColorModeValue("white", "#191A1D")}
+          borderRadius={20}
+          ml={user ? { base: 5, md: 280 } : 5}
+          h="calc(100vh)"
+        >
+          {children}
+        </Box>
       </>
     );
   }

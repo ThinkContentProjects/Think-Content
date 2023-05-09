@@ -21,10 +21,10 @@ const Directory: React.FC = () => {
     <Menu isOpen={directoryState.isOpen}>
       <MenuButton
         cursor="pointer"
-        bg={bg}
+        // bg={bg}
         padding="0px 6px"
         borderRadius={8}
-        mr={2}
+        mr={3}
         ml={{ base: 0, md: 2 }}
         _hover={{ outline: "1px solid", outlineColor: "grey.200" }}
         onClick={ToggleMenuOpen}
@@ -32,17 +32,17 @@ const Directory: React.FC = () => {
         <Flex
           align="center"
           justify="space-between"
-          width={{ base: "auto", lg: "200px" }}
+          width={{ base: "auto" }}
         >
           <Flex align="center">
-            <Square size="20px" borderRadius="2" outline="1px solid" fontWeight="600" ml={1}>
+            <Square size="32px" borderRadius="7" bg="#2589FF" fontWeight="600" ml={1}>
               {directoryState.selectedMenuItem.displayText[0].toUpperCase()}
             </Square>
-            <Text fontWeight={600} ml={3} fontSize="12pt">
+            <Text fontWeight={600} ml={3} fontSize="13pt">
               {directoryState.selectedMenuItem.displayText}
             </Text>
           </Flex>
-          <ChevronDownIcon />
+          <ChevronDownIcon ml={2} fontSize={30}/>
         </Flex>
       </MenuButton>
       <MenuList>
