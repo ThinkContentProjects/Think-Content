@@ -4,7 +4,6 @@ const Home: React.FC = () =>
 {
   const { workspaceStateValue } = useWorkspaceData();
   
-
   return <div>
     HELLO WORLD
   </div>

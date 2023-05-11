@@ -168,7 +168,7 @@ const createContent: React.FC<createContentProps> = () => {
           onClick={() => {
             setOpenCreatePostModal(true);
             postGenerator(textInputs).then((result) => {
-              setCaption(result.data.choices[0].text);
+              setCaption(result.data.choices[0].text.split("Caption: ")[1]);
             });
           }}
         >
