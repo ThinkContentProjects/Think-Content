@@ -17,6 +17,7 @@ interface Props {
 
 const Layout: React.FC<Props> = ({ children }) => {
   const [user, loading] = useAuthState(auth);
+  const bg = useColorModeValue("white", "#191A1D");
 
   if (loading) {
     return (
@@ -43,7 +44,7 @@ const Layout: React.FC<Props> = ({ children }) => {
         <Navbar user={user} />
         {user && <Sidebar children={undefined} />}
         <Box
-          bg={useColorModeValue("white", "#191A1D")}
+          bg={bg}
           borderRadius={20}
           ml={user ? { base: 5, md: 280 } : 5}
           h="calc(100vh)"

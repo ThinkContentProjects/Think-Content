@@ -42,11 +42,13 @@ import { TbSparkles } from "react-icons/tb";
 type CreatePostModalProps = {
   open: boolean;
   handleClose: () => void;
+  caption: string;
 };
 
 const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
   open,
   handleClose,
+  caption
 }) => {
   const functions = getFunctions();
   const postGenerator = httpsCallable(functions, "postGenerator");
@@ -253,6 +255,8 @@ const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
                   maxWidth="600px"
                   borderRadius={20}
                   height="100px"
+                  value={caption}
+                  onChange={() => {}}
                   bg={bg}
                   _focus={{
                     outline: "none",
@@ -274,7 +278,6 @@ const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
               width="120px"
               padding="0px 30px"
               disabled={!textInputs.type || !textInputs.format}
-              // onClick={handleCreatePost}
               isLoading={loading}
             >
               Save Draft
