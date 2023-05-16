@@ -6,6 +6,6 @@ type dashboardProps = {
 
 const dashboard:React.FC<dashboardProps> = () => {
     
-    return <div>Have a good coding</div>
+    return <div>Dashboard</div>
 }
 export default dashboard;

@@ -4,9 +4,7 @@ const Home: React.FC = () =>
 {
   const { workspaceStateValue } = useWorkspaceData();
   
-  return <div>
-    HELLO WORLD
-  </div>
+  return <div>MAIN DASHBOARD</div>
 }
 
 export default Home;
