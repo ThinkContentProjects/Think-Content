@@ -1,7 +1,9 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-const nodemailer = require("nodemailer");
 import { Configuration, OpenAIApi } from "openai";
+import axios from "axios";
+
+const nodemailer = require("nodemailer");
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -66,7 +68,7 @@ exports.sendInviteEmail = functions.firestore
     }">workspace</a>`;
 
     const mailOptions = {
-      from: "lucasradovan@gmai.com",
+      from: "lucasradovan@gmail.com",
       to: snap.data().inviteEmail,
       subject: "You've been invited to join a workspace!",
       html: message,
@@ -92,8 +94,7 @@ const config = new Configuration({
 const openai = new OpenAIApi(config);
 
 export const postGenerator = functions.https.onCall(async (data, context) => {
-  const prompt = 
-  `Create an idea for an Instagram post based on the information below. The output should be composed of two sections: the creative and the caption with hashtags. Describe the creative and write the caption without any additional explanations.
+  const prompt = `Create an idea for an Instagram post based on the information below. The output should be composed of two sections: the creative and the caption with hashtags. Describe the creative and write the caption without any additional explanations.
 
   Company name: (Y)
   Company mission: (Y)
@@ -109,7 +110,7 @@ export const postGenerator = functions.https.onCall(async (data, context) => {
   Caption: (Well-written and engaging caption that is relevant to the type of post and its objective, post format, and company details)
   
   (Please do not provide any explanations for the caption, or creative.)
-  `
+  `;
 
   return openai
     .createCompletion({
@@ -121,4 +122,30 @@ export const postGenerator = functions.https.onCall(async (data, context) => {
     .then((apiResponse) => {
       return apiResponse.data;
     });
+});
+
+export const picGenerator = functions.https.onCall(async (data, context) => {
+  const prompt = `Carefully examine the following sentence, which describes the details of a creative for a social media post in the (Y) industry. Visualize the image the social media creative is trying to convey. Based on this mental image, extract the main themes and keywords that are relevant for optimizing search results for images associated with the post. Consider the context, objects, emotions, and industry-specific keywords. Provide a single short sentence that captures the essence of the social media creative, incorporating relevant keywords without mentioning the company name.
+
+  Sentence: ${data.creative}
+  `;
+
+  await openai.createCompletion({
+    model: DEFAULT_MODAL,
+    prompt: prompt,
+    max_tokens: 500,
+    temperature: 0,
+  });
+
+  const response = await axios.get(
+    `https://api.pexels.com/v1/search?query=people&per_page=4`,
+    {
+      headers: {
+        Authorization:
+          process.env.PEXELS_API_KEY,
+      },
+    }
+  );
+
+  return response.data;
 });

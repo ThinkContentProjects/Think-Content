@@ -8,59 +8,39 @@ import {
   Text,
   Textarea,
   useColorModeValue,
+  useRadioGroup,
   VStack,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TbSparkles } from "react-icons/tb";
 import { getFunctions, httpsCallable } from "firebase/functions";
+import RadioCard from "@/src/components/RadioCard/RadioCard";
 
 type createContentProps = {};
-
-type TypeButtonProps = {
-  name: string;
-  handleClick: () => void;
-};
-
-const TypeButton: React.FC<TypeButtonProps> = ({ name, handleClick }) => {
-  const bg = useColorModeValue("gray.100", "#27282A");
-
-  return (
-    <Box
-      as="button"
-      height="35px"
-      width="150px"
-      lineHeight="1.2"
-      transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
-      px="8px"
-      borderRadius="20px"
-      fontSize="14px"
-      fontWeight="semibold"
-      bg={bg}
-      borderColor="#ccd0d5"
-      _hover={{ bg: "#767676" }}
-      _active={{
-        bg: "#dddfe2",
-        transform: "scale(0.98)",
-        borderColor: "#bec3c9",
-      }}
-      onClick={handleClick}
-      _focus={{
-        boxShadow:
-          "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-        bg: "#915EFF",
-      }}
-    >
-      {name}
-    </Box>
-  );
-};
 
 const createContent: React.FC<createContentProps> = () => {
   const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
   const bg = useColorModeValue("gray.100", "#27282A");
   const functions = getFunctions();
   const postGenerator = httpsCallable(functions, "postGenerator");
+  const picGenerator = httpsCallable(functions, "picGenerator");
   const [caption, setCaption] = useState("");
+  const [photos, setPhotos] = useState([]);
+
+  const options = ["Feed Post", "Story", "Reel", "Carousal"];
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "framework",
+    defaultValue: "Feed Post",
+    onChange: (e) => {
+      setTextInputs((prev) => ({
+        ...prev,
+        format: "Story",
+      }));
+    },
+  });
+
+  const group = getRootProps();
 
   const [textInputs, setTextInputs] = useState({
     type: "",
@@ -101,43 +81,15 @@ const createContent: React.FC<createContentProps> = () => {
           height="75px"
         />
         <Text mb={3}>Format</Text>
-        <HStack spacing={10} mb={10}>
-          <TypeButton
-            name="Feed Post"
-            handleClick={() => {
-              setTextInputs((prev) => ({
-                ...prev,
-                format: "Feed Post",
-              }));
-            }}
-          />
-          <TypeButton
-            name="Story"
-            handleClick={() => {
-              setTextInputs((prev) => ({
-                ...prev,
-                format: "Story",
-              }));
-            }}
-          />
-          <TypeButton
-            name="Reel"
-            handleClick={() => {
-              setTextInputs((prev) => ({
-                ...prev,
-                format: "Reel",
-              }));
-            }}
-          />
-          <TypeButton
-            name="Carousal"
-            handleClick={() => {
-              setTextInputs((prev) => ({
-                ...prev,
-                format: "Carousal",
-              }));
-            }}
-          />
+        <HStack {...group} justifyContent="space-between" mb={10}>
+          {options.map((value) => {
+            const radio = getRadioProps({ value });
+            return (
+              <RadioCard key={value} {...radio}>
+                {value}
+              </RadioCard>
+            );
+          })}
         </HStack>
         <Text mb={2}> Additional Details</Text>
         <Textarea
@@ -158,6 +110,7 @@ const createContent: React.FC<createContentProps> = () => {
           open={openCreatePostModal}
           handleClose={() => setOpenCreatePostModal(false)}
           caption={caption}
+          photos={photos}
         />
         <Button
           mt={7}
@@ -167,8 +120,15 @@ const createContent: React.FC<createContentProps> = () => {
           rightIcon={<TbSparkles />}
           onClick={() => {
             setOpenCreatePostModal(true);
-            postGenerator(textInputs).then((result) => {
+            postGenerator(textInputs).then((result: any) => {
               setCaption(result.data.choices[0].text.split("Caption: ")[1]);
+              picGenerator({
+                creative: result.data.choices[0].text.split("Caption: ")[0],
+              }).then((result: any) => {
+                setPhotos(
+                  result.data.photos.map((photo: any) => photo.src.portrait)
+                );
+              });
             });
           }}
         >

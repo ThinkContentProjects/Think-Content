@@ -1,6 +1,5 @@
 import { Post } from "@/src/atoms/postsAtom";
 import { db, auth } from "@/src/firebase/firebase";
-import { getFunctions, httpsCallable } from "firebase/functions";
 import {
   Button,
   Modal,
@@ -22,6 +21,13 @@ import {
   Circle,
   VStack,
   useColorModeValue,
+  Tabs,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  TabIndicator,
+  Flex,
 } from "@chakra-ui/react";
 import {
   addDoc,
@@ -34,47 +40,42 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { MdOutlineAddBox } from "react-icons/md";
 import { TbSparkles } from "react-icons/tb";
+import PhotoGrid from "./PhotoGrid";
+import UploadPhoto from "./UploadPhoto";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 type CreatePostModalProps = {
   open: boolean;
   handleClose: () => void;
   caption: string;
+  photos: Array<string>
 };
 
 const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
   open,
   handleClose,
-  caption
+  caption,
+  photos
 }) => {
   const functions = getFunctions();
-  const postGenerator = httpsCallable(functions, "postGenerator");
-  const router = useRouter();
   const [user] = useAuthState(auth);
+  const bg = useColorModeValue("gray.100", "#27282A");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
+  const postGenerator = httpsCallable(functions, "postGenerator");
+  const [captionOutput, setCaption] = useState(caption);
   const [textInputs, setTextInputs] = useState({
     type: "",
     format: "",
     note: "",
   });
-  const bg = useColorModeValue("gray.100", "#27282A");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [photoGeneration, setPhotoGeneration] = useState(true);
 
-  const onTextChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const {
-      target: { name, value },
-    } = event;
-    setTextInputs((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const [selectedPhoto, setSelectedPhoto] = useState("");
 
   // const handleCreatePost = async () => {
   //   console.log("posted!");
@@ -101,6 +102,10 @@ const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
   //   setLoading(false);
   // };
 
+  useEffect(() => {
+    setCaption(caption);
+  }, [caption]);
+
   return (
     <>
       <Modal isOpen={open} onClose={handleClose}>
@@ -115,114 +120,47 @@ const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
             {/* AI Workshop */}
           </ModalHeader>
           <SimpleGrid minChildWidth="100px">
-            <Box>
+            <Flex flexDirection="column">
               <Text ml={10} fontSize="22pt" fontWeight={700}>
                 Creatives
               </Text>
               <Box
-                mt={3}
+                mt={10}
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
-                flexDir="column"
               >
-                <ButtonGroup>
-                  <Button
-                    bg={photoGeneration ? "#27282A" : { bg }}
-                    borderRadius={8}
-                    width="150px"
-                    onClick={() => setPhotoGeneration(true)}
-                  >
-                    AI Generated
-                  </Button>
-                  <Button
-                    bg={photoGeneration ? { bg } : "#27282A"}
-                    borderRadius={8}
-                    width="150px"
-                    onClick={() => setPhotoGeneration(false)}
-                  >
-                    Upload
-                  </Button>
-                </ButtonGroup>
-                {photoGeneration ? (
-                  <SimpleGrid columns={{ lg: 2 }} spacing="20px" mt={7}>
-                    <Box
-                      height="312.5px"
-                      width="250px"
-                      as="button"
-                      _focus={{
-                        boxShadow:
-                          "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-                      }}
-                    >
-                      <Image height="312.5px" width="250px"></Image>
-                    </Box>
-                    <Box
-                      height="312.5px"
-                      width="250px"
-                      as="button"
-                      _focus={{
-                        boxShadow:
-                          "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-                      }}
-                    >
-                      <Image height="312.5px" width="250px"></Image>
-                    </Box>
-                    <Box
-                      height="312.5px"
-                      width="250px"
-                      as="button"
-                      _focus={{
-                        boxShadow:
-                          "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-                      }}
-                    >
-                      <Image height="312.5px" width="250px"></Image>
-                    </Box>
-                    <Box
-                      height="312.5px"
-                      width="250px"
-                      as="button"
-                      _focus={{
-                        boxShadow:
-                          "0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)",
-                      }}
-                    >
-                      <Image height="312.5px" width="250px"></Image>
-                    </Box>
-                  </SimpleGrid>
-                ) : (
-                  <Circle
-                    as="button"
-                    bg={bg}
-                    color="white"
-                    size="320px"
-                    mt={20}
-                  >
-                    <VStack spacing={-4}>
-                      <Icon
-                        fontSize={200}
-                        color="grey.400"
-                        as={MdOutlineAddBox}
-                      />
-                      <Text>Upload a Photo</Text>
-                    </VStack>
-                  </Circle>
-                )}
-              </Box>
-              {photoGeneration && (
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  flexDir="column"
+                <Tabs
+                  onChange={(index) => setTabIndex(index)}
+                  variant="unstyled"
                 >
-                  <Button rightIcon={<TbSparkles />} mt={5}>
-                    Regenerate
-                  </Button>
-                </Box>
-              )}
-            </Box>
+                  <TabList>
+                    <Tab
+                      borderRadius={10}
+                      _selected={{ color: "white", bg: "#915EFF" }}
+                      minW="100px"
+                    >
+                      AI generated
+                    </Tab>
+                    <Tab
+                      borderRadius={10}
+                      _selected={{ color: "white", bg: "#915EFF" }}
+                      minW="100px"
+                    >
+                      Upload
+                    </Tab>
+                  </TabList>
+                  <TabPanels>
+                    <TabPanel>
+                      <PhotoGrid photos={photos} currentPhoto={selectedPhoto} setPhoto={setSelectedPhoto}/>
+                    </TabPanel>
+                    <TabPanel>
+                      <UploadPhoto />
+                    </TabPanel>
+                  </TabPanels>
+                </Tabs>
+              </Box>
+            </Flex>
             <Box>
               <Text fontSize="22pt" fontWeight={700}>
                 Selected Creative
@@ -233,10 +171,12 @@ const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
                 alignItems="center"
                 justifyContent="center"
               >
-                {photoGeneration ? (
-                  <Image align="center" width="300px" height="375px"></Image>
+                {tabIndex == 0 ? (
+                  <Image src={selectedPhoto} align="center" height="375px"></Image>
                 ) : (
-                  <Text width="300px" height="375px">Please select or upload a creative</Text>
+                  <Text width="300px" height="375px">
+                    Please select or upload a creative
+                  </Text>
                 )}
               </Box>
               <Text fontSize="22pt" fontWeight={700}>
@@ -255,7 +195,7 @@ const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
                   maxWidth="600px"
                   borderRadius={20}
                   height="100px"
-                  value={caption}
+                  value={captionOutput}
                   onChange={() => {}}
                   bg={bg}
                   _focus={{
@@ -264,7 +204,17 @@ const CreateWorkspaceModal: React.FC<CreatePostModalProps> = ({
                     borderColor: "black",
                   }}
                 />
-                <Button rightIcon={<TbSparkles />} mt={7}>
+                <Button
+                  rightIcon={<TbSparkles />}
+                  mt={7}
+                  onClick={() => {
+                    postGenerator(textInputs).then((result) => {
+                      setCaption(
+                        result.data.choices[0].text.split("Caption: ")[1]
+                      );
+                    });
+                  }}
+                >
                   Regenerate
                 </Button>
               </Box>
