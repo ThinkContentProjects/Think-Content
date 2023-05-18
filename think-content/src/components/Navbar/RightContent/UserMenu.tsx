@@ -13,7 +13,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { signOut, User } from "firebase/auth";
-import React from "react";
+import React, { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { CiLogin, CiLogout, CiUser, CiUnlock } from "react-icons/ci";
 import { useResetRecoilState, useSetRecoilState } from "recoil";
@@ -22,6 +22,7 @@ import { authModalState } from "@/src/atoms/authModalAtom";
 import { workspaceState } from "@/src/atoms/workspacesAtom";
 import { auth } from "@/src/firebase/firebase";
 import { BsFillMoonFill } from "react-icons/bs";
+import CreateProfileModal from "../../Modal/UserProfile/createProfileModal";
 
 type UserMenuProps = {
   user?: User | null;
@@ -37,9 +38,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
     router.push('/').then(async () => {await signOut(auth)});
     resetWorkspaceState();
   };
+  const [openCreateProfileSettings, setOpenProfileSettings] = useState(false);
 
   return (
+    
     <Menu>
+      <CreateProfileModal open={openCreateProfileSettings} handleClose={() => setOpenProfileSettings(false)} />
       <MenuButton
         cursor="pointer"
         padding="0px 6px"
@@ -78,9 +82,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               fontSize="11pt"
               fontWeight={500}
               _hover={{ bg: item_hover_bg }}
-              onClick={() => router.push('/profile')}
+              onClick={() => setOpenProfileSettings(true)}
             >
-              <Flex align="center" onClick={() => router.push("/profile")}>
+              <Flex align="center" onClick={() => setOpenProfileSettings(true)}>
                 <Icon fontSize={20} mr={2} as={CiUser} />
                 Profile
               </Flex>
