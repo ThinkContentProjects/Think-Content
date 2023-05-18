@@ -34,7 +34,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import "react-tabs/style/react-tabs.css";
 import { Icon } from '@chakra-ui/react'
 import { MdAccountCircle, MdAttachMoney } from 'react-icons/md'
-import { TbBrandAsana } from "react-icons/tb";
+import { TbBrandAsana, TbReceipt2 } from "react-icons/tb";
 import { CloseIcon } from "@chakra-ui/icons";
 import AccountInformation from "./AccountInformation";
 import Billing from "./Billing";
@@ -64,10 +64,10 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
 
     return (
     <>
-      <Modal isOpen={open} onClose={handleClose} size="4xl">
+      <Modal isOpen={open} onClose={handleClose} size="5xl">
         <ModalOverlay/>
-        <ModalContent pl={8} pb={3} borderRadius="3xl">
-        <ModalHeader>
+        <ModalContent pl={8} pb={3} borderRadius="3xl" pt={4}>
+        <ModalHeader fontSize={"2xl"}>
           Profile Settings
           <ModalCloseButton />
         </ModalHeader>
@@ -79,44 +79,49 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                 mr={10}
                 alignItems="flex-start"
                 borderRadius="xl"
+                h={"min"}
               >
                 <TabList
                   flexDirection="column"
                   alignItems="flex-start"
                   width="100%"
+                  
                 >
                   <Tab
-                    fontSize="13"
+                    fontSize="14"
+                    fontWeight={"thin"}
                     color="#959697"
                     _selected={{ color: 'white', bg: '#242628'}}
                     width="100%"
                     justifyContent="flex-start"
                     paddingLeft="1rem"
                   >
-                    <Icon as={MdAccountCircle}/>
+                    <Icon as={MdAccountCircle} boxSize={3} mr={2}/>
                     Account Information
                   </Tab>
                   <Tab
-                    fontSize="13"
+                    fontSize="14"
+                    fontWeight={"thin"}
                     color="#959697"
                     _selected={{ color: 'white', bg: '#242628'}}
                     width="100%"
                     justifyContent="flex-start"
                     paddingLeft="1rem"
                   >
-                    <Icon as={MdAttachMoney} boxSize={4}/>
+                    <Icon as={TbReceipt2} boxSize={3} mr={2}/>
                     Billing
                   </Tab>
                   <Tab
-                    fontSize="13"
+                    fontSize="14"
+                    fontWeight={"thin"}
                     color="#959697"
                     _selected={{ color: 'white', bg: '#242628'}}
                     width="100%"
                     justifyContent="flex-start"
                     paddingLeft="1rem"
                   >
-                    <Icon as={TbBrandAsana} boxSize={4}/>
-                    Brand Profiles
+                    <Icon as={TbBrandAsana} boxSize={3} mr={2}/>
+                     Brand Profiles
                   </Tab>
                 </TabList>
               </Box>
