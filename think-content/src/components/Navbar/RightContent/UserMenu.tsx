@@ -22,7 +22,7 @@ import { authModalState } from "@/src/atoms/authModalAtom";
 import { workspaceState } from "@/src/atoms/workspacesAtom";
 import { auth } from "@/src/firebase/firebase";
 import { BsFillMoonFill } from "react-icons/bs";
-import CreateProfileModal from "../../Modal/UserProfile/createProfileModal";
+import CreateProfileModal from "../../Modal/UserProfile/CreateProfileModal";
 
 type UserMenuProps = {
   user?: User | null;

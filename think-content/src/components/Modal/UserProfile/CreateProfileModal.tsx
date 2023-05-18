@@ -35,6 +35,10 @@ import "react-tabs/style/react-tabs.css";
 import { Icon } from '@chakra-ui/react'
 import { MdAccountCircle, MdAttachMoney } from 'react-icons/md'
 import { TbBrandAsana } from "react-icons/tb";
+import { CloseIcon } from "@chakra-ui/icons";
+import AccountInformation from "./AccountInformation";
+import Billing from "./Billing";
+import BrandProfiles from "./BrandProfiles";
 
 
 
@@ -60,17 +64,21 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
 
     return (
     <>
-      <Modal isOpen={open} onClose={handleClose} size="xl">
-        <ModalOverlay />
-        <ModalContent>
-        <ModalHeader>Profile Settings</ModalHeader>
+      <Modal isOpen={open} onClose={handleClose} size="4xl">
+        <ModalOverlay/>
+        <ModalContent pl={8} pb={3} borderRadius="3xl">
+        <ModalHeader>
+          Profile Settings
+          <ModalCloseButton />
+        </ModalHeader>
         <ModalBody>
-          <Tabs variant='soft-rounded' size="sm" width="128">
+          <Tabs variant='soft-rounded' size="sm" width="128" pt={30}>
             <Box display="flex">
-              <Box width="25%" bg='#1E2022' fontSize="xs" mx="auto" 
-                borderRadius={10}
+              <Box width="25%" bg='#1E2022' mx="auto" 
                 w={200}
-                ml={5}
+                mr={10}
+                alignItems="flex-start"
+                borderRadius="xl"
               >
                 <TabList
                   flexDirection="column"
@@ -78,6 +86,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                   width="100%"
                 >
                   <Tab
+                    fontSize="13"
                     color="#959697"
                     _selected={{ color: 'white', bg: '#242628'}}
                     width="100%"
@@ -88,6 +97,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                     Account Information
                   </Tab>
                   <Tab
+                    fontSize="13"
                     color="#959697"
                     _selected={{ color: 'white', bg: '#242628'}}
                     width="100%"
@@ -98,6 +108,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                     Billing
                   </Tab>
                   <Tab
+                    fontSize="13"
                     color="#959697"
                     _selected={{ color: 'white', bg: '#242628'}}
                     width="100%"
@@ -110,15 +121,19 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                 </TabList>
               </Box>
               <Box flex="1">
-                <TabPanels>
+                <TabPanels 
+                  alignItems="flex-start"
+                  marginTop="-20"
+                  marginLeft="16"
+                >
                   <TabPanel>
-                    <Text fontSize="xl" textDecoration="underline">Account Information</Text>
+                    <AccountInformation/>
                   </TabPanel>
                   <TabPanel>
-                    <Text fontSize="xl" textDecoration="underline">Billings</Text>
+                    <Billing/>
                   </TabPanel>
                   <TabPanel>
-                    <Text fontSize="xl" textDecoration="underline">Brand Profiles</Text>
+                    <BrandProfiles/>
                   </TabPanel>
                 </TabPanels>
               </Box>
@@ -126,7 +141,20 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
           </Tabs> 
         </ModalBody>
         <ModalFooter>
-          <Button variant="outline" onClick={ ()=> handleClose}>Save Changes</Button>
+          <Button 
+            fontSize={"xs"}
+            fontWeight={"normal"}
+            px={8}
+            py={2}
+            h="-moz-min-content"
+            variant="unstyled" 
+            color="#1E2022" 
+            bg="#ffffff"
+            _hover={{ color: 'black', bg: "gray.300"}}
+            onClick={handleClose} //Need to update data once this button is clicked
+          >
+            Save Changes
+          </Button>
         </ModalFooter>
         </ModalContent>
       </Modal>

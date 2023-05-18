@@ -25,20 +25,20 @@ import { BsFillMoonFill } from "react-icons/bs";
 import CreateProfileModal from "./CreateProfileModal";
 
 
-type AccountInformationProps = {
+type BrandProfilesProps = {
     user?: User | null;
   };
 
-const AccountInformation: React.FC<AccountInformationProps> = ({ user }) => {
+const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
 
     return (
         <>
             <Text fontSize="xl" fontWeight={"bold"}>
-                Account Information
+                Brand Profiles
             </Text>
         </>
     );
 
 };
 
-export default AccountInformation;
+export default BrandProfiles;
