@@ -17,7 +17,7 @@ const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
 
     return (
         <>
-            <Box position="relative">
+            <Box position="relative" ml={-2}>
             <Text fontSize="xl" fontWeight="bold">
                 Brand Profiles
             </Text>
@@ -58,7 +58,6 @@ const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
                 textColor="white"
                 ringColor={"#242628"}
                 bgColor={"#242628"}
-                focusBorderColor={"white"}
             />
             <Text pt={"8"} pb={3} fontSize={"lg"}>
                 Mission
@@ -72,7 +71,6 @@ const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
                 textColor="white"
                 ringColor={"#242628"}
                 bgColor={"#242628"}
-                focusBorderColor={"white"}
                 placeholder="Describe your persona's mission"
             />
             <Text pt={"8"} pb={3} fontSize={"lg"}>
@@ -86,7 +84,6 @@ const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
                 textColor="white"
                 ringColor={"#242628"}
                 bgColor={"#242628"}
-                focusBorderColor={"white"}
             />
             <Text pt={"8"} pb={3} fontSize={"lg"}>
                 Brand Message
@@ -100,11 +97,10 @@ const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
                 textColor="white"
                 ringColor={"#242628"}
                 bgColor={"#242628"}
-                focusBorderColor={"white"}
                 placeholder="Write your brand message here."
             />
-            <Box position="relative">
-            <Text fontSize="xl" fontWeight="bold" pt={8}>
+            <Box position="relative" ml={-2}>
+            <Text fontSize="xl" fontWeight="bold" pt={8} >
                 Customer Personas
             </Text>
             <Box

@@ -39,6 +39,7 @@ import { CloseIcon } from "@chakra-ui/icons";
 import AccountInformation from "./AccountInformation";
 import Billing from "./Billing";
 import BrandProfiles from "./BrandProfiles";
+import { FaMoneyBillAlt } from "react-icons/fa";
 
 
 
@@ -64,7 +65,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
 
     return (
     <>
-      <Modal isOpen={open} onClose={handleClose} size="5xl">
+      <Modal isOpen={open} onClose={handleClose} size="6xl">
         <ModalOverlay/>
         <ModalContent pl={8} pb={3} borderRadius="3xl" pt={4}>
         <ModalHeader fontSize={"2xl"}>
@@ -96,7 +97,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                     justifyContent="flex-start"
                     paddingLeft="1rem"
                   >
-                    <Icon as={MdAccountCircle} boxSize={3} mr={2}/>
+                    <Icon as={MdAccountCircle} boxSize={4} mr={2}/>
                     Account Information
                   </Tab>
                   <Tab
@@ -108,7 +109,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                     justifyContent="flex-start"
                     paddingLeft="1rem"
                   >
-                    <Icon as={TbReceipt2} boxSize={3} mr={2}/>
+                    <Icon as={MdAttachMoney} boxSize={4} mr={2}/>
                     Billing
                   </Tab>
                   <Tab
@@ -120,7 +121,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                     justifyContent="flex-start"
                     paddingLeft="1rem"
                   >
-                    <Icon as={TbBrandAsana} boxSize={3} mr={2}/>
+                    <Icon as={TbBrandAsana} boxSize={4} mr={2}/>
                      Brand Profiles
                   </Tab>
                 </TabList>
