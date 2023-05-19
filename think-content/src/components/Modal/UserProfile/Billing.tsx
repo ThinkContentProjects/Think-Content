@@ -193,46 +193,46 @@ const Billing: React.FC<BillingProps> = ({ user }) => {
                 </Text>
                 <Flex width="65%" flexDir={"column"}>
                     
-                    <Flex flexDir={"row"} justify="space-between">
-                        <Text textColor="white" pb={2} fontSize={"s"}>
+                    <Flex flexDir={"row"} justify="space-between" pb={2}>
+                        <Text textColor="white" fontSize={"s"}>
                             Amount
                         </Text>
-                        <Text textColor="white" pb={2} fontSize={"s"}>
+                        <Text textColor="white" fontSize={"s"}>
                             card
                         </Text>
-                        <Text textColor="white" pb={2} fontSize={"s"}>
+                        <Text textColor="white" fontSize={"s"}>
                             Date
                         </Text>
-                        <Text textColor="white" pb={1.5}>
+                        <Text textColor="white">
                             Status
                         </Text>
                     </Flex>
                     <Divider borderWidth={2}/>
-                    <Flex flexDir={"row"}  justify="space-between">
-                        <Text py={4} pl={2} textColor="#959697" fontSize={"xs"}>
+                    <Flex flexDir={"row"}  justify="space-between"  py={4}>
+                        <Text pl={2} textColor="#959697" fontSize={"xs"}>
                             $15.00  
                         </Text>  
-                        <Text py={4} textColor="#959697" fontSize={"xs"}>
+                        <Text textColor="#959697" fontSize={"xs"}>
                             Ending in 7896   
                         </Text> 
-                        <Text py={4} textColor="#959697" fontSize={"xs"}>
+                        <Text textColor="#959697" fontSize={"xs"}>
                             5/07/2023 5:32 PM 
                         </Text> 
-                        <Text py={4} textColor="#959697" fontSize={"xs"}>
+                        <Text textColor="#959697" fontSize={"xs"}>
                             Successful
                         </Text> 
                     </Flex>
-                    <Flex flexDir={"row"}  justify="space-between">
-                        <Text py={4} pl={2} textColor="#959697" fontSize={"xs"}>
+                    <Flex flexDir={"row"}  justify="space-between" py={4}>
+                        <Text  pl={2} textColor="#959697" fontSize={"xs"}>
                             $15.00  
                         </Text>  
-                        <Text py={4} textColor="#959697" fontSize={"xs"}>
+                        <Text textColor="#959697" fontSize={"xs"}>
                             Ending in 7896   
                         </Text> 
-                        <Text py={4} textColor="#959697" fontSize={"xs"}>
+                        <Text textColor="#959697" fontSize={"xs"}>
                             5/07/2023 5:32 PM 
                         </Text> 
-                        <Text py={4} textColor="#959697" fontSize={"xs"}>
+                        <Text textColor="#959697" fontSize={"xs"}>
                             Successful
                         </Text> 
                     </Flex>
