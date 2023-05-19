@@ -1,6 +1,7 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Icon, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
+import { FaRegGem } from "react-icons/fa";
 
 const Pricing: React.FC = () => {
   const router = useRouter();
@@ -14,6 +15,7 @@ const Pricing: React.FC = () => {
       display={{ base: "none", md: "flex" }}
       _hover={{ bg: "purple.100", color: "purple.600" }}
       onClick={() => router.push("/billing")}
+      
     >
       <Text fontWeight={700} fontSize="12pt">
         Pricing

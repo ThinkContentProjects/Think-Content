@@ -6,6 +6,7 @@ import { useSetRecoilState } from "recoil";
 import { inviteModalState } from "@/src/atoms/inviteModalAtom";
 import { defaultMenuItem } from "@/src/atoms/directoryMenuAtom";
 import useDirectory from "@/src/hooks/useDirectory";
+import { FaRegGem } from "react-icons/fa";
 
 type ActionIconsProps = {
   user: User;
@@ -48,10 +49,11 @@ const ActionIcons: React.FC<ActionIconsProps> = ({ user }) => {
           fontWeight={600}
           // leftIcon={<FaCrown />}
           display={{ base: "none", sm: "flex" }}
-          width={{ base: "70px", md: "110px" }}
+          width={{ base: "80px", md: "110px" }}
           mr={2}
         >
           <Text fontSize="11pt"> Upgrade </Text>
+          <Icon as={FaRegGem} color={"white"} pl={1} boxSize={4}/>
         </Button>
       </Box>
     </Flex>
