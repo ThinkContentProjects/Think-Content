@@ -33,7 +33,7 @@ import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "react-tabs/style/react-tabs.css";
 import { Icon } from '@chakra-ui/react'
-import { MdAccountCircle, MdAttachMoney, MdOutlinePayments } from 'react-icons/md'
+import { MdAccountCircle, MdAttachMoney, MdOutlinePayments, MdWorkspacesOutline } from 'react-icons/md'
 import { TbBrandAsana, TbReceipt2 } from "react-icons/tb";
 import { CloseIcon } from "@chakra-ui/icons";
 import AccountInformation from "./AccountInformation";
@@ -122,7 +122,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
                     justifyContent="flex-start"
                     paddingLeft="1rem"
                   >
-                    <Icon as={HiOutlineTrash} boxSize={4} mr={2}/>
+                    <Icon as={MdWorkspacesOutline} boxSize={4} mr={2}/>
                      Brand Profiles
                   </Tab>
                 </TabList>
