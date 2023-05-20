@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   Box,
   CloseButton,
@@ -30,6 +30,7 @@ import Directory from "../Navbar/Directory/Directory";
 import { useRecoilValue } from "recoil";
 import { workspaceState } from "@/src/atoms/workspacesAtom";
 import { HiLightningBolt } from "react-icons/hi"
+import CreatePricingPlanModal from "../Modal/PricingPlan/CreatePricingPlanModal";
 
 interface LinkItemProps {
   name: string;
@@ -79,9 +80,11 @@ interface SidebarProps extends BoxProps {
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const workspaceStateValue = useRecoilValue(workspaceState);
+  const [openPricingPlan, setOpenPricingPlan] = useState(false);
 
   return (
     <Box pos="fixed" h="full" {...rest}>
+      <CreatePricingPlanModal open={openPricingPlan} handleClose={() => setOpenPricingPlan(false)} />
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Directory />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
@@ -126,7 +129,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Center>
         <Text pl={3} mb={1} fontSize="8pt" fontWeight={500} color="gray.500">Unlock all features of Think Content</Text>
         <Text fontSize="10pt">1583/10,000 Tokens Used</Text> 
-        <Button width="75%" leftIcon={<IoAddCircleOutline />}>Upgrade</Button>
+        <Button onClick={() => setOpenPricingPlan(true)} width="75%" leftIcon={<IoAddCircleOutline />}>Upgrade</Button>
       </Box>
     </Box>
   );

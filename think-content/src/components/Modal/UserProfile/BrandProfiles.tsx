@@ -133,7 +133,7 @@ const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
                                 <AddIcon _hover={{ color: 'white', bg: "#242628"}} color={"#959697"} boxSize={3}/>
                             </Flex>
                         </Box>
-                        <Text _hover={{ color: 'white'}} fontSize="sm" color={"#959697"} px={3}>
+                        <Text fontSize="sm" color={"#959697"} px={3}>
                             Create new
                         </Text>
                     </Flex>

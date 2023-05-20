@@ -38,15 +38,17 @@ import { RiFileList3Line } from "react-icons/ri";
 import { FiActivity, FiLayers, FiPackage } from "react-icons/fi";
 import { SlCreditCard } from "react-icons/sl";
 import { BiCreditCard } from "react-icons/bi";
+import CreatePricingPlanModal from "../PricingPlan/CreatePricingPlanModal";
 
 type BillingProps = {
     user?: User | null;
   };
 
 const Billing: React.FC<BillingProps> = ({ user }) => {
-
+    const [openPricingPlan, setOpenPricingPlan] = useState(false);
     return (
-        <>  
+        <>        
+            <CreatePricingPlanModal open={openPricingPlan} handleClose={() => setOpenPricingPlan(false)} />
             <Flex flexDir={"column"}>
                 <Box position="relative" ml={-2}>
                 <Text fontSize="xl" fontWeight="bold">
@@ -179,7 +181,7 @@ const Billing: React.FC<BillingProps> = ({ user }) => {
                             color="gray.400" 
                             bg="#242628"
                             _hover={{ color: 'white', bg: "#242628"}}
-                            //On-Click Action Needed Here
+                            onClick={() => setOpenPricingPlan(true)}
                         >
                             Change Plan
                         </Button>

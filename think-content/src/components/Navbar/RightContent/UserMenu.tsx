@@ -23,6 +23,7 @@ import { workspaceState } from "@/src/atoms/workspacesAtom";
 import { auth } from "@/src/firebase/firebase";
 import { BsFillMoonFill } from "react-icons/bs";
 import CreateProfileModal from "../../Modal/UserProfile/CreateProfileModal";
+import CreatePricingPlanModal from "../../Modal/PricingPlan/CreatePricingPlanModal";
 
 type UserMenuProps = {
   user?: User | null;
@@ -39,11 +40,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
     resetWorkspaceState();
   };
   const [openCreateProfileSettings, setOpenProfileSettings] = useState(false);
+  const [openPricingPlan, setOpenPricingPlan] = useState(false);
 
   return (
     
     <Menu>
       <CreateProfileModal open={openCreateProfileSettings} handleClose={() => setOpenProfileSettings(false)} />
+      <CreatePricingPlanModal open={openPricingPlan} handleClose={() => setOpenPricingPlan(false)} />
       <MenuButton
         cursor="pointer"
         padding="0px 6px"
@@ -94,8 +97,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               fontSize="11pt"
               fontWeight={500}
               _hover={{ bg: item_hover_bg }}
+              onClick={() => setOpenPricingPlan(true)}
             >
-              <Flex align="center">
+              <Flex align="center" onClick={() => setOpenPricingPlan(true)}>
                 <Icon fontSize={20} mr={2} as={CiUnlock} />
                 Upgrade
               </Flex>
