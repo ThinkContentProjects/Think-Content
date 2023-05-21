@@ -91,6 +91,7 @@ const CreatePricingPlanModal: React.FC<CreatePricingPlanModalProps> = ({
                                 </Flex>
                                 <Flex justify={"center"} w={"100%"} pl={8}>
                                     <Button
+                                        ml={-8}
                                         w={"full"}
                                         bg={currentPlan === 1 ? "#FA00CC": "white"} 
                                         textColor={currentPlan === 1 ? "#white": "#FA00CC"}
@@ -171,6 +172,7 @@ const CreatePricingPlanModal: React.FC<CreatePricingPlanModalProps> = ({
                                 </Flex>
                                 <Flex justify={"center"} w={"100%"} pl={8}>
                                     <Button
+                                        ml={-8}
                                         w={"full"}
                                         bg={currentPlan === 2 ? "#FA00CC": "white"} 
                                         textColor={currentPlan === 2 ? "#white": "#FA00CC"}
@@ -259,6 +261,7 @@ const CreatePricingPlanModal: React.FC<CreatePricingPlanModalProps> = ({
                                 
                                 >
                                     <Button
+                                        ml={-8}
                                         w={"full"}
                                         bg={currentPlan === 3 ? "#FA00CC": "white"} 
                                         textColor={currentPlan === 3 ? "#white": "#FA00CC"}
