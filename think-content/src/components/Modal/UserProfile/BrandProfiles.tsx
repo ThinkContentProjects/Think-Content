@@ -11,7 +11,8 @@ import {
   Image
 } from "@chakra-ui/react";
 import { User } from "firebase/auth";
-import React from "react";
+import CreateNewPersonaModal from "./CreatePersona/CreatePersonaModal";
+import React, { useState } from "react";
 
 
 type BrandProfilesProps = {
@@ -20,8 +21,20 @@ type BrandProfilesProps = {
 
 const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
 
+    const [openCreatePersona, setOpenCreatePersona] = useState(false);
+    const [highlightCreateNew, setHighlightCreateNew] = useState(false);
+
+    const handleMouseEnter = () => {
+        setHighlightCreateNew(true);
+    };
+    
+      const handleMouseLeave = () => {
+        setHighlightCreateNew(false);
+    };
+
     return (
         <>
+            <CreateNewPersonaModal open={openCreatePersona} handleClose={() => setOpenCreatePersona(false)} />
             <Box position="relative" ml={-2}>
             <Text fontSize="xl" fontWeight="bold">
                 Brand Profiles
@@ -120,20 +133,35 @@ const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
                 />
                 </Box>
                 <Spacer/>
-                <Button variant="unstyled" w={"-moz-max-content"} >
-                    <Flex flexDirection={"row"} justify={"space-between"} >
+                <Button variant="unstyled" w={"-moz-max-content"} onClick={() => setOpenCreatePersona(true)}>
+                    <Flex flexDirection="row" justify="space-between">
                         <Box
-                            bg="#1E2022"
                             h={6}
                             w={6}
-                            borderRadius={"md"}
-                            _hover={{ color: 'white', bg: "#242628"}}
+                            borderRadius="md"
+                            bg={highlightCreateNew ? "#242628" : "#1E2022"}
+                            color={highlightCreateNew ? "white" : ""}
+                            _hover={{ color: "white", bg: "#242628" }}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
                         >
                             <Flex align="center" justify="center" h="100%">
-                                <AddIcon _hover={{ color: 'white', bg: "#242628"}} color={"#959697"} boxSize={3}/>
+                            <AddIcon
+                                _hover={{ color: "white", bg: "#242628" }}
+                                color={highlightCreateNew ? "white" : "#959697"}
+                                bg={highlightCreateNew ? "#242628" : ""}
+                                boxSize={3}
+                            />
                             </Flex>
                         </Box>
-                        <Text fontSize="sm" color={"#959697"} px={3}>
+                        <Text
+                            fontSize="sm"
+                            px={3}
+                            _hover={{ color: "white" }}
+                            color={highlightCreateNew ? "white" : "#959697"}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                        >
                             Create new
                         </Text>
                     </Flex>

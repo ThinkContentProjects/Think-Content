@@ -82,10 +82,9 @@ const CreatePricingPlanModal: React.FC<CreatePricingPlanModalProps> = ({
                                         <Text fontSize={"2xl"} fontWeight={"bold"}color={"white"}>$25</Text><Text color={"#D8D9D9"} fontSize={"sm"} my={2.5}>/month</Text>
                                     </Flex>
                                 </Flex>
-                                <Flex flexDir={"row"} justify={"start"} px={6} py={4}>
+                                <Flex flexDir={"row"} justify={"start"} px={6} py={4} style={{ visibility: currentPlan === 0 ? "visible" : "hidden" }}>
                                     <Icon as={BsCheckCircleFill} my={1} mx={2} boxSize={4} color={"green.500"}/>
                                     <Text color={"#D8D9D9"} fontSize={"sm"}
-                                    //Only if they are not signed in...
                                     >
                                         Free 2-Week Trial
                                     </Text>
@@ -163,10 +162,9 @@ const CreatePricingPlanModal: React.FC<CreatePricingPlanModalProps> = ({
                                         <Text fontSize={"2xl"} fontWeight={"bold"}color={"white"}>$50</Text><Text color={"#D8D9D9"} fontSize={"sm"} my={2.5}>/month</Text>
                                     </Flex>
                                 </Flex>
-                                <Flex flexDir={"row"} justify={"start"} px={6} py={4}>
+                                <Flex flexDir={"row"} justify={"start"} px={6} py={4} style={{ visibility: currentPlan === 0 ? "visible" : "hidden" }}>
                                     <Icon as={BsCheckCircleFill} my={1} mx={2} boxSize={4} color={"green.500"}/>
                                     <Text color={"#D8D9D9"} fontSize={"sm"}
-                                    //Only if they are not signed in...
                                     >
                                         Free 2-Week Trial
                                     </Text>
@@ -250,10 +248,9 @@ const CreatePricingPlanModal: React.FC<CreatePricingPlanModalProps> = ({
                                         <Text fontSize={"2xl"} fontWeight={"bold"}color={"white"}>$75</Text><Text color={"#D8D9D9"} fontSize={"sm"} my={2.5}>/month</Text>
                                     </Flex>
                                 </Flex>
-                                <Flex flexDir={"row"} justify={"start"} px={6} py={4}>
+                                <Flex flexDir={"row"} justify={"start"} px={6} py={4} style={{ visibility: currentPlan === 0 ? "visible" : "hidden" }}>
                                     <Icon as={BsCheckCircleFill} my={1} mx={2} boxSize={4} color={"green.500"}/>
                                     <Text color={"#D8D9D9"} fontSize={"sm"}
-                                    //Only if they are not signed in...
                                     >
                                         Free 2-Week Trial
                                     </Text>
