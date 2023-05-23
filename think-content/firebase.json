@@ -2,7 +2,7 @@
   "functions": [
     {
       "source": "functions",
-      "codebase": "default",
+      "codebase": "team-ts",
       "ignore": [
         "node_modules",
         ".git",
@@ -11,6 +11,16 @@
       ],
       "predeploy": [
         "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    },
+    {
+      "source": "team-ai",
+      "codebase": "team-ai",
+      "ignore": [
+        "venv",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
       ]
     }
   ],

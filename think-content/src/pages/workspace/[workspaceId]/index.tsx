@@ -1,4 +1,3 @@
-import CreatePostModal from "@/src/components/Modal/CreatePost/CreatePostModal";
 import Posts from "@/src/components/Posts/Posts";
 import { db } from "@/src/firebase/firebase";
 import { withProtected } from "@/src/hooks/routes";
@@ -32,18 +31,7 @@ const WorkspacePage: NextPage<WorkspacePageProps> = ({ workspaceData }) =>
 
   return (
     <div className="flex flex-col min-h-screen bg-blue-50">
-      <Flex justify="center">
-        <Stack align="center">
-          <CreatePostModal
-            open={openCreatePostModal}
-            handleClose={() => setOpenCreatePostModal(false)}
-          />
-          <Button fontSize={15} width="50%" onClick={() => setOpenCreatePostModal(true)}>
-            Create Post
-          </Button>
-          <Posts workspaceData={workspaceData} />
-        </Stack>
-      </Flex>
+   
     </div>
   );
 };

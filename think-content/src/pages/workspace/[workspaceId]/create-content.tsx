@@ -13,19 +13,29 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { TbSparkles } from "react-icons/tb";
-import { getFunctions, httpsCallable } from "firebase/functions";
+import {
+  getFunctions,
+  httpsCallable,
+  connectFunctionsEmulator,
+} from "firebase/functions";
 import RadioCard from "@/src/components/RadioCard/RadioCard";
+import { getApp } from "firebase/app";
 
 type createContentProps = {};
 
 const createContent: React.FC<createContentProps> = () => {
   const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
   const bg = useColorModeValue("gray.100", "#27282A");
-  const functions = getFunctions();
-  const postGenerator = httpsCallable(functions, "postGenerator");
-  const picGenerator = httpsCallable(functions, "picGenerator");
-  const [caption, setCaption] = useState("");
-  const [photos, setPhotos] = useState([]);
+  const functions = getFunctions(getApp());
+  connectFunctionsEmulator(functions, "127.0.0.1", 5001);
+  const captionGenerator = httpsCallable(functions, "captionGenerator");
+  const imageGenerator = httpsCallable(functions, "imageGenerator");
+  const [post, setPost] = useState({
+    caption: "",
+    creative: "",
+    nextPage: "",
+    photos: [],
+  });
 
   const options = ["Feed Post", "Story", "Reel", "Carousal"];
 
@@ -109,8 +119,7 @@ const createContent: React.FC<createContentProps> = () => {
         <CreatePostModal
           open={openCreatePostModal}
           handleClose={() => setOpenCreatePostModal(false)}
-          caption={caption}
-          photos={photos}
+          post={post}
         />
         <Button
           mt={7}
@@ -120,14 +129,22 @@ const createContent: React.FC<createContentProps> = () => {
           rightIcon={<TbSparkles />}
           onClick={() => {
             setOpenCreatePostModal(true);
-            postGenerator(textInputs).then((result: any) => {
-              setCaption(result.data.choices[0].text.split("Caption: ")[1]);
-              picGenerator({
-                creative: result.data.choices[0].text.split("Caption: ")[0],
+            captionGenerator(textInputs).then((result: any) => {
+              setPost((prev) => ({
+                ...prev,
+                creative: result.data.creative,
+                caption: result.data.caption,
+              }));
+              imageGenerator({
+                search: result.data.search,
               }).then((result: any) => {
-                setPhotos(
-                  result.data.photos.map((photo: any) => photo.src.portrait)
-                );
+                setPost((prev) => ({
+                  ...prev,
+                  photos: result.data.photos.map(
+                    (photo: any) => photo.src.portrait
+                  ),
+                  nextPage: result.data.next_page
+                }));
               });
             });
           }}
