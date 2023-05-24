@@ -19,6 +19,8 @@ import {
   query,
   where,
   runTransaction,
+  setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -79,6 +81,14 @@ const useWorkspaceData = () => {
     setLoading(false);
   };
 
+  const updateRecentWorkspace = async (workspaceId: string) => {
+    if (user != undefined) {
+      await updateDoc(doc(db, "users", user.uid), {
+       recentWorkspace: workspaceId
+      });
+    }
+  };
+
   // takes in a string and gets the workspace - used for joining through notifications
   const joinWorkspace = async (workspaceId: string) => {
     setLoading(true);
@@ -109,7 +119,7 @@ const useWorkspaceData = () => {
 
           // add the new workspace snippet
           transaction.set(
-            doc(db, `users/${user?.uid}/communitySnippets`, workspaceSnap.id),
+            doc(db, `users/${user?.uid}/workspaceSnippets`, workspaceSnap.id),
             newSnippet
           );
 
@@ -166,7 +176,6 @@ const useWorkspaceData = () => {
 
   // I think it might make more sense for this to be a snippet in the workspaceStateAtom
   const getMembers = async () => {
-
     // dont get the members unless inside of a workspace
     if (workspaceStateValue.currentWorkspace) {
       setLoading(true);
@@ -203,7 +212,7 @@ const useWorkspaceData = () => {
     getMySnippets();
   }, [user]);
 
-  // will trigger everytime user changes
+  // will trigger everytime workspace changes
   useEffect(() => {
     getMembers();
   }, [workspaceStateValue.currentWorkspace]);
@@ -213,7 +222,8 @@ const useWorkspaceData = () => {
     joinWorkspace,
     leaveWorkspace,
     getMembers,
-    getMySnippets
+    getMySnippets,
+    updateRecentWorkspace
   };
 };
 

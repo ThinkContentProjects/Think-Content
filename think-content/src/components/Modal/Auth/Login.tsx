@@ -1,9 +1,11 @@
 import { authModalState } from "@/src/atoms/authModalAtom";
 import { FIREBASE_ERRORS } from "@/src/firebase/errors";
-import { auth } from "@/src/firebase/firebase";
+import { auth, db } from "@/src/firebase/firebase";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
+import { User } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import { Router, useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
 
@@ -18,21 +20,35 @@ const Login: React.FC<LoginProps> = () => {
     password: "",
   });
 
-  const [signInWithEmailAndPassword, user, loading, error] =
+  const [signInWithEmailAndPassword, userCred, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
   // firebase logic
   // also redirect the user to a previous router if they were redirected here!
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    signInWithEmailAndPassword(loginForm.email, loginForm.password).then(() => {
-      router.push(
-        router.query.from
-          ? decodeURIComponent(router.query.from as string)
-          : "/dashboard"
-      );
-    });
+    signInWithEmailAndPassword(loginForm.email, loginForm.password);
   };
+
+  const getRecentWorkspace = async (user: User) => {
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data().recentWorkspace;
+    }
+  };
+
+  useEffect(() => {
+    if (userCred) {
+      getRecentWorkspace(userCred.user).then((workspaceId) => {
+        router.push(
+          router.query.from
+            ? decodeURIComponent(router.query.from as string)
+            : `workspace/${workspaceId}`
+        );
+      });
+    }
+  }, [userCred]);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //update form state

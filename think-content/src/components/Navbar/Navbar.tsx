@@ -32,7 +32,7 @@ const Navbar: React.FC<NavBarProps> = ({ user }) => {
           // width={{ base: "100px", md: "auto" }}
           // mr={{ base: 0, md: 100 }}
           cursor="pointer"
-          onClick={() => onSelectMenuItem(defaultMenuItem)}
+          // onClick={() => onSelectMenuItem(defaultMenuItem)}
         >
           <Image
             src="/images/logoLarge.png"

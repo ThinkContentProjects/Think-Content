@@ -8,8 +8,8 @@ export type DirectoryMenuItem = {
 
 // default directory menu item value - also potentially should be moved
 export const defaultMenuItem: DirectoryMenuItem = {
-  displayText: "Dashboard",
-  link: "/dashboard",
+  displayText: "Home",
+  link: "/",
 };
 
 // type for the atom
