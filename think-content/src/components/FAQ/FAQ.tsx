@@ -13,23 +13,23 @@ const FAQ: React.FC = () =>
             <Text pt={24} pb={8} fontSize={"4xl"} fontWeight={"bold"}>
                 Frequently Asked Questions
             </Text>
-            <Accordion allowMultiple justifyContent={"center"}>
-                <AccordionItem w={"50%"} h={"32"}>
+            <Accordion allowMultiple justifyContent={"center"} w={"80%"}>
+                <AccordionItem bg="#242628" borderRadius={"2xl"}my={4}>
                     {({ isExpanded }) => (
                     <>
                         <h2>
                         <AccordionButton>
-                            <Box as="span" flex='1' textAlign='left'>
-                            Section 2 title
+                            <Box flex={"1"} w={"100%"} my={4} fontSize={"xl"} textAlign='left' bgColor={"#242628"}>
+                            What is Think Content and how does it work?
                             </Box>
                             {isExpanded ? (
-                            <MinusIcon fontSize='12px' />
+                            <MinusIcon fontSize='12px' color={"white"}/>
                             ) : (
-                            <AddIcon fontSize='12px' />
+                            <AddIcon fontSize='12px' color={"white"}/>
                             )}
                         </AccordionButton>
                         </h2>
-                        <AccordionPanel pb={4}>
+                        <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
                         minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -38,22 +38,22 @@ const FAQ: React.FC = () =>
                     </>
                     )}
                 </AccordionItem>
-                <AccordionItem>
+                <AccordionItem bg="#242628" borderRadius={"2xl"}my={4}>
                     {({ isExpanded }) => (
                     <>
                         <h2>
                         <AccordionButton>
-                            <Box as="span" flex='1' textAlign='left'>
-                            Section 2 title
+                            <Box flex={"1"} w={"100%"} my={4} fontSize={"xl"} textAlign='left' bgColor={"#242628"}>
+                            How does Think Content help with content strategy?
                             </Box>
                             {isExpanded ? (
-                            <MinusIcon fontSize='12px' />
+                            <MinusIcon fontSize='12px' color={"white"}/>
                             ) : (
-                            <AddIcon fontSize='12px' />
+                            <AddIcon fontSize='12px' color={"white"}/>
                             )}
                         </AccordionButton>
                         </h2>
-                        <AccordionPanel pb={4}>
+                        <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
                         minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -62,22 +62,22 @@ const FAQ: React.FC = () =>
                     </>
                     )}
                 </AccordionItem>
-                <AccordionItem>
+                <AccordionItem bg="#242628" borderRadius={"2xl"}my={4}>
                     {({ isExpanded }) => (
                     <>
                         <h2>
                         <AccordionButton>
-                            <Box as="span" flex='1' textAlign='left'>
-                            Section 2 title
+                            <Box flex={"1"} w={"100%"} my={4} fontSize={"xl"} textAlign='left' bgColor={"#242628"}>
+                            How does the content creation feature work?
                             </Box>
                             {isExpanded ? (
-                            <MinusIcon fontSize='12px' />
+                            <MinusIcon fontSize='12px' color={"white"}/>
                             ) : (
-                            <AddIcon fontSize='12px' />
+                            <AddIcon fontSize='12px' color={"white"}/>
                             )}
                         </AccordionButton>
                         </h2>
-                        <AccordionPanel pb={4}>
+                        <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
                         minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -86,22 +86,22 @@ const FAQ: React.FC = () =>
                     </>
                     )}
                 </AccordionItem>
-                <AccordionItem>
+                <AccordionItem bg="#242628" borderRadius={"2xl"}my={4}>
                     {({ isExpanded }) => (
                     <>
                         <h2>
                         <AccordionButton>
-                            <Box as="span" flex='1' textAlign='left'>
-                            Section 2 title
+                            <Box flex={"1"} w={"100%"} my={4} fontSize={"xl"} textAlign='left' bgColor={"#242628"}>
+                            How does Think Content assist with campaign strategy?
                             </Box>
                             {isExpanded ? (
-                            <MinusIcon fontSize='12px' />
+                            <MinusIcon fontSize='12px' color={"white"}/>
                             ) : (
-                            <AddIcon fontSize='12px' />
+                            <AddIcon fontSize='12px' color={"white"}/>
                             )}
                         </AccordionButton>
                         </h2>
-                        <AccordionPanel pb={4}>
+                        <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
                         minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -110,22 +110,22 @@ const FAQ: React.FC = () =>
                     </>
                     )}
                 </AccordionItem>
-                <AccordionItem>
+                <AccordionItem bg="#242628" borderRadius={"2xl"}my={4}>
                     {({ isExpanded }) => (
                     <>
                         <h2>
                         <AccordionButton>
-                            <Box as="span" flex='1' textAlign='left'>
-                            Section 2 title
+                            <Box flex={"1"} w={"100%"} my={4} fontSize={"xl"} textAlign='left' bgColor={"#242628"}>
+                            Is Think Content suitable for my industry or niche?
                             </Box>
                             {isExpanded ? (
-                            <MinusIcon fontSize='12px' />
+                            <MinusIcon fontSize='12px' color={"white"}/>
                             ) : (
-                            <AddIcon fontSize='12px' />
+                            <AddIcon fontSize='12px' color={"white"}/>
                             )}
                         </AccordionButton>
                         </h2>
-                        <AccordionPanel pb={4}>
+                        <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
                         minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -133,23 +133,23 @@ const FAQ: React.FC = () =>
                         </AccordionPanel>
                     </>
                     )}
-                </AccordionItem>
-                <AccordionItem>
+                </AccordionItem>        
+                <AccordionItem bg="#242628" borderRadius={"2xl"}my={4}>
                     {({ isExpanded }) => (
                     <>
                         <h2>
                         <AccordionButton>
-                            <Box as="span" flex='1' textAlign='left'>
-                            Section 2 title
+                            <Box flex={"1"} w={"100%"} my={4} fontSize={"xl"} textAlign='left' bgColor={"#242628"}>
+                            Can I schedule and automate my social media posts with Think Content?
                             </Box>
                             {isExpanded ? (
-                            <MinusIcon fontSize='12px' />
+                            <MinusIcon fontSize='12px' color={"white"}/>
                             ) : (
-                            <AddIcon fontSize='12px' />
+                            <AddIcon fontSize='12px' color={"white"}/>
                             )}
                         </AccordionButton>
                         </h2>
-                        <AccordionPanel pb={4}>
+                        <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                         eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
                         minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -157,7 +157,7 @@ const FAQ: React.FC = () =>
                         </AccordionPanel>
                     </>
                     )}
-                </AccordionItem>
+                </AccordionItem>                                                        
                 </Accordion>
         </>
     )
