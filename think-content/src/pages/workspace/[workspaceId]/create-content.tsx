@@ -148,7 +148,7 @@ const createContent: React.FC<createContentProps> = () => {
               });
             });
           }}
-        >
+        > 
           Generate
         </Button>
       </Box>

@@ -36,15 +36,14 @@ const AuthModal: React.FC = () => {
 
   return (
     <>
-      <Modal isOpen={modalState.open} onClose={handleClose}>
+      <Modal isOpen={modalState.open} onClose={handleClose} size="lg">
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader textAlign="center">
-            {modalState.view === "login" && "Login"}
-            {modalState.view === "signup" && "Sign Up"}
+        <ModalContent borderRadius={30}>
+          <ModalHeader textAlign="center" paddingTop={10}>
+            {modalState.view === "login" && "Welcome Back"}
+            {modalState.view === "signup" && "Create Account"}
             {modalState.view === "resetPassword" && "Reset Password"}
           </ModalHeader>
-          <ModalCloseButton />
           <ModalBody
             display="flex"
             flexDirection="column"
@@ -56,14 +55,12 @@ const AuthModal: React.FC = () => {
               direction="column"
               align="center"
               justify="center"
-              width="70%"
+              width="70%" 
             >
               {modalState.view === "login" || modalState.view === "signup" ? (
                 <>
                   <OAuthButtons />
                   <Text color="gray.400" fontWeight={500}>
-                    {" "}
-                    OR{" "}
                   </Text>
                   <AuthInputs />
                 </>

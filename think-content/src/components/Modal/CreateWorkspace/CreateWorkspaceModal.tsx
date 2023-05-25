@@ -17,7 +17,7 @@ import {
   Input,
   Select,
   useColorModeValue,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import {
   collection,
@@ -45,7 +45,7 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const toast = useToast();
-  const { getMySnippets } = useWorkspaceData()
+  const { getMySnippets } = useWorkspaceData();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.length > 21) return;
@@ -67,8 +67,7 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
     // should be inside try block?
     const workspaceDocRef = doc(collection(db, "workspaces"));
 
-    try 
-    {
+    try {
       await runTransaction(db, async (transaction) => {
         // async not needed for transaction sets, but we need them for transaction gets
         // create workspace
@@ -100,12 +99,12 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
     handleClose();
     setLoading(false);
     toast({
-      title: 'Workspace Created.',
+      title: "Workspace Created.",
       description: "Here is your new workspace!",
-      status: 'success',
+      status: "success",
       duration: 9000,
       isClosable: true,
-    })
+    });
     /*
       Pretty sure I should'nt need to call this here...
     */
@@ -115,13 +114,13 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
 
   return (
     <>
-      <Modal isOpen={open} onClose={handleClose} size="lg">
+      <Modal isOpen={open} onClose={handleClose} size="xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader
             display="flex"
             flexDirection="column"
-            fontSize={15}
+            fontSize={20}
             padding={3}
           >
             Create a Workspace
@@ -129,10 +128,10 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
           <Box pl={3} pr={3}>
             <Divider />
             <ModalBody display="flex" flexDirection="column" padding="10px 0px">
-              <Text fontWeight={600} fontSize={15}>
+              <Text fontWeight={600} fontSize={18}>
                 Name
               </Text>
-              <Text fontSize={11} color="gray.500">
+              <Text fontSize={13} color="gray.500">
                 Workspace names cannot be changed
               </Text>
               <Input value={workspaceName} size="sm" onChange={handleChange} />
@@ -145,24 +144,21 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
               <Text fontSize="9pt" color="red" pt={1}>
                 {error}
               </Text>
-              <Text fontWeight={600} fontSize={15}>
+              <Text fontWeight={600} fontSize={18}>
                 Brand Profile
               </Text>
-              <Text fontSize={11} color="gray.500">
+              <Text fontSize={13} color="gray.500">
                 This can be changed in the workspace settings
               </Text>
-              <Select>
-                <option value="brand1">Brand 1</option>
-                <option value="brand2">Brand 2</option>
-                <option value="option3">Brand 3</option>
+              <Select variant="filled">
+                <option style={{backgroundColor: "#191A1D"}} value="option1">Option 1</option>
+                <option style={{backgroundColor: "#191A1D"}} value="option2">Option 2</option>
+                <option style={{backgroundColor: "#191A1D"}} value="option3">Option 3</option>
               </Select>
             </ModalBody>
             <ModalCloseButton />
           </Box>
-          <ModalFooter
-            bg={useColorModeValue("brand.100", 'brand.200')}
-            borderRadius="0px 0px 10px 10px"
-          >
+          <ModalFooter borderRadius="0px 0px 10px 10px">
             <Button
               variant="outline"
               height="30px"

@@ -115,7 +115,7 @@ const OAuthButtons: React.FC = () => {
   }, [userCred]);
 
   return (
-    <Flex direction="column" width="100%" mb={4}>
+    <Flex direction="column" width="80%" mb={4}>
       <Button
         variant="oauth"
         mb={2}
