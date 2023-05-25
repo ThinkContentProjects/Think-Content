@@ -13,16 +13,38 @@ import {
 import { User } from "firebase/auth";
 import CreateNewPersonaModal from "./CreatePersona/CreatePersonaModal";
 import React, { useState } from "react";
+import Persona from "./CreatePersona/Persona";
 
 
 type BrandProfilesProps = {
     user?: User | null;
-  };
+};
+
+type GenderType = "Male" | "Female" | "NotSpecified";
+
+type Boxes = {
+    personaName : string;
+    ageRangeLow : Number;
+    ageRangeHigh : Number;
+    gender : GenderType;
+    painPoints : string;
+}
 
 const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
 
     const [openCreatePersona, setOpenCreatePersona] = useState(false);
     const [highlightCreateNew, setHighlightCreateNew] = useState(false);
+    const [boxes, setBoxes] = useState<{
+        personaName : string;
+        ageRangeLow : Number;
+        ageRangeHigh : Number;
+        gender : GenderType;
+        painPoints : string;
+    }[]>([]);
+
+    const handleSaveBoxes = (newBoxes: Boxes[]) => {
+        setBoxes(newBoxes);
+    };
 
     const handleMouseEnter = () => {
         setHighlightCreateNew(true);
@@ -34,7 +56,7 @@ const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
 
     return (
         <>
-            <CreateNewPersonaModal open={openCreatePersona} handleClose={() => setOpenCreatePersona(false)} />
+            <CreateNewPersonaModal onSave={handleSaveBoxes} open={openCreatePersona} handleClose={() => {setOpenCreatePersona(false); console.log(boxes)}} />
             <Box position="relative" ml={-2}>
             <Text fontSize="xl" fontWeight="bold">
                 Brand Profiles
@@ -168,83 +190,15 @@ const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
                 </Button> 
             </Flex>
 
-            <Flex flexDir={"row"} py={12} justify={"space-between"} w={"88%"}>
-                <Box boxSize={80} bgColor={"#242628"} borderRadius={"xl"}>
-                    <Flex flexDirection={"row"}>
-                        <Image
-                            src="/images/womanProfile.PNG"
-                            m={5}
-                            pr={2}
-                            height="100px"
-                        />
-                        <Text fontSize="lg" color={"white"} my={14}>
-                            Young Female
-                        </Text>
-                    </Flex>
-                    <Flex pr={10} pl={4} flexDirection={"row"} justify="space-around">
-                        <Text fontSize="sm" color={"#959697"} px={3}>
-                            Age
-                        </Text>
-                        <Text  fontSize="sm" color={"#959697"} px={3}>
-                            Gender
-                        </Text>
-                    </Flex>
-                    <Flex pr={10} pl={4} flexDirection={"row"} justify="space-around">
-                        <Text fontSize="md" color={"white"} px={3} fontWeight={"semibold"}>
-                            25-45
-                        </Text>
-                        <Text  fontSize="md" color={"white"} px={3} fontWeight={"semibold"}>
-                            Female
-                        </Text>
-                    </Flex>
-                    <Text  fontSize="sm" color={"#959697"} px={10} pt={6}>
-                        Pain Points
-                    </Text>
-                    <Text  fontSize="md" color={"white"} px={8} pt={2}>
-                        Pain Point 1,
-                        Pain Point 2,
-                        Pain Point 3,
-                        Pain Point 4
-                    </Text>
-                </Box>
-                <Box boxSize={80} bgColor={"#242628"} borderRadius={"xl"}>
-                    <Flex flexDirection={"row"}>
-                        <Image
-                            src="/images/manProfile.PNG"
-                            m={5}
-                            pr={2}
-                            height="100px"
-                        />
-                        <Text fontSize="lg" color={"white"} my={14}>
-                            Young Males
-                        </Text>
-                    </Flex>
-                    <Flex pr={10} pl={4} flexDirection={"row"} justify="space-around">
-                        <Text fontSize="sm" color={"#959697"} px={3}>
-                            Age
-                        </Text>
-                        <Text  fontSize="sm" color={"#959697"} px={3}>
-                            Gender
-                        </Text>
-                    </Flex>
-                    <Flex pr={10} pl={4} flexDirection={"row"} justify="space-around">
-                        <Text fontSize="md" color={"white"} px={3} fontWeight={"semibold"}>
-                            25-45
-                        </Text>
-                        <Text  fontSize="md" color={"white"} px={3} fontWeight={"semibold"}>
-                            Male
-                        </Text>
-                    </Flex>
-                    <Text  fontSize="sm" color={"#959697"} px={10} pt={6}>
-                        Pain Points
-                    </Text>
-                    <Text  fontSize="md" color={"white"} px={8} pt={2}>
-                        Pain Point 1,
-                        Pain Point 2,
-                        Pain Point 3,
-                        Pain Point 4
-                    </Text>
-                </Box>
+            <Flex flexDir={"row"} py={12} justify={"space-between"} w={"88%"} flexWrap="wrap">
+                {boxes.map((box, index) => (
+                    <Box py={4} key={index} w={"50%"}>
+                        <Persona index={index} {...box} />
+                    </Box>
+                ))}
+                {boxes.length % 2 !== 0 && (
+                    <Box w={"50%"} /> // Empty box for the bottom row if there's an odd number of Personas
+                )}
             </Flex>
 
         </>

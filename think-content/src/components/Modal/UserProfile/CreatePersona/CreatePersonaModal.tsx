@@ -1,5 +1,4 @@
-import { auth, db } from "@/src/firebase/firebase";
-import useWorkspaceData from "@/src/hooks/useWorkspaceData";
+import { auth } from "@/src/firebase/firebase";
 import {
   Button,
   Modal,
@@ -10,17 +9,8 @@ import {
   ModalBody,
   ModalFooter,
   Box,
-  Divider,
   Text,
   Input,
-  Select,
-  useColorModeValue,
-  useToast,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
   Flex,
   Image,
   RangeSlider,
@@ -28,54 +18,87 @@ import {
   RangeSliderThumb,
   RangeSliderTrack
 } from "@chakra-ui/react";
-import {
-  collection,
-  doc,
-  runTransaction,
-  serverTimestamp,
-} from "firebase/firestore";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "react-tabs/style/react-tabs.css";
-import { Icon } from '@chakra-ui/react'
-import { MdAccountCircle, MdAttachMoney, MdGraphicEq, MdOutlinePayments, MdWorkspacesOutline } from 'react-icons/md'
-import { TbBrandAsana, TbReceipt2 } from "react-icons/tb";
-import { CloseIcon } from "@chakra-ui/icons";
-import { FaMoneyBillAlt } from "react-icons/fa";
-import { HiOutlineTrash } from "react-icons/hi2";
 
 
 
 type CreateNewPersonaModalProps = {
     open: boolean;
     handleClose: () => void;
-  };
+    onSave: (boxes: any) => void;
+};
 
-type ButtonName = "Male" | "Female" | "Not Specified";
+type GenderType = "Male" | "Female" | "NotSpecified";
 
 const CreateNewPersonaModal: React.FC<CreateNewPersonaModalProps> = ({
   open,
-  handleClose
+  handleClose,
+  onSave
 }) => {
     const [user] = useAuthState(auth);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const handleCreateWorkspace = async () => {
-        if (error) setError("");
-        setLoading(false);
-    };
+    const [selectedButton, setSelectedButton] = useState("NotSpecified");
 
-    const [selectedButton, setSelectedButton] = useState<ButtonName | null>(null);
-
-    const handleButtonClick = (buttonName: ButtonName) => {
+    const handleButtonClick = (buttonName: GenderType) => {
         setSelectedButton(buttonName);
     };
 
-    const marks = [13, 25, 45, 65];
 
+    //Persona UseStates
+    const [personaName, setPersonaName] = useState('');
+    const [ageRangeLow, setAgeRangeLow] = useState(25);
+    const [ageRangeHigh, setAgeRangeHigh] = useState(45);
+    const [gender, setGender] = useState("NotSpecified");
+    const [painPoints, setPainPoints] = useState('');
+
+    const handleRangeChange = (values: [any, any]) => {
+        const [low, high] = values;
+        setAgeRangeLow(low);
+        setAgeRangeHigh(high);
+    };
+
+    //Adding a box
+    const [boxes, setBoxes] = useState<{
+        personaName : string;
+        ageRangeLow : Number;
+        ageRangeHigh : Number;
+        gender : GenderType;
+        painPoints : string;
+    }[]>([]);
+
+    const handleAddBox = () => {
+        const newBox = {
+          personaName,
+          ageRangeLow,
+          ageRangeHigh,
+          gender,
+          painPoints
+        };
     
+        setBoxes((prevBoxes: any) => [...prevBoxes, newBox]);
+        setPersonaName("");
+        setAgeRangeLow(25);
+        setAgeRangeHigh(45);
+        setGender("NotSpecified");
+        setPainPoints("");
+        setSelectedButton("NotSpecified");
+      };
+    
+      const handleSave = () => {
+        handleAddBox(); // Add the current box to the boxes array
+        handleClose(); // Close the modal
+        onSave([...boxes, { // Pass the updated boxes array to the parent component
+          personaName,
+          ageRangeLow,
+          ageRangeHigh,
+          gender,
+          painPoints
+        }]);
+      }
 
     return (
         <>
@@ -86,7 +109,7 @@ const CreateNewPersonaModal: React.FC<CreateNewPersonaModalProps> = ({
                         
                     </ModalHeader>
                     <ModalBody>
-                            <ModalCloseButton />
+                            <ModalCloseButton/>
                             <Flex flexDirection={"row"} justify={"space-around"}>
                                 <Flex flexDir={"column"} mt={-8}>
                                     <Image
@@ -118,6 +141,8 @@ const CreateNewPersonaModal: React.FC<CreateNewPersonaModalProps> = ({
                                         sx={{"::placeholder": {color: "#959697",},}}
                                         borderRadius={"lg"}
                                         ml={-10}
+                                        value={personaName}
+                                        onChange={(event) => setPersonaName(event.target.value)}
                                     />
                                     <Text fontSize="md" color={"white"} mt={8} mb={4} fontWeight={"semibold"} alignSelf={"start"} ml={8}>
                                         Gender
@@ -138,7 +163,10 @@ const CreateNewPersonaModal: React.FC<CreateNewPersonaModalProps> = ({
                                             fontSize="xs"
                                             mx={2}
                                             _hover={{ bg: "#414345" }}
-                                            onClick={() => handleButtonClick("Male")}
+                                            onClick={() => {
+                                                handleButtonClick("Male");
+                                                setGender("Male");
+                                            }}
                                         >
                                             Male
                                         </Button>
@@ -150,49 +178,63 @@ const CreateNewPersonaModal: React.FC<CreateNewPersonaModalProps> = ({
                                             fontSize="xs"
                                             mx={2}
                                             _hover={{ bg: "#414345" }}
-                                            onClick={() => handleButtonClick("Female")}
+                                            onClick={() => {
+                                                handleButtonClick("Female");
+                                                setGender("Female");
+                                            }}
                                         >
                                             Female
                                         </Button>
                                         <Button
                                             variant="unstyled"
-                                            bg={selectedButton === "Not Specified" ? "#414345" : "#242628"}
+                                            bg={selectedButton === "NotSpecified" ? "#414345" : "#242628"}
                                             h={6}
                                             w={"90px"}
                                             fontSize="xs"
                                             mx={2}
                                             _hover={{ bg: "#414345" }}
-                                            onClick={() => handleButtonClick("Not Specified")}
+
+                                            onClick={() => {
+                                                handleButtonClick("NotSpecified");
+                                                setGender("NotSpecified");
+                                            }}
                                         >
                                             Not Specified
                                         </Button>
                                     </Flex>
-                                        <Text fontSize="md" color={"white"} mt={8} mb={4} fontWeight={"semibold"} alignSelf={"start"} ml={8}>
-                                            Age
-                                        </Text>
+                                            <Flex flexDir={"row"} alignSelf={"start"} ml={10} mt={8} mb={4} >
+                                                <Text fontSize="md" color={"white"} fontWeight={"semibold"} >
+                                                    Age
+                                                </Text>
+                                                <Text fontSize="md" ml={44} color={"white"} fontWeight={"semibold"}>
+                                                    <>
+                                                        {ageRangeLow}-{ageRangeHigh == 65 ? "65+": ageRangeHigh}
+                                                    </>
+                                                </Text>
+                                            </Flex>
+
                                         <Flex direction="column" align="center" w="100%">
-                                        <RangeSlider aria-label={["min", "max"]} defaultValue={[13, 65]} w="80%">
+
+                                            <RangeSlider
+                                            aria-label={["min", "max"]}
+                                            defaultValue={[ageRangeLow, ageRangeHigh]}
+                                            w="80%"
+                                            onChange={handleRangeChange}
+                                            min={13}
+                                            max={65}
+                                            step={1}
+                                            >
                                             <RangeSliderTrack h="6px" borderRadius="full">
-                                            <RangeSliderFilledTrack bg="blue.500" bgGradient="linear(to-l, white, #0000B6)" />
+                                                <RangeSliderFilledTrack bg="blue.500" bgGradient="linear(to-l, white, #0000B6)" />
                                             </RangeSliderTrack>
                                             <RangeSliderThumb boxSize={"18px"} index={0} alignItems="end" justifyContent="end">
-                                            <Box borderRadius="50%" bg="blue.300" w="50%" h="50%" transform="translate(-50%, -50%)" />
+                                                <Box borderRadius="50%" bg="blue.300" w="50%" h="50%" transform="translate(-50%, -50%)" />
                                             </RangeSliderThumb>
                                             <RangeSliderThumb boxSize={"18px"} index={1} alignItems="end" justifyContent="end">
-                                            <Box borderRadius="50%" bg="blue.300" w="50%" h="50%" transform="translate(-50%, -50%)" />
+                                                <Box borderRadius="50%" bg="blue.300" w="50%" h="50%" transform="translate(-50%, -50%)" />
                                             </RangeSliderThumb>
-                                        </RangeSlider>
-                                        <Flex justify="space-between" w="80%">
-                                            {marks.map((mark) => (
-                                            <Text
-                                                key={mark}
-                                                color={"gray.400"}
-                                                fontSize="xs"
-                                            >
-                                                {mark === 65 ? "65+" : mark}
-                                            </Text>
-                                            ))}
-                                        </Flex>
+                                            </RangeSlider>
+
                                         </Flex>
                                 </Flex>
 
@@ -218,6 +260,8 @@ const CreateNewPersonaModal: React.FC<CreateNewPersonaModalProps> = ({
                                     h={16}
                                     sx={{"::placeholder": {color: "#959697",},}}
                                     borderRadius={"lg"}
+                                    value={painPoints}
+                                    onChange={(event) => setPainPoints(event.target.value)}
                                 />
                             </Flex>
                     </ModalBody>
@@ -232,7 +276,9 @@ const CreateNewPersonaModal: React.FC<CreateNewPersonaModalProps> = ({
                             color="#1E2022" 
                             bg="#ffffff"
                             _hover={{ color: 'black', bg: "gray.300"}}
-                            onClick={handleClose} //Need to update data once this button is clicked
+                            onClick={() => {
+                                handleSave();
+                            }}
                         >
                             Save Changes
                         </Button>
