@@ -56,8 +56,8 @@ const Footer:React.FC<FooterProps> = () => {
                 </Flex>
                 
             </Flex>
-            <Divider w={"65%"}/>
-            <Flex flexDir="row" pt={24} w="65%" justify="space-between">
+            <Divider w={"65%"} my={16}/>
+            <Flex flexDir="row" pt={8} w="65%" justify="space-between">
                 <Text fontSize={"xs"}>
                 ® 2023 - Think Content
                 </Text>
