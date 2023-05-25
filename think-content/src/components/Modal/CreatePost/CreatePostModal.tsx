@@ -30,6 +30,8 @@ import {
   Flex,
   Spinner,
   Center,
+  Skeleton,
+  Stack,
 } from "@chakra-ui/react";
 import {
   addDoc,
@@ -85,6 +87,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
     format: "",
     note: "",
   });
+  const [RegeneratingCaption, setRegeneratingCaption] = useState(false);
 
   const [selectedPhoto, setSelectedPhoto] = useState("");
 
@@ -227,31 +230,34 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
                     justifyContent="center"
                     flexDir="column"
                   >
-                    <Textarea
-                      mt={5}
-                      name="note"
-                      fontSize="13pt"
-                      maxWidth="600px"
-                      borderRadius={20}
-                      height="100px"
-                      value={captionOutput}
-                      onChange={() => {}}
-                      bg={bg}
-                      _focus={{
-                        outline: "none",
-                        border: "1px solid",
-                        borderColor: "black",
-                      }}
-                    />
+                    <Skeleton width="600px" borderRadius={20} height="200px" isLoaded={!RegeneratingCaption}>
+                      <Textarea
+                        mt={5}
+                        name="note"
+                        fontSize="13pt"
+                        maxWidth="600px"
+                        borderRadius={20}
+                        height="200px"
+                        value={captionOutput}
+                        onChange={() => { }}
+                        bg={bg}
+                        _focus={{
+                          outline: "none",
+                          border: "1px solid",
+                          borderColor: "black",
+                        }}
+                      />
+                    </Skeleton>
                     <Button
                       rightIcon={<TbSparkles />}
                       mt={7}
                       onClick={() => {
+                        setRegeneratingCaption(true);
                         regenerateCaption({
                           creative: post.creative,
                           caption: post.caption,
                         }).then((result: any) => {
-                          console.log(result);
+                          setRegeneratingCaption(false)
                           setCaption(result.data.caption);
                         });
                       }}
