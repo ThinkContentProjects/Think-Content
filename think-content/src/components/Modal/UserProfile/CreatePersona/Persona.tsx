@@ -44,7 +44,6 @@ const Persona: React.FC<PersonaProps> = ({
     painPoints,
     index
 }) => {
-    
     const Range = ageRangeLow + "-" + ageRangeHigh;
 
     return (
@@ -86,6 +85,7 @@ const Persona: React.FC<PersonaProps> = ({
                 <Flex pr={10} pl={4} flexDirection={"row"} justify="space-around">
                     <Text fontSize="md" color={"white"} px={3} fontWeight={"semibold"}>
                         {Range}
+                        {ageRangeHigh === 65 ? "+" : ""}
                     </Text>
                     <Text  fontSize="md" color={"white"} px={3} fontWeight={"semibold"}>
                         {gender === "NotSpecified" ? "Not Specified": gender}

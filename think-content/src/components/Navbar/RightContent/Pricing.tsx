@@ -14,7 +14,7 @@ const Pricing: React.FC = () => {
       borderRadius={2}
       display={{ base: "none", md: "flex" }}
       _hover={{ bg: "purple.100", color: "purple.600" }}
-      onClick={() => router.push("/billing")}
+      onClick={() => router.push("/pricing")}
       
     >
       <Text fontWeight={700} fontSize="12pt">

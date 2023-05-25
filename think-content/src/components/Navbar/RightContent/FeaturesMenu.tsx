@@ -1,4 +1,4 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { AddIcon, ChevronDownIcon, MinusIcon } from "@chakra-ui/icons";
 import {
   Menu,
   MenuButton,
@@ -6,6 +6,10 @@ import {
   MenuItem,
   Flex,
   Text,
+  AccordionItem,
+  AccordionPanel,
+  AccordionButton,
+  Box,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -62,7 +66,7 @@ const FeaturesMenu: React.FC = () => {
           _hover={{ bg: "purple.600", color: "white" }}
         >
           <Flex align="center">
-            AI Copywriter
+            Campaign
           </Flex>
         </MenuItem>
       </MenuList>
