@@ -6,15 +6,25 @@ import { useSetRecoilState } from "recoil";
 import { authModalState } from "../atoms/authModalAtom";
 import FAQ from "../components/FAQ/FAQ";
 import Footer from "../components/Footer/Footer";
+import FeaturesMenu from "../components/Navbar/RightContent/FeaturesMenu";
+
+export function scrollToSection(sectionId: string) {
+  const sectionElement = document.getElementById(sectionId);
+  if (sectionElement) {
+    sectionElement.scrollIntoView({ behavior: 'smooth' });
+  }
+}
 
 
 const Home: React.FC = () => 
 {
   const { workspaceStateValue } = useWorkspaceData();
   const setAuthModalState = useSetRecoilState(authModalState);
-  
+
+
   return (
     <>
+      
       <Flex h={"5040"} justify={"start"} align={"center"} bg={"#121316"} flexDir={"column"}>
         <Box
           borderColor="#B066EB"
@@ -24,6 +34,7 @@ const Home: React.FC = () =>
           h={16}
           boxShadow="0px 32px 128px rgba(176, 102, 235, 0.3)"
           mt={16}
+          id={"overview"}
         >
           <Flex flexDir={"row"} >
             <Icon as={HiOutlineSparkles} mr={4} ml={3} mt={3} color={"#B066EB"} boxSize={8}/>
@@ -59,10 +70,10 @@ const Home: React.FC = () =>
         <Text color={"#959697"}  fontSize={"xl"}>
           Dominate your social media presence effortlessly
         </Text>
-        <Flex flexDir={"column"} justify={"space-around"} align={"center"} >
+        <Flex flexDir={"column"} justify={"space-evenly"} align={"center"}>
         <Flex flexDir={"row"} my={24} ml={-24} >
             <Box boxSize={"md"} mx={24} py={16}>
-              <Text fontSize={"2xl"} fontWeight={"semibold"}>
+              <Text fontSize={"2xl"} fontWeight={"semibold"} id={"content"}>
                 Content Strategy
               </Text>
               <Text fontSize={"lg"} w={"75%"} mt={2} color={"#959697"}>
@@ -101,7 +112,7 @@ const Home: React.FC = () =>
           </Flex>
           <Flex flexDir={"row"} mb={24} ml={-24}>
             <Box boxSize={"md"} mx={24} py={16}>
-            <Text fontSize={"2xl"} fontWeight={"semibold"}>
+            <Text fontSize={"2xl"} fontWeight={"semibold"} id={"creation"}>
                 Content Creation
               </Text>
               <Text fontSize={"lg"} w={"75%"} mt={2} color={"#959697"}>
@@ -140,7 +151,7 @@ const Home: React.FC = () =>
           </Flex>
           <Flex flexDir={"row"} mb={24} ml={-24}>
             <Box boxSize={"md"} mx={24} py={16}>
-            <Text fontSize={"2xl"} fontWeight={"semibold"}>
+            <Text fontSize={"2xl"} fontWeight={"semibold"} id={"campaign"}>
                 Campaign Strategy
               </Text>
               <Text fontSize={"lg"} w={"75%"} mt={2} color={"#959697"}>

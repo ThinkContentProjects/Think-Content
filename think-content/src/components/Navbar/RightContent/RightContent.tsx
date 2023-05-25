@@ -1,3 +1,4 @@
+import { scrollToSection } from "@/src/pages";
 import { Flex, Text } from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import { Router } from "next/router";
@@ -26,7 +27,7 @@ const RightContent: React.FC<RightContentProps> = ({ user }) => {
           <Icons user={user}/>
         ) : (
           <>
-            <FeaturesMenu />
+            <FeaturesMenu scrollToSection={scrollToSection} />
             <ResourceMenu />
             <Pricing />
             <AuthButtons />

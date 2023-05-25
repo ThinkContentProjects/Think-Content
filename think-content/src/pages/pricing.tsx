@@ -14,7 +14,7 @@ const pricing: React.FC = () =>
     
     return (
         <>  
-            <Flex h={"780px"} justify={"center"} bg={"#121316"}>
+            <Flex h={"850px"} justify={"center"} bg={"#121316"}>
                 <Box w={"70%"} h={"100%"} bg={"#121316"} justifySelf={"center"} pt={16}>
                     <Flex flexDir={"row"} justify={"space-evenly"} mb={-2}>
                         <Box w={"30%"} h={"xl"} bg={currentPlan=== 1 ?"#1C1E20": ""} borderRadius={"lg"} _hover={{bg:"#1C1E20"}}>
@@ -260,7 +260,10 @@ const pricing: React.FC = () =>
                     </Flex>
                 </Box>
             </Flex>
-        <Footer/>
+        <Flex h={"fit-content"} justify={"start"} align={"center"} bg={"#121316"} flexDir={"column"}>
+            <Footer/>
+        </Flex>
+
     </>
   )
 };

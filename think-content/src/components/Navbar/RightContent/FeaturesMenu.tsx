@@ -10,10 +10,41 @@ import {
   AccordionPanel,
   AccordionButton,
   Box,
+  Button,
 } from "@chakra-ui/react";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import path from "path";
 
-const FeaturesMenu: React.FC = () => {
+interface FeaturesMenuProps {
+  scrollToSection: (sectionId: string) => void;
+}
+
+
+
+const FeaturesMenu: React.FC<FeaturesMenuProps> = ({ scrollToSection }) => {
+  const router = useRouter();
+  const [sectionId, setSectionId] = useState('overview');
+
+  const handleClick = (sectionId: string) => {
+    if (router.pathname !== '/') {
+      router.push('/');
+    }
+
+    // Use a setTimeout to scroll after the route change has occurred
+    setTimeout(() => {
+      scrollToSection(sectionId);
+    }, 0);
+  };
+
+  useEffect(() => {
+    // Scroll to the section if the URL contains a section hash
+    if (router.pathname !=="/") {
+      scrollToSection(sectionId);
+    }
+  }, [router, scrollToSection]);
+
+
   return (
     <Menu >
       <MenuButton
@@ -37,6 +68,10 @@ const FeaturesMenu: React.FC = () => {
           fontSize="11pt"
           fontWeight={500}
           _hover={{ bg: "purple.600", color: "white" }}
+          onClick={() => {
+            setSectionId("overview");
+            handleClick("overview");
+          }}
         >
           <Flex align="center">
             Overview
@@ -46,27 +81,39 @@ const FeaturesMenu: React.FC = () => {
           fontSize="11pt"
           fontWeight={500}
           _hover={{ bg: "purple.600", color: "white" }}
+          onClick={() => {
+            setSectionId("content");
+            handleClick("content");
+          }}
         >
           <Flex align="center">
-            Content
+            Content Strategy
           </Flex>
         </MenuItem>
         <MenuItem
           fontSize="11pt"
           fontWeight={500}
           _hover={{ bg: "purple.600", color: "white" }}
+          onClick={() => {
+            setSectionId("creation");
+            handleClick("creation");
+          }}
         >
           <Flex align="center">
-            Scheduler
+            Content Creation
           </Flex>
         </MenuItem>
         <MenuItem
           fontSize="11pt"
           fontWeight={500}
           _hover={{ bg: "purple.600", color: "white" }}
+          onClick={() => {
+            setSectionId("campaign");
+            handleClick("campaign");
+          }}
         >
           <Flex align="center">
-            Campaign
+            Campaign Strategy
           </Flex>
         </MenuItem>
       </MenuList>

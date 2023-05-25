@@ -58,7 +58,7 @@ const ResourceMenu: React.FC = () => {
         >
           <Flex align="center">
             <Icon fontSize={20} mr={2} as={CiCircleQuestion} />
-            Help Center
+            FAQ
           </Flex>
         </MenuItem>
       </MenuList>
