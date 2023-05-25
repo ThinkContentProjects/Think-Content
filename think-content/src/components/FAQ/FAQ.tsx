@@ -13,7 +13,7 @@ const FAQ: React.FC = () =>
             <Text pt={24} pb={8} fontSize={"4xl"} fontWeight={"bold"}>
                 Frequently Asked Questions
             </Text>
-            <Accordion allowMultiple justifyContent={"center"} w={"80%"}>
+            <Accordion allowMultiple justifyContent={"center"} w={"50%"}>
                 <AccordionItem bg="#242628" borderRadius={"2xl"}my={4}>
                     {({ isExpanded }) => (
                     <>
