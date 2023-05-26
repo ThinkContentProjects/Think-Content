@@ -30,10 +30,7 @@ const FAQ: React.FC = () =>
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat.
+                        Think Content is a user friendly AI powered social media tool aimed to help content creators and small businesses plan, create and post on Instagram.
                         </AccordionPanel>
                     </>
                     )}
@@ -54,10 +51,7 @@ const FAQ: React.FC = () =>
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat.
+                        Think Content will aid you in the content strategy you want based on the tone, narrative and goals you want to achieve from your post which you can input prior to generating
                         </AccordionPanel>
                     </>
                     )}
@@ -78,10 +72,7 @@ const FAQ: React.FC = () =>
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat.
+                        Think Content uses the latest Artificial Intelligence software powered by Open AI to generate content for your posts. Remember, while AI can enhance your content creation process, it's important to review the generated content to ensure it aligns with your brand
                         </AccordionPanel>
                     </>
                     )}
@@ -102,10 +93,8 @@ const FAQ: React.FC = () =>
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat.
+                        Think Content taylors a custom campaign strategy for each customer's unique business by using vast amounts of trained data to back their generated plan.
+
                         </AccordionPanel>
                     </>
                     )}
@@ -126,10 +115,7 @@ const FAQ: React.FC = () =>
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat.
+                        Yes! Think Content is suitable for almost all industries as it creates a custom profile for your business and customers. Think Content is easy to use for anyone regardless of their technological background.
                         </AccordionPanel>
                     </>
                     )}
@@ -150,10 +136,7 @@ const FAQ: React.FC = () =>
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                        aliquip ex ea commodo consequat.
+                        Our platform allows for the user to step-by-step brainstorm, create, & schedule their social media posts to our supported social platforms.
                         </AccordionPanel>
                     </>
                     )}
