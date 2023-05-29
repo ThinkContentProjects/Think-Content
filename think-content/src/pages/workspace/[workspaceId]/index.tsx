@@ -2,7 +2,7 @@ import Posts from "@/src/components/Posts/Posts";
 import { db } from "@/src/firebase/firebase";
 import { withProtected } from "@/src/hooks/routes";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
-import { Button, Flex, Stack, Text, VStack } from "@chakra-ui/react";
+import { Button, Flex, Text, VStack, Image, Box } from "@chakra-ui/react";
 import { doc, getDoc } from "firebase/firestore";
 import type { GetServerSidePropsContext, NextPage } from "next";
 import { useState, useEffect } from "react";
@@ -14,8 +14,7 @@ interface WorkspacePageProps {
   workspaceData: Workspace;
 }
 
-const WorkspacePage: NextPage<WorkspacePageProps> = ({ workspaceData }) => 
-{
+const WorkspacePage: NextPage<WorkspacePageProps> = ({ workspaceData }) => {
   const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
   const setWorkspaceStateValue = useSetRecoilState(workspaceState);
   const { getMembers, updateRecentWorkspace } = useWorkspaceData();
@@ -25,20 +24,19 @@ const WorkspacePage: NextPage<WorkspacePageProps> = ({ workspaceData }) =>
       ...prev,
       currentWorkspace: workspaceData,
     }));
-    updateRecentWorkspace(workspaceData.id)
+    updateRecentWorkspace(workspaceData.id);
     // only update when workspace data is updated
   }, [workspaceData]);
 
   return (
     <Flex display="flex" flexDirection="column" padding={16}>
-    <VStack align="left" spacing={1} mb={10}>
-      <Text fontSize="25pt" fontWeight={800}>
-        HOME
-      </Text>
-      <Text>View Instagram Analytics and Audience Insights</Text>
-    </VStack>
-
-  </Flex>
+      <VStack align="left" spacing={1} mb={10}>
+        <Text fontSize="25pt" fontWeight={800}>
+          HOME
+        </Text>
+        <Text>View Instagram Analytics and Audience Insights</Text>
+      </VStack>
+    </Flex>
   );
 };
 

@@ -1,6 +1,7 @@
-import { postGenerator } from '@/functions/src';
 import CreatePostModal from '@/src/components/Modal/CreatePost/CreatePostModal';
-import { Flex, VStack, Input, Textarea, Button, Text, Box} from '@chakra-ui/react';
+import { withProtected } from '@/src/hooks/routes';
+import useWorkspaceData from '@/src/hooks/useWorkspaceData';
+import { Flex, VStack, Input, Textarea, Button, Text, Box, useColorModeValue} from '@chakra-ui/react';
 import React from 'react';
 import { TbSparkles } from 'react-icons/tb';
 
@@ -9,6 +10,9 @@ type contentStrategyProps = {
 };
 
 const contentStrategy:React.FC<contentStrategyProps> = () => {
+
+  const { workspaceStateValue } = useWorkspaceData();
+  const bg = useColorModeValue("gray.100", "#27282A");
     
     return (<Flex display="flex" flexDirection="column" padding={16}>
     <VStack align="left" spacing={1} mb={10}>
@@ -24,6 +28,7 @@ const contentStrategy:React.FC<contentStrategyProps> = () => {
       <Input
         name="type"
         onChange={() => {}}
+        bg={bg}
         mb={8}
         placeholder="Ex: Educational"
         height="75px"
@@ -35,6 +40,7 @@ const contentStrategy:React.FC<contentStrategyProps> = () => {
         name="type"
         onChange={() => {}}
         mb={8}
+        bg={bg}
         placeholder="Ex: Educational"
         height="75px"
       />
@@ -42,6 +48,7 @@ const contentStrategy:React.FC<contentStrategyProps> = () => {
       <Textarea
         name="details"
         padding={5}
+        bg={bg}
         borderRadius={18}
         onChange={() => {}}
         height="150px"
@@ -65,4 +72,4 @@ const contentStrategy:React.FC<contentStrategyProps> = () => {
     </Box>
   </Flex>)
 }
-export default contentStrategy;
+export default withProtected(contentStrategy);
