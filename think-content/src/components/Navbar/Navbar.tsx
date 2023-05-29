@@ -1,11 +1,6 @@
 import React from "react";
-import { Flex, Icon, useColorModeValue, Image } from "@chakra-ui/react";
+import { Flex, useColorModeValue, Image } from "@chakra-ui/react";
 import RightContent from "./RightContent/RightContent";
-import { useAuthState } from "react-firebase-hooks/auth";
-import Directory from "./Directory/Directory";
-import useDirectory from "@/src/hooks/useDirectory";
-import { defaultMenuItem } from "@/src/atoms/directoryMenuAtom";
-import { AiFillHome } from "react-icons/ai";
 import { User } from "firebase/auth";
 
 type NavBarProps = {
@@ -13,8 +8,6 @@ type NavBarProps = {
 };
 
 const Navbar: React.FC<NavBarProps> = ({ user }) => {
-  // called once and passed as prop to search and right content
-  const { onSelectMenuItem } = useDirectory();
   const bg = useColorModeValue("gray.100", "#121316");
 
   return (
@@ -29,10 +22,7 @@ const Navbar: React.FC<NavBarProps> = ({ user }) => {
       <Flex>
         <Flex
           align="center"
-          // width={{ base: "100px", md: "auto" }}
-          // mr={{ base: 0, md: 100 }}
           cursor="pointer"
-          // onClick={() => onSelectMenuItem(defaultMenuItem)}
         >
           <Image
             src="/images/logoLarge.png"
@@ -45,9 +35,6 @@ const Navbar: React.FC<NavBarProps> = ({ user }) => {
             height="60px"
             display={{ md: "none" }}
           ></Image>
-        </Flex>
-        <Flex mt={5} display={{ md: "none" }}>
-          {user && <Directory />}
         </Flex>
       </Flex>
       <RightContent user={user} />
