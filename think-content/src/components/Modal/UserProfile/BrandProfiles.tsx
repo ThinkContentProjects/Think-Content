@@ -56,7 +56,7 @@ const BrandProfiles: React.FC<BrandProfilesProps> = ({ user }) => {
 
     return (
         <>
-            <CreateNewPersonaModal onSave={handleSaveBoxes} open={openCreatePersona} handleClose={() => {setOpenCreatePersona(false); console.log(boxes)}} />
+            <CreateNewPersonaModal onSave={handleSaveBoxes} open={openCreatePersona} handleClose={() => {setOpenCreatePersona(false);}} />
             <Box position="relative" ml={-2}>
             <Text fontSize="xl" fontWeight="bold">
                 Brand Profiles
