@@ -20,6 +20,9 @@ import {
 } from "firebase/functions";
 import RadioCard from "@/src/components/RadioCard/RadioCard";
 import { getApp } from "firebase/app";
+import { withProtected } from "@/src/hooks/routes";
+import { useRouter } from "next/router";
+import useWorkspaceData from "@/src/hooks/useWorkspaceData";
 
 type createContentProps = {};
 
@@ -30,6 +33,8 @@ const createContent: React.FC<createContentProps> = () => {
   connectFunctionsEmulator(functions, "127.0.0.1", 5001);
   const captionGenerator = httpsCallable(functions, "captionGenerator");
   const imageGenerator = httpsCallable(functions, "imageGenerator");
+  const { workspaceStateValue } = useWorkspaceData();
+  const router = useRouter();
   const [post, setPost] = useState({
     caption: "",
     creative: "",
@@ -129,7 +134,18 @@ const createContent: React.FC<createContentProps> = () => {
           rightIcon={<TbSparkles />}
           onClick={() => {
             setOpenCreatePostModal(true);
-            captionGenerator(textInputs).then((result: any) => {
+            captionGenerator({
+              inputs: textInputs,
+              brand: {
+                message:
+                  workspaceStateValue.currentWorkspace?.brandProfile.message,
+                industry:
+                  workspaceStateValue.currentWorkspace?.brandProfile.industry,
+                mission:
+                  workspaceStateValue.currentWorkspace?.brandProfile.mission,
+                name: workspaceStateValue.currentWorkspace?.brandProfile.name,
+              },
+            }).then((result: any) => {
               setPost((prev) => ({
                 ...prev,
                 creative: result.data.creative,
@@ -143,16 +159,17 @@ const createContent: React.FC<createContentProps> = () => {
                   photos: result.data.photos.map(
                     (photo: any) => photo.src.portrait
                   ),
-                  nextPage: result.data.next_page
+                  nextPage: result.data.next_page,
                 }));
               });
             });
           }}
-        > 
+        >
           Generate
         </Button>
       </Box>
     </Flex>
   );
 };
-export default createContent;
+
+export default withProtected(createContent);

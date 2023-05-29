@@ -9,8 +9,8 @@ import json
  
 app = initialize_app()
 
-openai.api_key = process.ENV.OPENAI_KEY
-PEXELS_API_KEY = process.ENV.PEXELS_KEY
+openai.api_key = _
+PEXELS_API_KEY = _
 
 @https_fn.on_call()
 def captionGenerator(req: https_fn.CallableRequest):
@@ -18,15 +18,15 @@ def captionGenerator(req: https_fn.CallableRequest):
     prompt = f'''
     Create an idea for an Instagram post based on the information below. The output should be composed of three sections: the creative, the creative's seo short sentence, and the caption with hashtags. Describe the creative, the creative seo short-sentence, and write the caption without any additional explanations.
 
-    Company name: Society6
-    Company mission: To empower artists by providing them with a platform to showcase and sell their work, while offering customers a diverse selection of unique art and designs.
-    Industry: E-commerce, Art, and Home Decor
-    Target Audience: Independent artists, art enthusiasts, and customers seeking unique, creative, and high-quality art pieces and home decor items.
-    Brand Message: Discover and support independent artists, while transforming your living space with unique, expressive, and inspiring art and designs.
+    Company name: {req.data['brand']['name']}
+    Company mission: {req.data['brand']['mission']}
+    Industry: {req.data['brand']['industry']}
+    Target Audience: "Middle aged women"
+    Brand Message: {req.data['brand']['message']}
 
-    Type of post and it's objective: {req.data['type']}
-    Post format: {req.data['format']}
-    Note (Ignore if empty): {req.data['details']}
+    Type of post and it's objective: {req.data['inputs']['type']}
+    Post format: {req.data['inputs']['format']}
+    Note (Ignore if empty): {req.data['inputs']['details']}
 
     Creative: (Detailed description of the creative relevant to the type of post and its objective, post format, and company details)
 
@@ -51,7 +51,6 @@ def captionGenerator(req: https_fn.CallableRequest):
             "search": result[1].split("Creative SEO short sentence: ")[1],
             "caption": result[2].split("Caption: ")[1]
             }
-
 
 '''
 Generate 4 images using from pexels 

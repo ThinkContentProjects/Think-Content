@@ -1,13 +1,10 @@
-import { Post } from "@/src/atoms/postsAtom";
-import { db, auth } from "@/src/firebase/firebase";
+import { auth } from "@/src/firebase/firebase";
 import {
   Button,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalCloseButton,
-  ModalBody,
   ModalFooter,
   Image,
   Box,
@@ -16,34 +13,17 @@ import {
   Alert,
   AlertIcon,
   SimpleGrid,
-  ButtonGroup,
-  Icon,
-  Circle,
-  VStack,
   useColorModeValue,
   Tabs,
   Tab,
   TabList,
   TabPanel,
   TabPanels,
-  TabIndicator,
   Flex,
   Spinner,
-  Center,
   Skeleton,
-  Stack,
 } from "@chakra-ui/react";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  runTransaction,
-  serverTimestamp,
-  setDoc,
-  Timestamp,
-} from "firebase/firestore";
-import { useRouter } from "next/router";
+
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { TbSparkles } from "react-icons/tb";
@@ -90,31 +70,6 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
   const [RegeneratingCaption, setRegeneratingCaption] = useState(false);
 
   const [selectedPhoto, setSelectedPhoto] = useState("");
-
-  // const handleCreatePost = async () => {
-  //   console.log("posted!");
-  //   console.log(textInputs.body);
-  //   postGenerator({ prompt: textInputs.body }).then((result) =>
-  //     console.log(result.data)
-  //   );
-  //   const { workspaceId } = router.query;
-  //   const newPost: Post = {
-  //     workspaceId: workspaceId as string,
-  //     creatorId: user.uid,
-  //     creatorDisplayName: user.email!.split("@")[0],
-  //     title: textInputs.title,
-  //     body: textInputs.body,
-  //     createdAt: serverTimestamp() as Timestamp,
-  //   };
-  //   setLoading(true);
-  //   try {
-  //     const postDocRef = await addDoc(collection(db, "posts"), newPost);
-  //   } catch (error: any) {
-  //     console.log("handleCreatePost Error", error.message);
-  //     setError(error.message);
-  //   }
-  //   setLoading(false);
-  // };
 
   useEffect(() => {
     setCaption(post.caption);
