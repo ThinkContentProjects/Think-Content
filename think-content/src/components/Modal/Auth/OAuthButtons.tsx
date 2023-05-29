@@ -1,3 +1,4 @@
+import { BrandProfile } from "@/src/atoms/brandProfilesAtom";
 import { workspaceState } from "@/src/atoms/workspacesAtom";
 import { auth, db } from "@/src/firebase/firebase";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
@@ -10,6 +11,7 @@ import {
   runTransaction,
   serverTimestamp,
   getDoc,
+  setDoc,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -49,6 +51,7 @@ const OAuthButtons: React.FC = () => {
             members: [user?.uid],
             owner: user?.uid,
           });
+
           // create workspace snippet for the user
           // collection/document/collection....
           transaction.set(
@@ -60,11 +63,36 @@ const OAuthButtons: React.FC = () => {
               numMembers: 1,
             }
           );
+
+          // create recent workspace for the user
+          transaction.update(doc(db, "users", user.uid), {
+            recentWorkspace: workspaceDocRef.id,
+          });
+
+          const brandProfileDocRef = doc(
+            collection(db, `users/${user?.uid}/brandProfiles`)
+          );
+
+          // Create brand profile document within the subcollection
+          transaction.set(brandProfileDocRef, {
+            name: "",
+            industry: "",
+            mission: "",
+            message: "",
+          });
         });
       } catch (error: any) {
         console.log("handleCreateWorkspace error", error);
         // setError(error.message);
       }
+
+      const brandProfile: BrandProfile = {
+        name: "Products",
+        industry: "retail",
+        mission: "To sell products for less",
+        message: "We sell prducts for less so you can live a better life",
+        id: "",
+      };
 
       /**
        * Again, this probably shouldnt be called here...
@@ -80,6 +108,7 @@ const OAuthButtons: React.FC = () => {
           numberOfMembers: 1,
           members: [user?.uid],
           owner: user?.uid,
+          brandProfile: brandProfile,
         },
       }));
       router.push(`/workspace/${workspaceDocRef.id}`);
@@ -101,15 +130,22 @@ const OAuthButtons: React.FC = () => {
     }
   };
 
+  const createUserDocument = async (user: User) => {
+    const userDocRef = doc(db, "users", user.uid);
+    await setDoc(userDocRef, JSON.parse(JSON.stringify(user)));
+  };
+
   useEffect(() => {
     if (userCred) {
-      createInitialWorkspace(userCred.user);
-      getRecentWorkspace(userCred.user).then((workspaceId) => {
-        router.push(
-          router.query.from
-            ? decodeURIComponent(router.query.from as string)
-            : `workspace/${workspaceId}`
-        );
+      createUserDocument(userCred.user).then(() => {
+        createInitialWorkspace(userCred.user);
+        getRecentWorkspace(userCred.user).then((workspaceId) => {
+          router.push(
+            router.query.from
+              ? decodeURIComponent(router.query.from as string)
+              : `workspace/${workspaceId}`
+          );
+        });
       });
     }
   }, [userCred]);

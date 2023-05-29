@@ -1,21 +1,32 @@
 import { authModalState } from "@/src/atoms/authModalAtom";
-import { Input, Button, Flex, Text, HStack, Spacer, useColorModeValue } from "@chakra-ui/react";
+import {
+  Input,
+  Button,
+  Flex,
+  Text,
+  HStack,
+  Spacer,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { FIREBASE_ERRORS } from "@/src/firebase/errors";
 import { auth, db } from "@/src/firebase/firebase";
 import {
+  addDoc,
   collection,
   doc,
   runTransaction,
   serverTimestamp,
+  setDoc,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import router from "next/router";
 import { workspaceState } from "@/src/atoms/workspacesAtom";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
 import { BrandProfile } from "@/src/atoms/brandProfilesAtom";
+import { firestore } from "@firebase/testing";
 
 const SignUp: React.FC = () => {
   const setAuthModelState = useSetRecoilState(authModalState);
@@ -64,6 +75,23 @@ const SignUp: React.FC = () => {
             numMembers: 1,
           }
         );
+
+        // create recent workspace for the user
+        transaction.update(doc(db, "users", user.uid), {
+          recentWorkspace: workspaceDocRef.id,
+        });
+
+        const brandProfileDocRef = doc(
+          collection(db, `users/${user?.uid}/brandProfiles`)
+        );
+
+        // Create brand profile document within the subcollection
+        transaction.set(brandProfileDocRef, {
+          name: "",
+          industry: "",
+          mission: "",
+          message: "",
+        });
       });
     } catch (error: any) {
       console.log("handleCreateWorkspace error", error);
@@ -71,16 +99,16 @@ const SignUp: React.FC = () => {
     }
 
     /*
-    * Default workspace brand profile for Product 1 (default workspace)
-    * Should not be ID here..
-    */
+     * Default workspace brand profile for Product 1 (default workspace)
+     * Should not be ID here..
+     */
     const brandProfile: BrandProfile = {
       name: "Products",
       industry: "retail",
       mission: "To sell products for less",
       message: "We sell prducts for less so you can live a better life",
-      id: ""
-    }
+      id: "",
+    };
 
     /**
      * Again, this probably shouldnt be called here...
@@ -96,9 +124,15 @@ const SignUp: React.FC = () => {
         numberOfMembers: 1,
         members: [user?.uid],
         owner: user?.uid,
-        brandProfile: brandProfile
-      }}));
+        brandProfile: brandProfile,
+      },
+    }));
     router.push(`/workspace/${workspaceDocRef.id}`);
+  };
+
+  const createUserDocument = async (user: User) => {
+    const userDocRef = doc(db, "users", user.uid);
+    await setDoc(userDocRef, JSON.parse(JSON.stringify(user)));
   };
 
   // firebase logic
@@ -124,7 +158,9 @@ const SignUp: React.FC = () => {
 
   useEffect(() => {
     if (userCred) {
-      createInitialWorkspace(userCred.user);
+      createUserDocument(userCred.user).then(() =>
+        createInitialWorkspace(userCred.user)
+      );
     }
   }, [userCred]);
 

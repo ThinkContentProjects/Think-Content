@@ -3,27 +3,6 @@ import * as admin from "firebase-admin";
 
 const nodemailer = require("nodemailer");
 admin.initializeApp();
-const db = admin.firestore();
-
-// creates user instances in the database on signup
-export const createUserDocument = functions.auth
-  .user()
-  .onCreate(async (user) => {
-    db.collection("users")
-      .doc(user.uid)
-      .set({ ...JSON.parse(JSON.stringify(user)) });
-
-    const userDocRef = db.collection("users").doc(user.uid);
-
-    // Add a subcollection under the user document
-    const subcollectionRef = userDocRef.collection("brandProfiles");
-    await subcollectionRef.add({
-      name: "",
-      industry: "",
-      mission: "",
-      message: "",
-    });
-  });
 
 var transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
