@@ -7,6 +7,7 @@ import {
   workspaceState,
 } from "@/src/atoms/workspacesAtom";
 import { auth, db } from "@/src/firebase/firebase";
+import { User } from "firebase/auth";
 
 import {
   collection,
@@ -21,7 +22,9 @@ import {
   runTransaction,
   setDoc,
   updateDoc,
+  getDoc,
 } from "firebase/firestore";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState } from "recoil";
@@ -36,6 +39,7 @@ const useWorkspaceData = () => {
   const [loading, setLoading] = useState(false);
   // error displaying
   const [error, setError] = useState("");
+  const router = useRouter();
 
   // leaving workspaces
   const leaveWorkspace = async (workspaceData: Workspace) => {
@@ -84,8 +88,16 @@ const useWorkspaceData = () => {
   const updateRecentWorkspace = async (workspaceId: string) => {
     if (user != undefined) {
       await updateDoc(doc(db, "users", user.uid), {
-       recentWorkspace: workspaceId
+        recentWorkspace: workspaceId,
       });
+    }
+  };
+
+  const getRecentWorkspace = async (user: User) => {
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data().recentWorkspace;
     }
   };
 
@@ -174,6 +186,22 @@ const useWorkspaceData = () => {
     setLoading(false);
   };
 
+  const getWorkspaceData = async (workspaceId: string) => {
+    try {
+      const workspaceDocRef = doc(db, "workspaces", workspaceId);
+      const workspaceDoc = await getDoc(workspaceDocRef);
+      setWorkspaceStateValue((prev) => ({
+        ...prev,
+        currentWorkspace: {
+          id: workspaceDoc.id,
+          ...workspaceDoc.data(),
+        } as Workspace,
+      }));
+    } catch (error) {
+      console.log("getWorkspace", error);
+    }
+  };
+
   // I think it might make more sense for this to be a snippet in the workspaceStateAtom
   const getMembers = async () => {
     // dont get the members unless inside of a workspace
@@ -217,13 +245,23 @@ const useWorkspaceData = () => {
     getMembers();
   }, [workspaceStateValue.currentWorkspace]);
 
+  // used to get workspace data when not coming from the home page (.i.e. refreshing on create-content)
+  useEffect(() => {
+    const { workspaceId } = router.query;
+
+    if (workspaceId && !workspaceStateValue.currentWorkspace) {
+      getWorkspaceData(workspaceId as string);
+    }
+  }, [router.query, workspaceStateValue.currentWorkspace]);
+
   return {
     workspaceStateValue,
     joinWorkspace,
     leaveWorkspace,
     getMembers,
     getMySnippets,
-    updateRecentWorkspace
+    updateRecentWorkspace,
+    getRecentWorkspace,
   };
 };
 

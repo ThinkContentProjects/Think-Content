@@ -15,6 +15,7 @@ import { User } from "firebase/auth";
 import router from "next/router";
 import { workspaceState } from "@/src/atoms/workspacesAtom";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
+import { BrandProfile } from "@/src/atoms/brandProfilesAtom";
 
 const SignUp: React.FC = () => {
   const setAuthModelState = useSetRecoilState(authModalState);
@@ -69,6 +70,18 @@ const SignUp: React.FC = () => {
       setError(error.message);
     }
 
+    /*
+    * Default workspace brand profile for Product 1 (default workspace)
+    * Should not be ID here..
+    */
+    const brandProfile: BrandProfile = {
+      name: "Products",
+      industry: "retail",
+      mission: "To sell products for less",
+      message: "We sell prducts for less so you can live a better life",
+      id: ""
+    }
+
     /**
      * Again, this probably shouldnt be called here...
      */
@@ -83,8 +96,8 @@ const SignUp: React.FC = () => {
         numberOfMembers: 1,
         members: [user?.uid],
         owner: user?.uid,
-      },
-    }));
+        brandProfile: brandProfile
+      }}));
     router.push(`/workspace/${workspaceDocRef.id}`);
   };
 

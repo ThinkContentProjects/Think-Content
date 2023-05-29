@@ -16,6 +16,7 @@ import { Router, useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
+import useWorkspaceData from "@/src/hooks/useWorkspaceData";
 
 type LoginProps = {};
 
@@ -34,19 +35,13 @@ const Login: React.FC<LoginProps> = () => {
   const [signInWithEmailAndPassword, userCred, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
+  const { getRecentWorkspace } = useWorkspaceData()
+
   // firebase logic
   // also redirect the user to a previous router if they were redirected here!
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     signInWithEmailAndPassword(loginForm.email, loginForm.password);
-  };
-
-  const getRecentWorkspace = async (user: User) => {
-    const docRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data().recentWorkspace;
-    }
   };
 
   useEffect(() => {

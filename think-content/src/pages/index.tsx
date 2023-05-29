@@ -1,12 +1,11 @@
-import useWorkspaceData from "@/src/hooks/useWorkspaceData";
-import { AddIcon, ArrowForwardIcon, MinusIcon } from "@chakra-ui/icons";
-import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Button, Flex, Icon, Image, Text } from "@chakra-ui/react";
+import { ArrowForwardIcon, MinusIcon } from "@chakra-ui/icons";
+import { Box, Button, Flex, Icon, Image, Text } from "@chakra-ui/react";
 import { HiOutlineSparkles } from "react-icons/hi2";
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "../atoms/authModalAtom";
 import FAQ from "../components/FAQ/FAQ";
 import Footer from "../components/Footer/Footer";
-import FeaturesMenu from "../components/Navbar/RightContent/FeaturesMenu";
+import { withPublic } from "../hooks/routes";
 
 export function scrollToSection(sectionId: string) {
   const sectionElement = document.getElementById(sectionId);
@@ -15,12 +14,9 @@ export function scrollToSection(sectionId: string) {
   }
 }
 
-
 const Home: React.FC = () => 
 {
-  const { workspaceStateValue } = useWorkspaceData();
   const setAuthModalState = useSetRecoilState(authModalState);
-
 
   return (
     <>
@@ -206,4 +202,4 @@ const Home: React.FC = () =>
   )
 }
 
-export default Home;
+export default withPublic(Home);

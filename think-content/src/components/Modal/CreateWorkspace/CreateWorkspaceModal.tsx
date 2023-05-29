@@ -1,5 +1,6 @@
 // TO DO: get rid of getMySnippets when changing routes after creating a new workspace (shouldnt be needed?)
 
+import { BrandProfile, brandProfileState } from "@/src/atoms/brandProfilesAtom";
 import { auth, db } from "@/src/firebase/firebase";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
 import {
@@ -16,7 +17,6 @@ import {
   Text,
   Input,
   Select,
-  useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
 import {
@@ -28,6 +28,7 @@ import {
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useRecoilState } from "recoil";
 
 type CreateWorkspaceModalProps = {
   open: boolean;
@@ -43,15 +44,26 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
   const [charsRemaining, setCharsRemaining] = useState(21);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [brandProfileStateValue, setBrandProfileStateValue] =
+    useRecoilState(brandProfileState);
   const router = useRouter();
   const toast = useToast();
   const { getMySnippets } = useWorkspaceData();
 
+  const [selectedBrandProfile, setSelectedBrandProfile] = useState<BrandProfile>(brandProfileStateValue.brandProfiles[0])
+  
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.length > 21) return;
     setWorkspaceName(event.target.value);
     // recalculate how many chars we have left
     setCharsRemaining(21 - event.target.value.length);
+  };
+
+  const handleSelectBrandProfileChange = (event: any) => {
+    const selectedValue = event.target.value;
+    const selectedBrand = brandProfileStateValue.brandProfiles.find((brand) => brand.id === selectedValue);
+    if(selectedBrand)
+      setSelectedBrandProfile(selectedBrand);
   };
 
   const handleCreateWorkspace = async () => {
@@ -70,7 +82,7 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
     try {
       await runTransaction(db, async (transaction) => {
         // async not needed for transaction sets, but we need them for transaction gets
-        // create workspace
+        // create workspace 
         transaction.set(workspaceDocRef, {
           creatorId: user?.uid,
           name: workspaceName,
@@ -78,7 +90,12 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
           numberOfMembers: 1,
           members: [user?.uid],
           owner: user?.uid,
-        });
+          brandProfile: {
+            "name": selectedBrandProfile.name,
+            "industry": selectedBrandProfile.industry,
+            "mission": selectedBrandProfile.mission,
+            "message": selectedBrandProfile.message
+        }});
 
         // create workspace snippet for the user
         // collection/document/collection....
@@ -150,10 +167,16 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
               <Text fontSize={13} color="gray.500">
                 This can be changed in the workspace settings
               </Text>
-              <Select variant="filled">
-                <option style={{backgroundColor: "#191A1D"}} value="option1">Option 1</option>
-                <option style={{backgroundColor: "#191A1D"}} value="option2">Option 2</option>
-                <option style={{backgroundColor: "#191A1D"}} value="option3">Option 3</option>
+              <Select variant="filled" onChange={handleSelectBrandProfileChange}>
+                {brandProfileStateValue.brandProfiles.map((profile : BrandProfile) => (
+                  <option
+                    style={{ backgroundColor: "#191A1D" }}
+                    value={profile.id}
+                    key={profile.id}
+                  >
+                  {profile.name}
+                  </option>
+                ))}
               </Select>
             </ModalBody>
             <ModalCloseButton />

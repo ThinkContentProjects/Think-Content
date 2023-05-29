@@ -8,7 +8,7 @@ interface NavItemProps extends FlexProps {
   icon: IconType;
   name: string;
   link: string;
-  workspace: Workspace;
+  workspace: Workspace | undefined;
 }
 
 const NavItem = ({ icon, name, link, workspace }: NavItemProps) => {
@@ -18,7 +18,7 @@ const NavItem = ({ icon, name, link, workspace }: NavItemProps) => {
   return (
     <Flex
       align="center"
-      onClick={() => router.push(`/workspace/${workspace.id}/${link}`)}
+      onClick={() => router.push(`/workspace/${workspace?.id}/${link}`)}
       p="2"
       mx="4"
       borderRadius="lg"
@@ -32,9 +32,6 @@ const NavItem = ({ icon, name, link, workspace }: NavItemProps) => {
         <Icon
           mr="4"
           fontSize="16"
-          // _groupHover={{
-          //   color: "white",
-          // }}
           as={icon}
         />
       )}

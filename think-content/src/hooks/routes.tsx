@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { Spinner } from "@chakra-ui/react";
 import { authModalState } from "../atoms/authModalAtom";
 import { useSetRecoilState } from "recoil";
+import useWorkspaceData from "./useWorkspaceData";
 
 /*
  * Should be used for any pages that are protected from authenticated users.
@@ -14,12 +15,28 @@ export function withPublic(Component: any) {
   return function WithPublic(props: any) {
     const [user] = useAuthState(auth);
     const router = useRouter();
+    const { getRecentWorkspace } = useWorkspaceData()
+
+    useEffect(() => {
+      const redirectToRecentWorkspace = async () => {
+        if (user) {
+          const recentWorkspace = await getRecentWorkspace(user);
+          if (recentWorkspace) {
+            router.replace(`/workspace/${recentWorkspace}`);
+          } else {
+            router.replace("/");
+          }
+        }
+      };
+
+      redirectToRecentWorkspace();
+    }, [user, router]);
 
     if (user) {
       if (typeof window === "undefined") return null;
-      router.replace("/");
       return <Spinner />;
     }
+
     return <Component auth={auth} {...props} />;
   };
 }

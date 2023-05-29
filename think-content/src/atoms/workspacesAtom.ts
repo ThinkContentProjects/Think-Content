@@ -1,5 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 import { atom } from "recoil";
+import { BrandProfile } from "./brandProfilesAtom";
 
 // type for a Workspace
 export interface Workspace {
@@ -9,6 +10,7 @@ export interface Workspace {
   numberOfMembers: number;
   members: string[];
   owner: string;
+  brandProfile: BrandProfile;
   createdAt?: Timestamp;
   imageURL?: string;
 }
@@ -39,7 +41,7 @@ interface WorkspaceState
 }
 
 // default atom values
-const defaultWorkspaceState: WorkspaceState = {
+export const defaultWorkspaceState: WorkspaceState = {
   mySnippets: [],
   memberSnippets: [],
   snippetsFetched: false,

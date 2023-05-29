@@ -31,6 +31,9 @@ import { useRecoilValue } from "recoil";
 import { workspaceState } from "@/src/atoms/workspacesAtom";
 import { HiLightningBolt } from "react-icons/hi"
 import CreatePricingPlanModal from "../Modal/PricingPlan/CreatePricingPlanModal";
+import { auth } from "@/src/firebase/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { defaultMenuState, directoryMenuState } from "@/src/atoms/directoryMenuAtom";
 
 interface LinkItemProps {
   name: string;
@@ -39,7 +42,7 @@ interface LinkItemProps {
 }
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome, link: "/" },
+  { name: "Home", icon: FiHome, link: "" },
   { name: "Create Content", icon: FiEdit2, link: "create-content" },
   { name: "Content Strategy", icon: FiCodepen, link: "content-strategy" },
   { name: "Campaign Strategy", icon: FiTarget, link: "campaign-strategy" },
@@ -81,12 +84,14 @@ interface SidebarProps extends BoxProps {
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   const workspaceStateValue = useRecoilValue(workspaceState);
   const [openPricingPlan, setOpenPricingPlan] = useState(false);
-
+  const [user] = useAuthState(auth);
+  const directoryMenuStateValue = useRecoilValue(directoryMenuState)
+ 
   return (
     <Box pos="fixed" h="full" {...rest}>
       <CreatePricingPlanModal open={openPricingPlan} handleClose={() => setOpenPricingPlan(false)} />
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Directory />
+        {user && directoryMenuStateValue !== defaultMenuState && <Directory />}
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       <Box
@@ -104,7 +109,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             name={link.name}
             link={link.link}
             workspace={
-              workspaceStateValue.currentWorkspace
+              workspaceStateValue?.currentWorkspace
             } /* This will fix once I get rid of dashboard*/
           >
             {link.name}
