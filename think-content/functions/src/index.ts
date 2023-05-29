@@ -11,7 +11,18 @@ export const createUserDocument = functions.auth
   .onCreate(async (user) => {
     db.collection("users")
       .doc(user.uid)
-      .set(JSON.parse(JSON.stringify(user)));
+      .set({ ...JSON.parse(JSON.stringify(user)) });
+
+    const userDocRef = db.collection("users").doc(user.uid);
+
+    // Add a subcollection under the user document
+    const subcollectionRef = userDocRef.collection("brandProfiles");
+    await subcollectionRef.add({
+      name: "",
+      industry: "",
+      mission: "",
+      message: "",
+    });
   });
 
 var transporter = nodemailer.createTransport({
@@ -30,8 +41,7 @@ exports.sendWelcomeEmail = functions.firestore
   .onCreate((snap: any, context: any) => {
     console.log("email id" + snap.data().email);
 
-    let name = 
-      (snap.data()?.displayName || snap.data().email?.split("@")[0]);
+    let name = snap.data()?.displayName || snap.data().email?.split("@")[0];
 
     let message = `<!DOCTYPE html>
     <html>
@@ -52,7 +62,7 @@ exports.sendWelcomeEmail = functions.firestore
         The Think Content Team
       </p>
     </body>
-    </html>`
+    </html>`;
 
     const mailOptions = {
       from: "lucasradovan@gmai.com",
