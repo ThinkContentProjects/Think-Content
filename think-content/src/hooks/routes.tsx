@@ -34,7 +34,7 @@ export function withPublic(Component: any) {
 
     if (user) {
       if (typeof window === "undefined") return null;
-      return <Spinner />;
+      return <></>;
     }
 
     return <Component auth={auth} {...props} />;

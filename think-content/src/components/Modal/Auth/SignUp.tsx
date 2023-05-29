@@ -126,7 +126,7 @@ const SignUp: React.FC = () => {
         owner: user?.uid,
         brandProfile: brandProfile,
       },
-    }));
+    }))
     router.push(`/workspace/${workspaceDocRef.id}`);
   };
 

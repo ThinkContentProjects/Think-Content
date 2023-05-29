@@ -117,7 +117,11 @@ const OAuthButtons: React.FC = () => {
     // put them in their most recent workspace!
     else {
       getRecentWorkspace(user).then((workspaceId) => {
-        router.push(`/workspace/${workspaceId}`);
+        router.push(
+          router.query.from
+            ? decodeURIComponent(router.query.from as string)
+            : `workspace/${workspaceId}`
+        );
       });
     }
   };
@@ -131,21 +135,19 @@ const OAuthButtons: React.FC = () => {
   };
 
   const createUserDocument = async (user: User) => {
-    const userDocRef = doc(db, "users", user.uid);
-    await setDoc(userDocRef, JSON.parse(JSON.stringify(user)));
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) {
+      const userDocRef = doc(db, "users", user.uid);
+      await setDoc(userDocRef, JSON.parse(JSON.stringify(user)));
+    }
   };
 
   useEffect(() => {
     if (userCred) {
+      // issue is that only should set document when logging in...
       createUserDocument(userCred.user).then(() => {
         createInitialWorkspace(userCred.user);
-        getRecentWorkspace(userCred.user).then((workspaceId) => {
-          router.push(
-            router.query.from
-              ? decodeURIComponent(router.query.from as string)
-              : `workspace/${workspaceId}`
-          );
-        });
       });
     }
   }, [userCred]);
