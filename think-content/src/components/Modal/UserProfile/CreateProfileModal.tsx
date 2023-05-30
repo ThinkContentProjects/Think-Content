@@ -136,7 +136,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
         message: message,
       });
     }
-  }, [loading]);
+  }, [loading, open]);
 
   return (
     <>
