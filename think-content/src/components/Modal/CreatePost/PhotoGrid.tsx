@@ -8,6 +8,8 @@ import {
   RadioGroup,
   Text,
   HStack,
+  Skeleton,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { TbSparkles } from "react-icons/tb";
@@ -20,45 +22,89 @@ import {
 } from "firebase/functions";
 
 type PhotoGridProps = {
-  photos: Array<string>;
   currentPhoto: string;
-  setPhoto: any;
-  nextPage: string;
+  setPhoto: React.Dispatch<React.SetStateAction<string>>;
+  post: {
+    caption: string;
+    creative: string;
+    search: string;
+  };
 };
 
 const PhotoGrid: React.FC<PhotoGridProps> = ({
-  photos,
   currentPhoto,
+  post,
   setPhoto,
-  nextPage,
 }) => {
   const functions = getFunctions(getApp());
   connectFunctionsEmulator(functions, "127.0.0.1", 5001);
   const regenerateImages = httpsCallable(functions, "regenerateImages");
-  const [generatedPhotos, setPhotos] = useState(photos);
-  const [next_page, setNextPage] = useState(nextPage);
+  const imageGenerator = httpsCallable(functions, "imageGenerator");
+
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [nextPage, setNextPage] = useState("");
+  const [loadingStates, setLoadingStates] = useState<Boolean[]>(
+    Array(4).fill(true)
+  );
+
+  const handleImageLoad = (index: number) => {
+    setLoadingStates((prevStates) => {
+      const updatedStates = [...prevStates];
+      updatedStates[index] = false;
+      return updatedStates;
+    });
+  };
+
+  const getImages = async () => {
+    setLoadingStates(Array(4).fill(true));
+    await imageGenerator({
+      search: post.search,
+    }).then((result: any) => {
+      setPhotos(result.data.photos.map((photo: any) => photo.src.portrait));
+      setNextPage(result.data.next_page);
+    });
+  };
 
   useEffect(() => {
-    setPhotos(photos);
-    setNextPage(nextPage);
-  }, [photos]);
+    if (post.caption != "") {
+      getImages();
+    }
+  }, [post]);
 
   return (
     <>
       <RadioGroup value={currentPhoto} onChange={setPhoto}>
         <SimpleGrid columns={{ lg: 2 }} spacing="20px">
-          {generatedPhotos.map((url) => (
-            <Box key={url} m={2} maxWidth="220px">
-              <label htmlFor={url}>
-                <Image src={url} cursor="pointer" />
+          {loadingStates.map((isLoading, index) => (
+            <Box key={index} m={2} maxWidth="220px">
+              <label htmlFor={photos[index]}>
+                {isLoading && (
+                  <Skeleton
+                    height="300px"
+                    width="220px"
+                    startColor="gray.400"
+                    endColor="gray.600"
+                  ></Skeleton>
+                )}
+                <Box borderRadius="md" overflow="hidden">
+                  <Image
+                    src={photos[index]}
+                    cursor="pointer"
+                    onLoad={() => handleImageLoad(index)}
+                    loading="lazy"
+                  />
+                </Box>
+                {/* </Skeleton> */}
               </label>
               <Center>
                 <HStack mt={3}>
-                  <Text>{url == currentPhoto ? "Selected" : "Select"}</Text>
+                  <Text>
+                    {photos[index] == currentPhoto ? "Selected" : "Select"}
+                  </Text>
                   <Radio
                     mt={3}
-                    id={url}
-                    value={url}
+                    id={photos[index]}
+                    value={photos[index]}
                     size="lg"
                     colorScheme="green"
                   />
@@ -71,7 +117,9 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({
       <Center>
         <Button
           onClick={() => {
-            regenerateImages({ next_page_url: next_page }).then(
+            setPhotos([]);
+            setLoadingStates(Array(4).fill(true));
+            regenerateImages({ next_page_url: nextPage }).then(
               (result: any) => {
                 setPhotos(
                   result.data.photos.map((photo: any) => photo.src.portrait)

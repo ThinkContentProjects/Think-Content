@@ -53,7 +53,6 @@ export function withProtected(Component: any) {
 
     useEffect(() => {
       if (!(user || loading)) {
-        console.log("REJECTED!")
         router.replace(`/?from=${encodeURIComponent(router.asPath)}`);
         setAuthModalState({ open: true, view: "login" })
       }

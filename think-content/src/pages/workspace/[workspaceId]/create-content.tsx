@@ -23,6 +23,7 @@ import { getApp } from "firebase/app";
 import { withProtected } from "@/src/hooks/routes";
 import { useRouter } from "next/router";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
+import { resourceLimits } from "worker_threads";
 
 type createContentProps = {};
 
@@ -34,12 +35,12 @@ const createContent: React.FC<createContentProps> = () => {
   const captionGenerator = httpsCallable(functions, "captionGenerator");
   const imageGenerator = httpsCallable(functions, "imageGenerator");
   const { workspaceStateValue } = useWorkspaceData();
+  const [generatingCaption, setGeneratingCaption] = useState(false);
   const router = useRouter();
   const [post, setPost] = useState({
     caption: "",
     creative: "",
-    nextPage: "",
-    photos: [],
+    search: ""
   });
 
   const options = ["Feed Post", "Story", "Reel", "Carousal"];
@@ -56,7 +57,6 @@ const createContent: React.FC<createContentProps> = () => {
   });
 
   const group = getRootProps();
-
   const [textInputs, setTextInputs] = useState({
     type: "",
     format: "",
@@ -125,6 +125,8 @@ const createContent: React.FC<createContentProps> = () => {
           open={openCreatePostModal}
           handleClose={() => setOpenCreatePostModal(false)}
           post={post}
+          setPost={setPost}
+          generatingCaption={generatingCaption}
         />
         <Button
           mt={7}
@@ -134,6 +136,8 @@ const createContent: React.FC<createContentProps> = () => {
           rightIcon={<TbSparkles />}
           onClick={() => {
             setOpenCreatePostModal(true);
+            // states for Chakra skeleton loading
+            setGeneratingCaption(true);
             captionGenerator({
               inputs: textInputs,
               brand: {
@@ -146,22 +150,13 @@ const createContent: React.FC<createContentProps> = () => {
                 name: workspaceStateValue.currentWorkspace?.brandProfile.name,
               },
             }).then((result: any) => {
+              setGeneratingCaption(false);
               setPost((prev) => ({
                 ...prev,
                 creative: result.data.creative,
                 caption: result.data.caption,
-              }));
-              imageGenerator({
                 search: result.data.search,
-              }).then((result: any) => {
-                setPost((prev) => ({
-                  ...prev,
-                  photos: result.data.photos.map(
-                    (photo: any) => photo.src.portrait
-                  ),
-                  nextPage: result.data.next_page,
-                }));
-              });
+              }));
             });
           }}
         >

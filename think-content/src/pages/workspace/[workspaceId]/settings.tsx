@@ -32,7 +32,7 @@ const settings: React.FC<settingsProps> = () => {
         <Text fontSize="25pt" fontWeight={800}>
           Settings
         </Text>
-        <Text>Update your workspce settings</Text>
+        <Text>Update your workspace settings</Text>
       </VStack>
     </Flex>
     // <Flex

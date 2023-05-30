@@ -52,6 +52,14 @@ const SignUp: React.FC = () => {
     // should be inside try block?
     const workspaceDocRef = doc(collection(db, "workspaces"));
 
+    const brandProfile: BrandProfile = {
+      name: "Products",
+      industry: "retail",
+      mission: "To sell products for less",
+      message: "We sell prducts for less so you can live a better life",
+      id: "",
+    };
+
     try {
       await runTransaction(db, async (transaction) => {
         // async not needed for transaction sets, but we need them for transaction gets
@@ -63,6 +71,7 @@ const SignUp: React.FC = () => {
           numberOfMembers: 1,
           members: [user?.uid],
           owner: user?.uid,
+          brandProfile: brandProfile
         });
         // create workspace snippet for the user
         // collection/document/collection....
@@ -97,18 +106,6 @@ const SignUp: React.FC = () => {
       console.log("handleCreateWorkspace error", error);
       setError(error.message);
     }
-
-    /*
-     * Default workspace brand profile for Product 1 (default workspace)
-     * Should not be ID here..
-     */
-    const brandProfile: BrandProfile = {
-      name: "Products",
-      industry: "retail",
-      mission: "To sell products for less",
-      message: "We sell prducts for less so you can live a better life",
-      id: "",
-    };
 
     /**
      * Again, this probably shouldnt be called here...

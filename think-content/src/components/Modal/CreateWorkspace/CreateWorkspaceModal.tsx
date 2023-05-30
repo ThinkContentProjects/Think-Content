@@ -2,6 +2,7 @@
 
 import { BrandProfile, brandProfileState } from "@/src/atoms/brandProfilesAtom";
 import { auth, db } from "@/src/firebase/firebase";
+import useBrandProfileData from "@/src/hooks/useBrandProfileData";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
 import {
   Button,
@@ -26,7 +27,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState } from "recoil";
 
@@ -44,26 +45,17 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
   const [charsRemaining, setCharsRemaining] = useState(21);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [brandProfileStateValue, setBrandProfileStateValue] =
-    useRecoilState(brandProfileState);
   const router = useRouter();
   const toast = useToast();
   const { getMySnippets } = useWorkspaceData();
 
-  const [selectedBrandProfile, setSelectedBrandProfile] = useState<BrandProfile>(brandProfileStateValue.brandProfiles[0])
-  
+  const { brandProfileStateValue } = useBrandProfileData();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.length > 21) return;
     setWorkspaceName(event.target.value);
     // recalculate how many chars we have left
     setCharsRemaining(21 - event.target.value.length);
-  };
-
-  const handleSelectBrandProfileChange = (event: any) => {
-    const selectedValue = event.target.value;
-    const selectedBrand = brandProfileStateValue.brandProfiles.find((brand) => brand.id === selectedValue);
-    if(selectedBrand)
-      setSelectedBrandProfile(selectedBrand);
   };
 
   const handleCreateWorkspace = async () => {
@@ -74,6 +66,8 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
       return;
     }
 
+    // console.log(selectedBrandProfile);
+
     setLoading(true);
 
     // should be inside try block?
@@ -82,7 +76,7 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
     try {
       await runTransaction(db, async (transaction) => {
         // async not needed for transaction sets, but we need them for transaction gets
-        // create workspace 
+        // create workspace
         transaction.set(workspaceDocRef, {
           creatorId: user?.uid,
           name: workspaceName,
@@ -91,11 +85,12 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
           members: [user?.uid],
           owner: user?.uid,
           brandProfile: {
-            "name": selectedBrandProfile.name,
-            "industry": selectedBrandProfile.industry,
-            "mission": selectedBrandProfile.mission,
-            "message": selectedBrandProfile.message
-        }});
+            name: brandProfileStateValue.brandProfiles[0].name,
+            industry: brandProfileStateValue.brandProfiles[0].industry,
+            mission: brandProfileStateValue.brandProfiles[0].mission,
+            message: brandProfileStateValue.brandProfiles[0].message,
+          },
+        });
 
         // create workspace snippet for the user
         // collection/document/collection....
@@ -167,16 +162,18 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
               <Text fontSize={13} color="gray.500">
                 This can be changed in the workspace settings
               </Text>
-              <Select variant="filled" onChange={handleSelectBrandProfileChange}>
-                {brandProfileStateValue.brandProfiles.map((profile : BrandProfile) => (
-                  <option
-                    style={{ backgroundColor: "#191A1D" }}
-                    value={profile.id}
-                    key={profile.id}
-                  >
-                  {profile.name}
-                  </option>
-                ))}
+              <Select variant="filled">
+                {brandProfileStateValue.brandProfiles.map(
+                  (profile: BrandProfile) => (
+                    <option
+                      style={{ backgroundColor: "#191A1D" }}
+                      value={profile.id}
+                      key={profile.id}
+                    >
+                      {profile.name}
+                    </option>
+                  )
+                )}
               </Select>
             </ModalBody>
             <ModalCloseButton />

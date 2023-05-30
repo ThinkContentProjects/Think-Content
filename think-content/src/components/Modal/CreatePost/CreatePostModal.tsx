@@ -40,17 +40,26 @@ type CreatePostModalProps = {
   post: {
     caption: string;
     creative: string;
-    photos: Array<string>;
-    nextPage: string;
+    search: string;
   };
   open: boolean;
   handleClose: () => void;
+  setPost: React.Dispatch<
+    React.SetStateAction<{
+      caption: string;
+      creative: string;
+      search: string;
+    }>
+  >;
+  generatingCaption: Boolean;
 };
 
 const CreatePostModal: React.FC<CreatePostModalProps> = ({
   open,
   post,
+  setPost,
   handleClose,
+  generatingCaption,
 }) => {
   const functions = getFunctions(getApp());
   connectFunctionsEmulator(functions, "127.0.0.1", 5001);
@@ -77,174 +86,174 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
   return (
     <>
-      <Modal isOpen={open} onClose={handleClose}>
+      <Modal
+        isOpen={open}
+        onClose={() => {
+          handleClose();
+          setPost({
+            caption: "",
+            creative: "",
+            search: "",
+          });
+          setSelectedPhoto("");
+        }}
+      >
         <ModalOverlay />
         <ModalContent maxW="1400px" minHeight="1000px">
-          {post.photos.length == 0 ? (
-            <Box
-              width="100%"
-              maxWidth="1400px"
-              minHeight="1000px"
+          <>
+            <ModalHeader
               display="flex"
-              alignItems="center"
-              justifyContent="center"
+              flexDirection="row"
+              fontSize={15}
+              padding={3}
             >
-              <Spinner
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="purple.500"
-                size="xl"
-              />
-            </Box>
-          ) : (
-            <>
-              <ModalHeader
-                display="flex"
-                flexDirection="row"
-                fontSize={15}
-                padding={3}
-              >
-                {/* AI Workshop */}
-              </ModalHeader>
-              <SimpleGrid minChildWidth="100px">
-                <Flex flexDirection="column">
-                  <Text ml={10} fontSize="22pt" fontWeight={700}>
-                    Creatives
-                  </Text>
-                  <Box
-                    mt={10}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
+              {/* AI Workshop */}
+            </ModalHeader>
+            <SimpleGrid minChildWidth="100px">
+              <Flex flexDirection="column">
+                <Text ml={10} fontSize="22pt" fontWeight={700}>
+                  Creatives
+                </Text>
+                <Box
+                  mt={10}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Tabs
+                    onChange={(index) => setTabIndex(index)}
+                    variant="unstyled"
                   >
-                    <Tabs
-                      onChange={(index) => setTabIndex(index)}
-                      variant="unstyled"
-                    >
-                      <TabList>
-                        <Tab
-                          borderRadius={10}
-                          _selected={{ color: "white", bg: "#915EFF" }}
-                          minW="100px"
-                        >
-                          AI generated
-                        </Tab>
-                        <Tab
-                          borderRadius={10}
-                          _selected={{ color: "white", bg: "#915EFF" }}
-                          minW="100px"
-                        >
-                          Upload
-                        </Tab>
-                      </TabList>
-                      <TabPanels>
-                        <TabPanel>
-                          <PhotoGrid
-                            photos={post.photos}
-                            currentPhoto={selectedPhoto}
-                            setPhoto={setSelectedPhoto}
-                            nextPage={post.nextPage}
-                          />
-                        </TabPanel>
-                        <TabPanel>
-                          <UploadPhoto />
-                        </TabPanel>
-                      </TabPanels>
-                    </Tabs>
-                  </Box>
-                </Flex>
-                <Box>
-                  <Text fontSize="22pt" fontWeight={700}>
-                    Selected Creative
-                  </Text>
-                  <Box
-                    mt={10}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    {tabIndex == 0 ? (
+                    <TabList>
+                      <Tab
+                        borderRadius={10}
+                        _selected={{ color: "white", bg: "#915EFF" }}
+                        minW="100px"
+                      >
+                        AI generated
+                      </Tab>
+                      <Tab
+                        borderRadius={10}
+                        _selected={{ color: "white", bg: "#915EFF" }}
+                        minW="100px"
+                      >
+                        Upload
+                      </Tab>
+                    </TabList>
+                    <TabPanels>
+                      <TabPanel>
+                        <PhotoGrid
+                          currentPhoto={selectedPhoto}
+                          setPhoto={setSelectedPhoto}
+                          post={post}
+                        />
+                      </TabPanel>
+                      <TabPanel>
+                        <UploadPhoto />
+                      </TabPanel>
+                    </TabPanels>
+                  </Tabs>
+                </Box>
+              </Flex>
+              <Box>
+                <Text fontSize="22pt" fontWeight={700}>
+                  Selected Creative
+                </Text>
+                <Box
+                  mt={10}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  {tabIndex == 0 ? (
+                    <Box borderRadius="md" overflow="hidden">
                       <Image
                         src={selectedPhoto}
                         align="center"
                         height="375px"
                       ></Image>
-                    ) : (
-                      <Text width="300px" height="375px">
-                        Please select or upload a creative
-                      </Text>
-                    )}
-                  </Box>
-                  <Text fontSize="22pt" fontWeight={700}>
-                    Caption
-                  </Text>
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    flexDir="column"
-                  >
-                    <Skeleton width="600px" borderRadius={20} height="200px" isLoaded={!RegeneratingCaption}>
-                      <Textarea
-                        mt={5}
-                        name="note"
-                        fontSize="13pt"
-                        maxWidth="600px"
-                        borderRadius={20}
-                        height="200px"
-                        value={captionOutput}
-                        onChange={() => { }}
-                        bg={bg}
-                        _focus={{
-                          outline: "none",
-                          border: "1px solid",
-                          borderColor: "black",
-                        }}
-                      />
-                    </Skeleton>
-                    <Button
-                      rightIcon={<TbSparkles />}
-                      mt={7}
-                      onClick={() => {
-                        setRegeneratingCaption(true);
-                        regenerateCaption({
-                          creative: post.creative,
-                          caption: post.caption,
-                        }).then((result: any) => {
-                          setRegeneratingCaption(false)
-                          setCaption(result.data.caption);
-                        });
-                      }}
-                    >
-                      Regenerate
-                    </Button>
-                  </Box>
+                    </Box>
+                  ) : (
+                    <Text width="300px" height="375px">
+                      Please select or upload a creative
+                    </Text>
+                  )}
                 </Box>
-              </SimpleGrid>
-              <ModalFooter borderRadius="0px 0px 10px 10px">
-                <Button bg="#15AE11" width="120px" mr={3} onClick={handleClose}>
-                  Schedule
-                </Button>
-                <Button
-                  width="120px"
-                  padding="0px 30px"
-                  disabled={!textInputs.type || !textInputs.format}
-                  isLoading={loading}
+                <Text fontSize="22pt" fontWeight={700}>
+                  Caption
+                </Text>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  flexDir="column"
                 >
-                  Save Draft
-                </Button>
-              </ModalFooter>
-              {error && (
-                <Alert status="error">
-                  <AlertIcon />
-                  <Text fontSize="10pt" mr={2}>
-                    Error creating post
-                  </Text>
-                </Alert>
-              )}
-            </>
-          )}
+                  <Skeleton
+                    width="600px"
+                    borderRadius={20}
+                    height="200px"
+                    startColor="gray.400"
+                    endColor="gray.600"
+                    isLoaded={!RegeneratingCaption && !generatingCaption}
+                  >
+                    <Textarea
+                      mt={5}
+                      name="note"
+                      fontSize="13pt"
+                      maxWidth="600px"
+                      borderRadius={20}
+                      height="200px"
+                      value={captionOutput}
+                      onChange={(e) => setCaption(e.target.value)}
+                      bg={bg}
+                      _focus={{
+                        outline: "none",
+                        border: "1px solid",
+                        borderColor: "black",
+                      }}
+                    />
+                  </Skeleton>
+                  <Button
+                    rightIcon={<TbSparkles />}
+                    mt={7}
+                    onClick={() => {
+                      setRegeneratingCaption(true);
+                      regenerateCaption({
+                        creative: post.creative,
+                        caption: post.caption,
+                      }).then((result: any) => {
+                        setRegeneratingCaption(false);
+                        setCaption(result.data.caption);
+                      });
+                    }}
+                  >
+                    Regenerate
+                  </Button>
+                </Box>
+              </Box>
+            </SimpleGrid>
+            <ModalFooter borderRadius="0px 0px 10px 10px">
+              <Button bg="#15AE11" width="120px" mr={3} onClick={handleClose}>
+                Schedule
+              </Button>
+              <Button
+                width="120px"
+                padding="0px 30px"
+                disabled={!textInputs.type || !textInputs.format}
+                isLoading={loading}
+              >
+                Save Draft
+              </Button>
+            </ModalFooter>
+            {error && (
+              <Alert status="error">
+                <AlertIcon />
+                <Text fontSize="10pt" mr={2}>
+                  Error creating post
+                </Text>
+              </Alert>
+            )}
+          </>
         </ModalContent>
       </Modal>
     </>

@@ -32,6 +32,7 @@ import Billing from "./Billing";
 import BrandProfiles from "./BrandProfiles";
 import { BrandProfile, brandProfileState } from "@/src/atoms/brandProfilesAtom";
 import { useRecoilState } from "recoil";
+import useBrandProfileData from "@/src/hooks/useBrandProfileData";
 
 type CreateProfileModalProps = {
   open: boolean;
@@ -53,10 +54,13 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
   handleClose,
 }) => {
   const [user] = useAuthState(auth);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [brandProfileStateValue, setBrandProfileStateValue] =
-    useRecoilState(brandProfileState);
+  const {
+    brandProfileStateValue,
+    setBrandProfileStateValue,
+    loading,
+    error,
+    getBrandProfiles,
+  } = useBrandProfileData();
 
   const [boxes, setBoxes] = useState<
     {
@@ -98,7 +102,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
       industry: brandInputs.industry,
       message: brandInputs.message,
     };
-    
+
     setBrandProfileStateValue((prev) => ({
       ...prev,
       brandProfiles: updatedProfiles,
@@ -118,47 +122,21 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
     });
   };
 
-  const getBrandProfiles = async () => {
-    setLoading(true);
-
-    try {
-      // get users snippets
-      const profileDocs = await getDocs(
-        collection(db, `users/${user?.uid}/brandProfiles`)
-      );
-
-      // set the recoil state of the workspace atom, updating the snippets and setting snippetsFetched to true
-      const profiles = profileDocs.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as BrandProfile[];
-      setBrandProfileStateValue((prev) => ({
-        ...prev,
-        brandProfiles: profiles,
-      }));
-
-      // set the input values
-      if (profiles.length > 0) {
-        const { id, industry, name, message, mission } = profiles[0];
-        setBrandInputs({
-          name: name,
-          mission: mission,
-          industry: industry,
-          message: message,
-        });
-      }
-    } catch (error: any) {
-      console.log("getting brand profiles error", error);
-      setError(error.message);
-    }
-    setLoading(false);
-  };
-
-  // load the brand profiles and set the recoil state..
-  // although, this probably needs to be done elsewhere aswell...
   useEffect(() => {
-    getBrandProfiles();
-  }, []);
+    // You can access brandProfileStateValue here, but consider the loading state as well
+    if (!loading && brandProfileStateValue.brandProfiles.length > 0) {
+      // Access the brandProfileStateValue and perform actions
+      const profile = brandProfileStateValue.brandProfiles[0];
+      // set the input values
+      const { id, industry, name, message, mission } = profile;
+      setBrandInputs({
+        name: name,
+        mission: industry,
+        industry: mission,
+        message: message,
+      });
+    }
+  }, [loading]);
 
   return (
     <>

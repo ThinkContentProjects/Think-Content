@@ -39,7 +39,16 @@ const OAuthButtons: React.FC = () => {
       // should be inside try block?
       const workspaceDocRef = doc(collection(db, "workspaces"));
 
+      const brandProfile: BrandProfile = {
+        name: "Products",
+        industry: "retail",
+        mission: "To sell products for less",
+        message: "We sell prducts for less so you can live a better life",
+        id: "",
+      };
+
       try {
+
         await runTransaction(db, async (transaction) => {
           // async not needed for transaction sets, but we need them for transaction gets
           // create workspace
@@ -50,6 +59,7 @@ const OAuthButtons: React.FC = () => {
             numberOfMembers: 1,
             members: [user?.uid],
             owner: user?.uid,
+            brandProfile: brandProfile
           });
 
           // create workspace snippet for the user
@@ -86,14 +96,6 @@ const OAuthButtons: React.FC = () => {
         // setError(error.message);
       }
 
-      const brandProfile: BrandProfile = {
-        name: "Products",
-        industry: "retail",
-        mission: "To sell products for less",
-        message: "We sell prducts for less so you can live a better life",
-        id: "",
-      };
-
       /**
        * Again, this probably shouldnt be called here...
        */
@@ -120,7 +122,7 @@ const OAuthButtons: React.FC = () => {
         router.push(
           router.query.from
             ? decodeURIComponent(router.query.from as string)
-            : `workspace/${workspaceId}`
+            : `/workspace/${workspaceId}`
         );
       });
     }

@@ -50,7 +50,7 @@ const Login: React.FC<LoginProps> = () => {
         router.push(
           router.query.from
             ? decodeURIComponent(router.query.from as string)
-            : `workspace/${workspaceId}`
+            : `/workspace/${workspaceId}`
         );
       });
     }
