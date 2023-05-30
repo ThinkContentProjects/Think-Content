@@ -22,6 +22,7 @@ import {
   Flex,
   Spinner,
   Skeleton,
+  Spacer,
 } from "@chakra-ui/react";
 
 import React, { useEffect, useState } from "react";
@@ -121,6 +122,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   justifyContent="center"
                 >
                   <Tabs
+                  width="80%"
                     onChange={(index) => setTabIndex(index)}
                     variant="unstyled"
                   >
@@ -232,6 +234,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 </Box>
               </Box>
             </SimpleGrid>
+            <Spacer/>
             <ModalFooter borderRadius="0px 0px 10px 10px">
               <Button bg="#15AE11" width="120px" mr={3} onClick={handleClose}>
                 Schedule
