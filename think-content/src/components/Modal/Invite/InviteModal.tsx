@@ -15,6 +15,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { ActionMeta } from 'react-select';
 
 import {
   AsyncSelect,
@@ -99,9 +100,22 @@ const InviteModal: React.FC = () => {
     return users;
   };
 
+  const handleSelectChange = (
+    newValue: ColorOption | ColorOption[] | null,
+    action: ActionMeta<ColorOption>
+  ) => {
+    if (Array.isArray(newValue)) {
+      setSelectedOptions(newValue);
+    } else if (newValue !== null) {
+      setSelectedOptions([newValue]);
+    } else {
+      setSelectedOptions([]);
+    }
+  };
+
   const selectProps = useChakraSelectProps({
     value: selectedOptions,
-    onChange: setSelectedOptions,
+    onChange: handleSelectChange,
   });
 
   const handleClose = () => {
@@ -168,15 +182,20 @@ const InviteModal: React.FC = () => {
                     loadOptions={(inputValue, callback) => {
                       getUsers()
                         .then((data) =>
-                          data.filter(
-                            (i) =>
-                              i.label
-                                .toLowerCase()
-                                .includes(inputValue.toLowerCase()) &&
-                              !selectedOptions.find(
-                                (option) => option.value.uid === i.value.uid
-                              )
-                          )
+                          data
+                            .filter(
+                              (i) =>
+                                i.label
+                                  .toLowerCase()
+                                  .includes(inputValue.toLowerCase()) &&
+                                !selectedOptions.find(
+                                  (option) => option.value.uid === i.value.uid
+                                )
+                            )
+                            .map((item) => ({
+                              ...item,
+                              color: 'blue', // Replace 'blue' with the desired color for each item
+                            }))
                         )
                         .then((data) => callback(data));
                     }}
@@ -196,7 +215,7 @@ const InviteModal: React.FC = () => {
                 {workspaceStateValue.memberSnippets.map((member) => (
                   <MemberComponent
                     memberEmail={member.email}
-                    owner={workspaceStateValue.currentWorkspace?.owner}
+                    owner={workspaceStateValue.currentWorkspace ? workspaceStateValue.currentWorkspace.owner : ""}
                     memberId={member.uid}
                     key={member.email}
                   />

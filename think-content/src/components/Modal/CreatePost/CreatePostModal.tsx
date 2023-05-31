@@ -219,7 +219,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   </Skeleton>
                   <Button
                     rightIcon={<TbSparkles />}
-                    isLoading={RegeneratingCaption || generatingCaption}
+                    isLoading={Boolean(RegeneratingCaption) || Boolean(generatingCaption)}
                     mt={7}
                     onClick={() => {
                       setRegeneratingCaption(true);
