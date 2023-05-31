@@ -5,7 +5,7 @@ import { withProtected } from "@/src/hooks/routes";
 
 type campaignStrategyProps = {};
 
-const campaignStrategy: React.FC<campaignStrategyProps> = () => {
+const CampaignStrategy: React.FC<campaignStrategyProps> = () => {
   const { workspaceStateValue } = useWorkspaceData();
 
   return (
@@ -19,4 +19,4 @@ const campaignStrategy: React.FC<campaignStrategyProps> = () => {
     </Flex>
   );
 };
-export default withProtected(campaignStrategy);
+export default withProtected(CampaignStrategy);

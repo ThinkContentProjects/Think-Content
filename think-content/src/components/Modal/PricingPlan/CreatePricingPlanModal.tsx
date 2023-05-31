@@ -49,7 +49,7 @@ const CreatePricingPlanModal: React.FC<CreatePricingPlanModalProps> = ({
                                         <Text fontSize={"3xl"} fontWeight={"bold"}color={"white"}>Basic</Text>
                                     </Flex>
                                     <Flex alignItems="start" py={4} px={2}>
-                                        <Text color={"#525355"} fontSize={"lg"}>What You'll Get</Text>
+                                        <Text color={"#525355"} fontSize={"lg"}>What You&apos;ll Get</Text>
                                     </Flex>
                                     <Flex flexDir={"row"} justify={"start"} py={2}>
                                         <Icon as={BsCheckCircleFill} my={1} mx={2} boxSize={4}/>
@@ -118,7 +118,7 @@ const CreatePricingPlanModal: React.FC<CreatePricingPlanModalProps> = ({
                                         <Text fontSize={"3xl"} fontWeight={"bold"}color={"white"}>Growth</Text>
                                     </Flex>
                                     <Flex alignItems="start" py={4} px={2}>
-                                        <Text color={"#525355"} fontSize={"lg"}>What You'll Get</Text>
+                                        <Text color={"#525355"} fontSize={"lg"}>What You&apos;ll Get</Text>
                                     </Flex>
                                     <Flex flexDir={"row"} justify={"start"} py={2}>
                                         <Icon as={BsCheckCircleFill} my={1} mx={2} boxSize={4}/>
@@ -199,7 +199,7 @@ const CreatePricingPlanModal: React.FC<CreatePricingPlanModalProps> = ({
                                         <Text fontSize={"3xl"} fontWeight={"bold"}color={"white"}>Pro</Text>
                                     </Flex>
                                     <Flex alignItems="start" py={4} px={2}>
-                                        <Text color={"#525355"} fontSize={"lg"}>What You'll Get</Text>
+                                        <Text color={"#525355"} fontSize={"lg"}>What You&apos;ll Get</Text>
                                     </Flex>
                                     <Flex flexDir={"row"} justify={"start"} py={2}>
                                         <Icon as={BsCheckCircleFill} my={1} mx={2} boxSize={4}/>

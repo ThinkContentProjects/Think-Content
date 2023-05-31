@@ -5,7 +5,7 @@ import { withProtected } from "@/src/hooks/routes";
 
 type calendarProps = {};
 
-const calendar: React.FC<calendarProps> = () => {
+const Calendar: React.FC<calendarProps> = () => {
   const { workspaceStateValue } = useWorkspaceData();
 
   return (
@@ -19,4 +19,4 @@ const calendar: React.FC<calendarProps> = () => {
     </Flex>
   );
 };
-export default withProtected(calendar);
+export default withProtected(Calendar);

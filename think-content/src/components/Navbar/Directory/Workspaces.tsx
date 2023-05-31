@@ -28,43 +28,7 @@ const Workspaces: React.FC = () => {
   return (
     <>
       {directoryState.selectedMenuItem !== defaultMenuItem && (
-        <>
-          {/* <MenuItem
-            width="100%"
-            fontSize="10pt"
-            onClick={() => {ToggleMenuOpen(); setInviteModalState({ open: true })}}
-          >
-            <Flex align="center">
-              <Icon fontSize={20} mr={2} as={BsPersonFillAdd}></Icon>
-              Invite Members
-            </Flex>
-          </MenuItem> */}
-          {/* <MenuItem
-            width="100%"
-            fontSize="10pt"
-            onClick={() =>
-              {router.push(
-                `/workspace/${workspaceStateValue?.currentWorkspace?.id}/settings`
-              )
-              ToggleMenuOpen()}
-            }
-          >
-            <Flex align="center">
-              <Icon fontSize={20} mr={2} as={MdSettings}></Icon>
-              Settings
-            </Flex>
-          </MenuItem> */}
-          {/* <MenuItem
-            width="100%"
-            fontSize="10pt"
-            onClick={() => {setOpenLeaveWorkspace(true); ToggleMenuOpen()}}
-          >
-            <Flex align="center">
-              <Icon fontSize={20} mr={2} as={BiExit}></Icon>
-              Leave
-            </Flex>
-          </MenuItem> */}
-        </>
+        <></>
       )}
       <CreateWorkspaceModal open={openCreateWorkspace} handleClose={() => setOpenCreateWorkspace(false)} />
       <LeaveWorkspaceModal open={openLeaveWorkspace} handleClose={() => setOpenLeaveWorkspace(false)} />

@@ -3,9 +3,9 @@ import { Flex, Text, VStack } from "@chakra-ui/react";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
 import { withProtected } from "@/src/hooks/routes";
 
-type libraryProps = {};
+type LibraryProps = {};
 
-const library: React.FC<libraryProps> = () => {
+const Library: React.FC<LibraryProps> = () => {
   const { workspaceStateValue } = useWorkspaceData();
 
   return (
@@ -19,4 +19,5 @@ const library: React.FC<libraryProps> = () => {
     </Flex>
   );
 };
-export default withProtected(library);
+
+export default withProtected(Library);

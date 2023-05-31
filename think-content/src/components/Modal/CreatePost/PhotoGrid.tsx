@@ -93,6 +93,7 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({
                     cursor="pointer"
                     onLoad={() => handleImageLoad(index)}
                     loading="lazy"
+                    alt={"Pexels Generated Image"}
                   />
                 </Box>
                 {/* </Skeleton> */}

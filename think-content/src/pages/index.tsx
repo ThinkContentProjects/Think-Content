@@ -20,7 +20,6 @@ const Home: React.FC = () =>
 
   return (
     <>
-      
       <Flex h={"5040"} justify={"start"} align={"center"} bg={"#121316"} flexDir={"column"}>
         <Box
           borderColor="#B066EB"
@@ -59,6 +58,7 @@ const Home: React.FC = () =>
             w={"70%"}
             mb={48}
             boxShadow="8px 32px 128px rgba(176, 102, 235, 0.1)"
+            alt={"Purple and black particle wave"}
         />
         <Text pb={8} fontSize={"3xl"} fontWeight={"semibold"} w={"440px"} align={"center"}>
           Strategize, create, and manage effortlessly using AI
@@ -103,6 +103,7 @@ const Home: React.FC = () =>
                 borderRadius={"3xl"}
                 src={"/images/contentStrategy.gif"}
                 boxShadow="8px 32px 128px rgba(176, 102, 235,  0.05)"
+                alt={"Think Content - Content Strategy Workflow GIF"}
               />
             </Box>
           </Flex>
@@ -142,6 +143,7 @@ const Home: React.FC = () =>
                 borderRadius={"3xl"}
                 src={"/images/contentCreation.gif"}
                 boxShadow="8px 32px 128px rgba(176, 102, 235,  0.05)"
+                alt={"Think Content - Content Creation Workflow GIF"}
               />
             </Box>
           </Flex>
@@ -181,6 +183,7 @@ const Home: React.FC = () =>
                 borderRadius={"3xl"}
                 src={"/images/campaignStrategy.gif"}
                 boxShadow="8px 32px 128px rgba(176, 102, 235, 0.05)"
+                alt={"Think Content - Campaign Strategy Workflow GIF"}
               />              
             </Box>
           </Flex>

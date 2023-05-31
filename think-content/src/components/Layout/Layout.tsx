@@ -42,7 +42,7 @@ const Layout: React.FC<Props> = ({ children }) => {
     return (
       <>
         <Navbar user={user} />
-        {user && <Sidebar children={undefined} />}
+        {user && <Sidebar>{children}</Sidebar>}
         <Box
           bg={bg}
           borderRadius={20}

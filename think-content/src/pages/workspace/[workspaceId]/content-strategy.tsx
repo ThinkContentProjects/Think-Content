@@ -9,7 +9,7 @@ type contentStrategyProps = {
     
 };
 
-const contentStrategy:React.FC<contentStrategyProps> = () => {
+const ContentStrategy:React.FC<contentStrategyProps> = () => {
 
   const { workspaceStateValue } = useWorkspaceData();
   const bg = useColorModeValue("gray.100", "#27282A");
@@ -72,4 +72,4 @@ const contentStrategy:React.FC<contentStrategyProps> = () => {
     </Box>
   </Flex>)
 }
-export default withProtected(contentStrategy);
+export default withProtected(ContentStrategy);

@@ -174,6 +174,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
                         src={selectedPhoto}
                         align="center"
                         height="375px"
+                        alt={"Pexels Generated Images"}
                       ></Image>
                     </Box>
                   ) : (

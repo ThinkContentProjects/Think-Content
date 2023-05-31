@@ -29,11 +29,13 @@ const Navbar: React.FC<NavBarProps> = ({ user }) => {
             ml={5}
             height="70px"
             display={{ base: "none", md: "unset" }}
+            alt={"Think Content Large Logo"}
           ></Image>
           <Image
             src="/images/logoSmall.png"
             height="60px"
             display={{ md: "none" }}
+            alt={"Think Content Small Logo"}
           ></Image>
         </Flex>
       </Flex>

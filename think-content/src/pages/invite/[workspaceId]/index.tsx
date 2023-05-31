@@ -25,7 +25,7 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
 
-const index: NextPage = () => {
+const Invite: NextPage = () => {
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
   const router = useRouter();
   const [user, loading] = useAuthState(auth);
@@ -110,4 +110,4 @@ const index: NextPage = () => {
   );
 };
 
-export default withProtected(index);
+export default withProtected(Invite);

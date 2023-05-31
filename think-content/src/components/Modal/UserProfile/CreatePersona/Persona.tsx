@@ -67,6 +67,7 @@ const Persona: React.FC<PersonaProps> = ({
                         m={5}
                         pr={2}
                         height="100px"
+                        alt={"Persona Image Outline"}
                     />
                     )}          
                     

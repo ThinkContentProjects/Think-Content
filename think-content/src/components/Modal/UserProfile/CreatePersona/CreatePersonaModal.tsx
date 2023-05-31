@@ -117,6 +117,7 @@ const CreateNewPersonaModal: React.FC<CreateNewPersonaModalProps> = ({
                                         h={"180px"}
                                         w={"180px"}
                                         mx={2}
+                                        alt={"Generic Woman Profile Picture Animated"}
                                     />
                                     <Button 
                                         variant={"unstyled"}
@@ -216,13 +217,12 @@ const CreateNewPersonaModal: React.FC<CreateNewPersonaModalProps> = ({
                                         <Flex direction="column" align="center" w="100%">
 
                                             <RangeSlider
-                                            aria-label={["min", "max"]}
-                                            defaultValue={[ageRangeLow, ageRangeHigh]}
-                                            w="80%"
-                                            onChange={handleRangeChange}
-                                            min={13}
-                                            max={65}
-                                            step={1}
+                                                defaultValue={[ageRangeLow, ageRangeHigh]}
+                                                w="80%"
+                                                onChange={handleRangeChange}
+                                                min={13}
+                                                max={65}
+                                                step={1}
                                             >
                                             <RangeSliderTrack h="6px" borderRadius="full">
                                                 <RangeSliderFilledTrack bg="blue.500" bgGradient="linear(to-l, white, #0000B6)" />

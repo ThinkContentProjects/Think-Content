@@ -238,7 +238,7 @@ const AccountInformation: React.FC<AccountInformationProps> = ({ user }) => {
                         bgColor={"#242628"}
                     >
                         <Text px={3} fontSize={"10"}>
-                            This action is irreversible, please make sure you're certain of it.
+                            This action is irreversible, please make sure you&apos;re certain of it.
                             <Button 
                                 variant="unstyled" 
                                 fontSize={"13"} 

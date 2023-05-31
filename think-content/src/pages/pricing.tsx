@@ -7,7 +7,7 @@ import { useSetRecoilState } from "recoil";
 import { authModalState } from "../atoms/authModalAtom";
 import Footer from "../components/Footer/Footer";
 
-const pricing: React.FC = () => 
+const Pricing: React.FC = () => 
 {
     const [currentPlan, setCurrentPlan] = useState(0);
     const setAuthModalState = useSetRecoilState(authModalState);
@@ -24,7 +24,7 @@ const pricing: React.FC = () =>
                                     <Text fontSize={"3xl"} fontWeight={"bold"}color={"white"}>Basic</Text>
                                 </Flex>
                                 <Flex alignItems="start" py={4} px={2}>
-                                    <Text color={"#525355"} fontSize={"lg"}>What You'll Get</Text>
+                                    <Text color={"#525355"} fontSize={"lg"}>What You&apos;ll Get</Text>
                                 </Flex>
                                 <Flex flexDir={"row"} justify={"start"} py={2}>
                                     <Icon as={BsCheckCircleFill} my={1} mx={2} boxSize={4}/>
@@ -93,7 +93,7 @@ const pricing: React.FC = () =>
                                     <Text fontSize={"3xl"} fontWeight={"bold"}color={"white"}>Growth</Text>
                                 </Flex>
                                 <Flex alignItems="start" py={4} px={2}>
-                                    <Text color={"#525355"} fontSize={"lg"}>What You'll Get</Text>
+                                    <Text color={"#525355"} fontSize={"lg"}>What You&apos;ll Get</Text>
                                 </Flex>
                                 <Flex flexDir={"row"} justify={"start"} py={2}>
                                     <Icon as={BsCheckCircleFill} my={1} mx={2} boxSize={4}/>
@@ -174,7 +174,7 @@ const pricing: React.FC = () =>
                                     <Text fontSize={"3xl"} fontWeight={"bold"}color={"white"}>Pro</Text>
                                 </Flex>
                                 <Flex alignItems="start" py={4} px={2}>
-                                    <Text color={"#525355"} fontSize={"lg"}>What You'll Get</Text>
+                                    <Text color={"#525355"} fontSize={"lg"}>What You&apos;ll Get</Text>
                                 </Flex>
                                 <Flex flexDir={"row"} justify={"start"} py={2}>
                                     <Icon as={BsCheckCircleFill} my={1} mx={2} boxSize={4}/>
@@ -268,4 +268,4 @@ const pricing: React.FC = () =>
   )
 };
 
-export default pricing;
+export default Pricing;

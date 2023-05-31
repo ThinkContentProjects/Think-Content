@@ -20,6 +20,7 @@ const Footer:React.FC<FooterProps> = () => {
                         src={"/images/logoSmall.png"}
                         h={"122px"}
                         w={"228px"}
+                        alt={"Think Content Logo"}
                     />
                 </Flex>
                 <Flex flexDir={"row"} justify={"space-around"} w={"60%"}>

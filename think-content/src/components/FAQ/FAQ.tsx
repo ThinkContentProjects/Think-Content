@@ -72,7 +72,7 @@ const FAQ: React.FC = () =>
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
-                        Think Content uses the latest Artificial Intelligence software powered by Open AI to generate content for your posts. Remember, while AI can enhance your content creation process, it's important to review the generated content to ensure it aligns with your brand
+                        Think Content uses the latest Artificial Intelligence software powered by Open AI to generate content for your posts. Remember, while AI can enhance your content creation process, it&apos;s important to review the generated content to ensure it aligns with your brand
                         </AccordionPanel>
                     </>
                     )}
@@ -93,8 +93,7 @@ const FAQ: React.FC = () =>
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={8} fontSize={"lg"} bg={"#121316"}>
-                        Think Content taylors a custom campaign strategy for each customer's unique business by using vast amounts of trained data to back their generated plan.
-
+                        Think Content taylors a custom campaign strategy for each customer&apos;s unique business by using vast amounts of trained data to back their generated plan.
                         </AccordionPanel>
                     </>
                     )}

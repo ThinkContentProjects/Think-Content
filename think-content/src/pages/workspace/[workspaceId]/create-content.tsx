@@ -26,7 +26,7 @@ import useWorkspaceData from "@/src/hooks/useWorkspaceData";
 
 type createContentProps = {};
 
-const createContent: React.FC<createContentProps> = () => {
+const CreateContent: React.FC<createContentProps> = () => {
   const [openCreatePostModal, setOpenCreatePostModal] = useState(false);
   const bg = useColorModeValue("gray.100", "#27282A");
   const functions = getFunctions(getApp());
@@ -40,7 +40,7 @@ const createContent: React.FC<createContentProps> = () => {
     caption: "",
     creative: "",
     search: ""
-  });
+  });0
 
   const options = ["Feed Post", "Story", "Reel", "Carousal"];
 
@@ -168,4 +168,4 @@ const createContent: React.FC<createContentProps> = () => {
   );
 };
 
-export default withProtected(createContent);
+export default withProtected(CreateContent);
