@@ -131,8 +131,8 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
       const { id, industry, name, message, mission } = profile;
       setBrandInputs({
         name: name,
-        mission: industry,
-        industry: mission,
+        mission: mission,
+        industry: industry,
         message: message,
       });
     }

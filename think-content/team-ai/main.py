@@ -6,22 +6,23 @@ from langchain.llms import OpenAIChat
 from langchain.prompts import PromptTemplate
 from langchain.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field
-from typing import List
 import openai
 import requests
 import json
 
 app = initialize_app()
 
-openai.api_key = 
-PEXELS_API_KEY = 
+openai.api_key = "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"
+PEXELS_API_KEY = "Azk1950N8yIpSbl9FA1sCRSfJugd7ySk84McAnrXqKHeOJofogSstqse"
 
 
 class Post(BaseModel):
-    caption: str = Field(description="short caption")
-    creative: str = Field(description="explanation of creative")
-    seo: str = Field(description="short keyword sentence")
+    caption: str = Field(description="caption")
+    creative: str = Field(description="creative")
+    seo: str = Field(description="keyword sentence")
 
+class Caption(BaseModel):
+    caption: str = Field(description="caption")
 
 @https_fn.on_call()
 def captionGenerator(req: https_fn.CallableRequest):
@@ -45,9 +46,10 @@ def captionGenerator(req: https_fn.CallableRequest):
 
     Creative: (Detailed description of the creative relevant to the type of post and its objective, post format, and company details)
 
-    Creative SEO short sentence: (Visualize the image the social media creative is trying to convey. Based on this mental image, extract the main themes and keywords that are relevant for optimizing search results for images associated with the post. Consider the context, objects, emotions, and industry-specific keywords. Provide a single short sentence that captures the essence of the social media creative, incorporating relevant keywords without mentioning the company name.
+    Creative SEO short sentence: (Based on the creative, extract the main themes and keywords that are relevant for optimizing search results for images associated with the post. Consider the context, objects, emotions, and industry-specific keywords. Provide a single short sentence that captures the essence of the social media creative, incorporating relevant keywords without mentioning the company name.)
+    
+    Caption: (Well-written and engaging caption that is relevant to the type of post and its objective, post format, and company details. Make this at least 3-5 sentences with 5 to 8 hashtags. Use 0-2 emojis.)
 
-    Caption: (Well-written and engaging caption that is relevant to the type of post and its objective, post format, and company details)
     {format_instructions}
     '''
 
@@ -69,8 +71,6 @@ def captionGenerator(req: https_fn.CallableRequest):
 '''
 Generate 4 images using from pexels 
 '''
-
-
 @https_fn.on_call()
 def imageGenerator(req: https_fn.CallableRequest):
     api = API(PEXELS_API_KEY)
@@ -79,24 +79,36 @@ def imageGenerator(req: https_fn.CallableRequest):
 
 @https_fn.on_call()
 def regenerateCaption(req: https_fn.CallableRequest):
-    prompt = f'''Please reword the following caption to have it better reflect the creative: 
+     
+    model = OpenAIChat(temperature=.8, model_name='gpt-3.5-turbo',
+                       openai_api_key=openai.api_key)
+
+    parser = PydanticOutputParser(pydantic_object=Caption)
+
+    template = '''Please reword the following caption to have it better reflect the creative. Make this at least 3-5 sentences with 5 to 8 hashtags. Use 0-2 emojis: 
     
-    Creative: {req.data['creative']}
+    Creative: {creative}
     
-    Caption: {req.data['caption']}
+    Caption: {caption}
+    {format_instructions}
     '''
 
-    completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "system", "content": "You are an expert social media manager"},
-                                                                               {"role": "user", "content": prompt}])
+    prompt = PromptTemplate(
+        template=template,
+        input_variables=["creative", "caption"],
+        partial_variables={
+            "format_instructions": parser.get_format_instructions()}
+    )
 
-    return {"caption": completion.choices[0].message.content}
+    _input = prompt.format(creative=req.data['creative'], caption=req.data['caption'])
+    output = model(_input)
+
+    return {"caption": parser.parse(output).caption}
 
 
 '''
 Get the next page of pexel results
 '''
-
-
 @https_fn.on_call()
 def regenerateImages(req: https_fn.CallableRequest):
 
