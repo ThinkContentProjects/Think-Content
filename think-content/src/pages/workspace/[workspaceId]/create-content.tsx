@@ -23,7 +23,6 @@ import { getApp } from "firebase/app";
 import { withProtected } from "@/src/hooks/routes";
 import { useRouter } from "next/router";
 import useWorkspaceData from "@/src/hooks/useWorkspaceData";
-import { resourceLimits } from "worker_threads";
 
 type createContentProps = {};
 
@@ -134,6 +133,7 @@ const createContent: React.FC<createContentProps> = () => {
           left="calc(100% - 150px)"
           width="150px"
           rightIcon={<TbSparkles />}
+          isLoading={generatingCaption}
           onClick={() => {
             setOpenCreatePostModal(true);
             // states for Chakra skeleton loading
@@ -157,6 +157,7 @@ const createContent: React.FC<createContentProps> = () => {
                 caption: result.data.caption,
                 search: result.data.search,
               }));
+              console.log(result.data)
             });
           }}
         >

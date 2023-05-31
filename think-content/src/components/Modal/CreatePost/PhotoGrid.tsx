@@ -84,6 +84,7 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({
                     width="220px"
                     startColor="gray.400"
                     endColor="gray.600"
+                    borderRadius={5}
                   ></Skeleton>
                 )}
                 <Box borderRadius="md" overflow="hidden">
@@ -130,6 +131,7 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({
           }}
           rightIcon={<TbSparkles />}
           mt={5}
+          isLoading={loadingStates.some(state => state === true)}
         >
           Regenerate
         </Button>

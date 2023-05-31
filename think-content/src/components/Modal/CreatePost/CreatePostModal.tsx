@@ -23,6 +23,7 @@ import {
   Spinner,
   Skeleton,
   Spacer,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 
 import React, { useEffect, useState } from "react";
@@ -65,7 +66,6 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
   const functions = getFunctions(getApp());
   connectFunctionsEmulator(functions, "127.0.0.1", 5001);
   const regenerateCaption = httpsCallable(functions, "regenerateCaption");
-  const regenerateImages = httpsCallable(functions, "regenerateImages");
   const bg = useColorModeValue("gray.100", "#27282A");
   const [user] = useAuthState(auth);
   const [error, setError] = useState("");
@@ -109,6 +109,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
               padding={3}
             >
               {/* AI Workshop */}
+              <ModalCloseButton />
             </ModalHeader>
             <SimpleGrid minChildWidth="100px">
               <Flex flexDirection="column">
@@ -122,7 +123,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   justifyContent="center"
                 >
                   <Tabs
-                  width="80%"
+                    width="80%"
                     onChange={(index) => setTabIndex(index)}
                     variant="unstyled"
                   >
@@ -217,6 +218,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   </Skeleton>
                   <Button
                     rightIcon={<TbSparkles />}
+                    isLoading={RegeneratingCaption || generatingCaption}
                     mt={7}
                     onClick={() => {
                       setRegeneratingCaption(true);
@@ -234,9 +236,23 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 </Box>
               </Box>
             </SimpleGrid>
-            <Spacer/>
+            <Spacer />
             <ModalFooter borderRadius="0px 0px 10px 10px">
-              <Button bg="#15AE11" width="120px" mr={3} onClick={handleClose}>
+              <Button
+                _hover={{ bg: 'green.400' }}
+                bg="#15AE11"
+                width="120px"
+                mr={3}
+                onClick={() => {
+                  handleClose();
+                  setPost({
+                    caption: "",
+                    creative: "",
+                    search: "",
+                  });
+                  setSelectedPhoto("");
+                }}
+              >
                 Schedule
               </Button>
               <Button
