@@ -134,6 +134,7 @@ const CreateContent: React.FC<createContentProps> = () => {
           width="150px"
           rightIcon={<TbSparkles />}
           isLoading={generatingCaption}
+          id="GenerateButton"
           onClick={() => {
             setOpenCreatePostModal(true);
             // states for Chakra skeleton loading

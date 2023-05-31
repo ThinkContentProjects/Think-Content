@@ -176,10 +176,11 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
                 )}
               </Select>
             </ModalBody>
-            <ModalCloseButton />
+            <ModalCloseButton id={"Close Button"}/>
           </Box>
           <ModalFooter borderRadius="0px 0px 10px 10px">
             <Button
+              id="CancelButton"
               variant="outline"
               height="30px"
               mr={3}
@@ -191,6 +192,7 @@ const CreateWorkspaceModal: React.FC<CreateWorkspaceModalProps> = ({
               height="30px"
               onClick={handleCreateWorkspace}
               isLoading={loading}
+              id="CreateWorkspaceButton"
             >
               Create Workspace
             </Button>

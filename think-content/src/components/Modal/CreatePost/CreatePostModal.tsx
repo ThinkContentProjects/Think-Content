@@ -109,7 +109,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
               padding={3}
             >
               {/* AI Workshop */}
-              <ModalCloseButton />
+              <ModalCloseButton id={"CloseButton"}/>
             </ModalHeader>
             <SimpleGrid minChildWidth="100px">
               <Flex flexDirection="column">
@@ -174,7 +174,6 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
                         src={selectedPhoto}
                         align="center"
                         height="375px"
-                        alt={"Pexels Generated Images"}
                       ></Image>
                     </Box>
                   ) : (
@@ -220,6 +219,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
                   <Button
                     rightIcon={<TbSparkles />}
                     isLoading={RegeneratingCaption || generatingCaption}
+                    id="RegeneratingButton"
                     mt={7}
                     onClick={() => {
                       setRegeneratingCaption(true);
@@ -240,6 +240,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
             <Spacer />
             <ModalFooter borderRadius="0px 0px 10px 10px">
               <Button
+                id="ScheduleButton"
                 _hover={{ bg: 'green.400' }}
                 bg="#15AE11"
                 width="120px"
@@ -261,6 +262,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
                 padding="0px 30px"
                 disabled={!textInputs.type || !textInputs.format}
                 isLoading={loading}
+                id="SaveDraftButton"
               >
                 Save Draft
               </Button>

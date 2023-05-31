@@ -66,6 +66,7 @@ const ContentStrategy:React.FC<contentStrategyProps> = () => {
         width="150px"
         rightIcon={<TbSparkles />}
         onClick={() => {}}
+        id="GenerateButton"
       >
         Generate
       </Button>

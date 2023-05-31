@@ -59,7 +59,7 @@ const AuthModal: React.FC = () => {
             >
               {modalState.view === "login" || modalState.view === "signup" ? (
                 <>
-                  <OAuthButtons />
+                  <OAuthButtons/>
                   <Text color="gray.400" fontWeight={500}>
                   </Text>
                   <AuthInputs />

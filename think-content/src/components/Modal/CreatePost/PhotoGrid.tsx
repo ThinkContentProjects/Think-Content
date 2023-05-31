@@ -92,8 +92,7 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({
                     src={photos[index]}
                     cursor="pointer"
                     onLoad={() => handleImageLoad(index)}
-                    loading="lazy"
-                    alt={"Pexels Generated Image"}
+                    loading={"eager"}
                   />
                 </Box>
                 {/* </Skeleton> */}
@@ -133,6 +132,7 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({
           rightIcon={<TbSparkles />}
           mt={5}
           isLoading={loadingStates.some(state => state === true)}
+          id="RegenerateButton"
         >
           Regenerate
         </Button>
