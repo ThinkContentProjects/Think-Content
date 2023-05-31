@@ -48,7 +48,7 @@ const Home: React.FC = () =>
         <Text pb={10} color={"#959697"} fontSize={"xl"}>
           The power of AI has come to social media
         </Text>
-        <Button fontSize={"sm"} w={32} h={10} mb={12} onClick={() => setAuthModalState({ open: true, view: "login" })}>
+        <Button fontSize={"sm"} w={32} h={10} mb={12} onClick={() => setAuthModalState({ open: true, view: "login" })} id="TryForFreeButton">
           Try for free
           <ArrowForwardIcon/>
         </Button>
@@ -58,7 +58,9 @@ const Home: React.FC = () =>
             w={"70%"}
             mb={48}
             boxShadow="8px 32px 128px rgba(176, 102, 235, 0.1)"
+            loading={"lazy"}
             alt={"Purple and black particle wave"}
+            style={{ textIndent: "-9999px", overflow: "hidden" }}
         />
         <Text pb={8} fontSize={"3xl"} fontWeight={"semibold"} w={"440px"} align={"center"}>
           Strategize, create, and manage effortlessly using AI
@@ -93,7 +95,7 @@ const Home: React.FC = () =>
                   </Text>
                 </Flex>
               </Box>
-              <Button fontSize={"sm"} w={32} h={10} mt={12} onClick={() => setAuthModalState({ open: true, view: "login" })}>
+              <Button fontSize={"sm"} w={32} h={10} mt={12} onClick={() => setAuthModalState({ open: true, view: "login" })} id="TryForFreeButton">
                 Try for free
                 <ArrowForwardIcon/>
               </Button>
@@ -104,6 +106,8 @@ const Home: React.FC = () =>
                 src={"/images/contentStrategy.gif"}
                 boxShadow="8px 32px 128px rgba(176, 102, 235,  0.05)"
                 alt={"Think Content - Content Strategy Workflow GIF"}
+                loading={"lazy"}
+                style={{ textIndent: "-9999px", overflow: "hidden" }}
               />
             </Box>
           </Flex>
@@ -133,7 +137,7 @@ const Home: React.FC = () =>
                   </Text>
                 </Flex>
               </Box>
-              <Button fontSize={"sm"} w={32} h={10} mt={12} onClick={() => setAuthModalState({ open: true, view: "login" })}>
+              <Button fontSize={"sm"} w={32} h={10} mt={12} onClick={() => setAuthModalState({ open: true, view: "login" })} id="TryForFreeButton">
                 Try for free
                 <ArrowForwardIcon/>
               </Button>              
@@ -144,6 +148,8 @@ const Home: React.FC = () =>
                 src={"/images/contentCreation.gif"}
                 boxShadow="8px 32px 128px rgba(176, 102, 235,  0.05)"
                 alt={"Think Content - Content Creation Workflow GIF"}
+                loading={"lazy"}
+                style={{ textIndent: "-9999px", overflow: "hidden" }}
               />
             </Box>
           </Flex>
@@ -173,7 +179,7 @@ const Home: React.FC = () =>
                   </Text>
                 </Flex>
               </Box>
-              <Button fontSize={"sm"} w={32} h={10} mt={12} onClick={() => setAuthModalState({ open: true, view: "login" })}>
+              <Button fontSize={"sm"} w={32} h={10} mt={12} onClick={() => setAuthModalState({ open: true, view: "login" })} id="TryForFreeButton">
                 Try for free
                 <ArrowForwardIcon/>
               </Button>              
@@ -183,7 +189,9 @@ const Home: React.FC = () =>
                 borderRadius={"3xl"}
                 src={"/images/campaignStrategy.gif"}
                 boxShadow="8px 32px 128px rgba(176, 102, 235, 0.05)"
-                alt={"Think Content - Campaign Strategy Workflow GIF"}
+                loading={"lazy"}
+                alt={"A Visual gif Representation of Think Content's Campain Strategy"}
+                style={{ textIndent: "-9999px", overflow: "hidden" }}
               />              
             </Box>
           </Flex>
@@ -195,7 +203,7 @@ const Home: React.FC = () =>
         <Text fontSize={"lg"} w={"400px"} mt={2} color={"#959697"} align={'center'}>
           Join our limited-time free trial to experience and help us improve our realy preview of Think Content
         </Text>
-        <Button fontSize={"sm"} w={32} h={10} mt={8} mb={72} onClick={() => setAuthModalState({ open: true, view: "login" })}>
+        <Button fontSize={"sm"} w={32} h={10} mt={8} mb={72} onClick={() => setAuthModalState({ open: true, view: "login" })} id="TryForFreeButton">
           Try for free
           <ArrowForwardIcon/>
         </Button>  

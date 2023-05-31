@@ -66,6 +66,7 @@ const Pricing: React.FC = () =>
                             </Flex>
                             <Flex justify={"center"} w={"100%"} pl={8}>
                                 <Button
+                                    id="ChooseStartingPlanButton"
                                     ml={-8}
                                     w={"full"}
                                     bg={currentPlan === 1 ? "#FA00CC": "white"} 
@@ -147,6 +148,7 @@ const Pricing: React.FC = () =>
                             </Flex>
                             <Flex justify={"center"} w={"100%"} pl={8}>
                                 <Button
+                                    id="ChooseStartingPlanButton"
                                     ml={-8}
                                     w={"full"}
                                     bg={currentPlan === 2 ? "#FA00CC": "white"} 
@@ -236,6 +238,7 @@ const Pricing: React.FC = () =>
                             
                             >
                                 <Button
+                                    id="ChooseStartingPlanButton"
                                     ml={-8}
                                     w={"full"}
                                     bg={currentPlan === 3 ? "#FA00CC": "white"} 

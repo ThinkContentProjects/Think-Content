@@ -200,7 +200,7 @@ const InviteModal: React.FC = () => {
                         .then((data) => callback(data));
                     }}
                   />
-                  <Button mt={3} mr={3} onClick={handleSubmit} borderRadius={6} alignContent="right">Email Invite</Button>
+                  <Button mt={3} mr={3} onClick={handleSubmit} borderRadius={6} alignContent="right" id="InviteButton">Email Invite</Button>
                 </FormControl>
                 <Text
                   display="flex"

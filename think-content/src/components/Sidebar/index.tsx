@@ -92,7 +92,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       <CreatePricingPlanModal open={openPricingPlan} handleClose={() => setOpenPricingPlan(false)} />
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         {user && directoryMenuStateValue !== defaultMenuState && <Directory />}
-        <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
+        <CloseButton id="CloseButton" display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       <Box
         pb={3}
@@ -134,7 +134,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         </Center>
         <Text pl={3} mb={1} fontSize="8pt" fontWeight={500} color="gray.500">Unlock all features of Think Content</Text>
         <Text fontSize="10pt">1583/10,000 Tokens Used</Text> 
-        <Button onClick={() => setOpenPricingPlan(true)} width="75%" leftIcon={<IoAddCircleOutline />}>Upgrade</Button>
+        <Button id="UpgradeButton" onClick={() => setOpenPricingPlan(true)} width="75%" leftIcon={<IoAddCircleOutline />}>Upgrade</Button>
       </Box>
     </Box>
   );
