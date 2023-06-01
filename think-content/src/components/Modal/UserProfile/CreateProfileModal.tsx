@@ -15,6 +15,7 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
+  useToast,
 } from "@chakra-ui/react";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
@@ -53,6 +54,7 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
   open,
   handleClose,
 }) => {
+  const toast = useToast();
   const [user] = useAuthState(auth);
   const {
     brandProfileStateValue,
@@ -119,6 +121,16 @@ const CreateProfileModal: React.FC<CreateProfileModalProps> = ({
       mission: brandInputs.mission,
       industry: brandInputs.industry,
       message: brandInputs.message,
+    });
+
+    console.log("Saving changes!")
+
+    toast({
+      title: "Brand Profile Updated.",
+      description: "Create a workspace to try out the new profile",
+      status: "success",
+      duration: 9000,
+      isClosable: true,
     });
   };
 
