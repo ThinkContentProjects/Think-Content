@@ -34,7 +34,7 @@ def captionGenerator(req: https_fn.CallableRequest):
     Company name: {name}
     Company mission: {mission}
     Industry: {industry}
-    Target Audience: "Middle aged women"
+    Target Audience: "College Students"
     Brand Message: {message}
 
     Type of post and it's objective: {post_type}
