@@ -2,19 +2,15 @@
 from firebase_functions import https_fn
 from firebase_admin import initialize_app
 from pexels_api import API
-from langchain.llms import OpenAIChat
+from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field
-import openai
 import requests
+import os
 import json
 
 app = initialize_app()
-
-openai.api_key = "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"
-PEXELS_API_KEY = "Azk1950N8yIpSbl9FA1sCRSfJugd7ySk84McAnrXqKHeOJofogSstqse"
-
 
 class Post(BaseModel):
     caption: str = Field(description="caption")
@@ -24,10 +20,11 @@ class Post(BaseModel):
 class Caption(BaseModel):
     caption: str = Field(description="caption")
 
-@https_fn.on_call()
+@https_fn.on_call(secrets=["OPENAI_API_KEY"])
 def captionGenerator(req: https_fn.CallableRequest):
-    model = OpenAIChat(temperature=.8, model_name='gpt-3.5-turbo',
-                       openai_api_key=openai.api_key)
+
+    model = OpenAI(temperature=.8, model_name='text-davinci-003',
+                       openai_api_key=os.environ.get('OPENAI_API_KEY'))
 
     parser = PydanticOutputParser(pydantic_object=Post)
 
@@ -71,17 +68,17 @@ def captionGenerator(req: https_fn.CallableRequest):
 '''
 Generate 4 images using from pexels 
 '''
-@https_fn.on_call()
+@https_fn.on_call(secrets=["PEXELS_API_KEY"])
 def imageGenerator(req: https_fn.CallableRequest):
-    api = API(PEXELS_API_KEY)
+    api = API(os.environ.get('PEXELS_API_KEY'))
     return api.search(req.data['search'], page=1, results_per_page=4)
 
 
-@https_fn.on_call()
+@https_fn.on_call(secrets=["OPENAI_API_KEY"])
 def regenerateCaption(req: https_fn.CallableRequest):
-     
-    model = OpenAIChat(temperature=.8, model_name='gpt-3.5-turbo',
-                       openai_api_key=openai.api_key)
+
+    model = OpenAI(temperature=.8, model_name='text-davinci-003',
+                       openai_api_key=os.environ.get('OPENAI_API_KEY'))
 
     parser = PydanticOutputParser(pydantic_object=Caption)
 
@@ -109,11 +106,11 @@ def regenerateCaption(req: https_fn.CallableRequest):
 '''
 Get the next page of pexel results
 '''
-@https_fn.on_call()
+@https_fn.on_call(secrets=["PEXELS_API_KEY"])
 def regenerateImages(req: https_fn.CallableRequest):
 
     headers = {
-        "Authorization": PEXELS_API_KEY
+        "Authorization": os.environ.get('PEXELS_API_KEY')
     }
     response = requests.get(req.data['next_page_url'], headers=headers)
 
