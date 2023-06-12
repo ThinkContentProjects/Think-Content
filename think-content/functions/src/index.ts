@@ -4,16 +4,6 @@ import * as admin from "firebase-admin";
 const nodemailer = require("nodemailer");
 admin.initializeApp();
 
-var transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: email,
-    pass: password,
-  },
-});
-
 // welcome email upon signup
 exports.sendWelcomeEmail = functions.firestore
   .document("users/{userID}")
@@ -44,11 +34,22 @@ exports.sendWelcomeEmail = functions.firestore
     </html>`;
 
     const mailOptions = {
-      from: "lucasradovan@gmai.com",
+      from: functions.config().email.username,
       to: snap.data().email,
       subject: "Thank you for joining Think Content!",
       html: message,
     };
+
+    var transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: functions.config().email.username,
+        pass: functions.config().email.password,
+      },
+    });
+    
 
     return transporter.sendMail(mailOptions, (error: any, data: any) => {
       if (error) {
@@ -92,11 +93,21 @@ exports.sendInviteEmail = functions.firestore
     </html>`;
 
     const mailOptions = {
-      from: "lucasradovan@gmail.com",
+      from: functions.config().email.username,
       to: snap.data().inviteEmail,
       subject: "You've been invited to join a workspace!",
       html: message,
     };
+
+    var transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: functions.config().email.username,
+        pass: functions.config().email.password,
+      },
+    });
 
     return transporter.sendMail(mailOptions, (error: any, data: any) => {
       if (error) {
